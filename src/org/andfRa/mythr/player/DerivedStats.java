@@ -79,20 +79,14 @@ public abstract class DerivedStats {
 	private double armour = 1.0;
 
 	
-	/** Leather armour defence rating. */
-	private int leatherDR = 0;
+	/** Light armour defence rating. */
+	private int lightDR = 0;
 
-	/** Gold armour defence rating. */
-	private int goldDR = 0;
+	/** Heavy armour defence rating. */
+	private int heavyDR = 0;
 
-	/** Chainmail armour defence rating. */
-	private int chainDR = 0;
-
-	/** Iron armour defence rating. */
-	private int ironDR = 0;
-
-	/** Diamond armour defence rating. */
-	private int diamondDR = 0;
+	/** Exotic armour defence rating. */
+	private int exoticDR = 0;
 
 	
 	// CONSTRUCTION:
@@ -210,46 +204,54 @@ public abstract class DerivedStats {
 		MythrItem mitem;
 		EntityEquipment inventory = living.getEquipment();
 		
-		double leather = 0.0;
-		double gold = 0.0;
-		double chain = 0.0;
-		double iron = 0.0;
-		double diamond = 0.0;
+		double light = 0.0;
+		double heavy = 0.0;
+		double exotic = 0.0;
 		
 		// Helmet:
 		if(inventory.getHelmet() != null){
 			mitem = MythrItem.fromBukkitItem(inventory.getHelmet());
 			material = mitem.getMaterial();
 			
+			switch (mitem.getType()) {
+			case LIGHT_ARMOUR:
+				lightDR+= mitem.getDefenceRating();
+				light+= VanillaConfiguration.HELMET_RATIO;
+				break;
+			
+			case HEAVY_ARMOUR:
+				heavyDR+= mitem.getDefenceRating();
+				heavy+= VanillaConfiguration.HELMET_RATIO;
+				break;
+
+			case EXOTIC_ARMOUR:
+				exoticDR+= mitem.getDefenceRating();
+				exotic+= VanillaConfiguration.HELMET_RATIO;
+				break;
+				
+			default:
+				break;
+			}
+			
 			switch (material) {
 			case LEATHER_HELMET:
-				leatherDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.LEATHER_HELMET_MULTIPLIER;
-				leather+= VanillaConfiguration.HELMET_RATIO;
 				break;
 			
 			case GOLD_HELMET:
-				goldDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.GOLD_HELMET_MULTIPLIER;
-				gold+= VanillaConfiguration.HELMET_RATIO;
 				break;
 
 			case CHAINMAIL_HELMET:
-				chainDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.CHAINMAIL_HELMET_MULTIPLIER;
-				chain+= VanillaConfiguration.HELMET_RATIO;
 				break;
 
 			case IRON_HELMET:
-				ironDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.IRON_HELMET_MULTIPLIER;
-				iron+= VanillaConfiguration.HELMET_RATIO;
 				break;
 			
 			case DIAMOND_HELMET:
-				diamondDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.DIAMOND_HELMET_MULTIPLIER;
-				diamond+= VanillaConfiguration.HELMET_RATIO;
 				break;
 				
 			default:
@@ -261,36 +263,46 @@ public abstract class DerivedStats {
 		if(inventory.getChestplate() != null){
 			mitem = MythrItem.fromBukkitItem(inventory.getChestplate());
 			material = mitem.getMaterial();
+
+			switch (mitem.getType()) {
+			case LIGHT_ARMOUR:
+				lightDR+= mitem.getDefenceRating();
+				light+= VanillaConfiguration.HELMET_RATIO;
+				break;
+			
+			case HEAVY_ARMOUR:
+				heavyDR+= mitem.getDefenceRating();
+				heavy+= VanillaConfiguration.HELMET_RATIO;
+				break;
+
+			case EXOTIC_ARMOUR:
+				exoticDR+= mitem.getDefenceRating();
+				exotic+= VanillaConfiguration.HELMET_RATIO;
+				break;
+				
+			default:
+				break;
+			}
 			
 			switch (material) {
 			case LEATHER_CHESTPLATE:
-				leatherDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.LEATHER_CHESTPLATE_MULTIPLIER;
-				leather+= VanillaConfiguration.CHESTPLATE_RATIO;
 				break;
 			
 			case GOLD_CHESTPLATE:
-				goldDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.GOLD_CHESTPLATE_MULTIPLIER;
-				gold+= VanillaConfiguration.CHESTPLATE_RATIO;
 				break;
 
 			case CHAINMAIL_CHESTPLATE:
-				chainDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.CHAINMAIL_CHESTPLATE_MULTIPLIER;
-				chain+= VanillaConfiguration.CHESTPLATE_RATIO;
 				break;
 
 			case IRON_CHESTPLATE:
-				ironDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.IRON_CHESTPLATE_MULTIPLIER;
-				iron+= VanillaConfiguration.CHESTPLATE_RATIO;
 				break;
 			
 			case DIAMOND_CHESTPLATE:
-				diamondDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.DIAMOND_CHESTPLATE_MULTIPLIER;
-				diamond+= VanillaConfiguration.CHESTPLATE_RATIO;
 				break;
 				
 			default:
@@ -298,41 +310,50 @@ public abstract class DerivedStats {
 			}
 		}
 		
-		
 		// Leggings:
 		if(inventory.getLeggings() != null){
 			mitem = MythrItem.fromBukkitItem(inventory.getLeggings());
 			material = mitem.getMaterial();
+
+			switch (mitem.getType()) {
+			case LIGHT_ARMOUR:
+				lightDR+= mitem.getDefenceRating();
+				light+= VanillaConfiguration.HELMET_RATIO;
+				break;
+			
+			case HEAVY_ARMOUR:
+				heavyDR+= mitem.getDefenceRating();
+				heavy+= VanillaConfiguration.HELMET_RATIO;
+				break;
+
+			case EXOTIC_ARMOUR:
+				exoticDR+= mitem.getDefenceRating();
+				exotic+= VanillaConfiguration.HELMET_RATIO;
+				break;
+				
+			default:
+				break;
+			}
 			
 			switch (material) {
 			case LEATHER_LEGGINGS:
-				leatherDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.LEATHER_LEGGINGS_MULTIPLIER;
-				leather+= VanillaConfiguration.LEGGINGS_RATIO;
 				break;
 			
 			case GOLD_LEGGINGS:
-				goldDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.GOLD_LEGGINGS_MULTIPLIER;
-				gold+= VanillaConfiguration.LEGGINGS_RATIO;
 				break;
 
 			case CHAINMAIL_LEGGINGS:
-				chainDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.CHAINMAIL_LEGGINGS_MULTIPLIER;
-				chain+= VanillaConfiguration.LEGGINGS_RATIO;
 				break;
 
 			case IRON_LEGGINGS:
-				ironDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.IRON_LEGGINGS_MULTIPLIER;
-				iron+= VanillaConfiguration.LEGGINGS_RATIO;
 				break;
 			
 			case DIAMOND_LEGGINGS:
-				diamondDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.DIAMOND_LEGGINGS_MULTIPLIER;
-				diamond+= VanillaConfiguration.LEGGINGS_RATIO;
 				break;
 				
 			default:
@@ -344,36 +365,46 @@ public abstract class DerivedStats {
 		if(inventory.getBoots() != null){
 			mitem = MythrItem.fromBukkitItem(inventory.getBoots());
 			material = mitem.getMaterial();
+
+			switch (mitem.getType()) {
+			case LIGHT_ARMOUR:
+				lightDR+= mitem.getDefenceRating();
+				light+= VanillaConfiguration.HELMET_RATIO;
+				break;
+			
+			case HEAVY_ARMOUR:
+				heavyDR+= mitem.getDefenceRating();
+				heavy+= VanillaConfiguration.HELMET_RATIO;
+				break;
+
+			case EXOTIC_ARMOUR:
+				exoticDR+= mitem.getDefenceRating();
+				exotic+= VanillaConfiguration.HELMET_RATIO;
+				break;
+				
+			default:
+				break;
+			}
 			
 			switch (material) {
 			case LEATHER_BOOTS:
-				leatherDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.LEATHER_BOOTS_MULTIPLIER;
-				leather+= VanillaConfiguration.BOOTS_RATIO;
 				break;
 			
 			case GOLD_BOOTS:
-				goldDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.GOLD_BOOTS_MULTIPLIER;
-				gold+= VanillaConfiguration.BOOTS_RATIO;
 				break;
 
 			case CHAINMAIL_BOOTS:
-				chainDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.CHAINMAIL_BOOTS_MULTIPLIER;
-				chain+= VanillaConfiguration.BOOTS_RATIO;
 				break;
 
 			case IRON_BOOTS:
-				ironDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.IRON_BOOTS_MULTIPLIER;
-				iron+= VanillaConfiguration.BOOTS_RATIO;
 				break;
 			
 			case DIAMOND_BOOTS:
-				diamondDR+= mitem.getDefenceRating();
 				armour+= VanillaConfiguration.DIAMOND_BOOTS_MULTIPLIER;
-				diamond+= VanillaConfiguration.BOOTS_RATIO;
 				break;
 				
 			default:
@@ -385,22 +416,18 @@ public abstract class DerivedStats {
 		Attribute[] attributes = AttributeConfiguration.getAttributes();
 		for (int i = 0; i < attributes.length; i++) {
 			int score = getSkillScore(attributes[i].getName());
-			if(leather > 0.0) leatherDR+= leather * attributes[i].getSpecifier(Specifier.LEATHER_ARMOUR_DEFENCE_RATING_MODIFIER, score);
-			if(gold > 0.0) goldDR+= gold * attributes[i].getSpecifier(Specifier.GOLD_ARMOUR_DEFENCE_RATING_MODIFIER, score);
-			if(chain > 0.0) chainDR+= chain * attributes[i].getSpecifier(Specifier.CHAIN_ARMOUR_DEFENCE_RATING_MODIFIER, score);
-			if(iron > 0.0) ironDR+= iron * attributes[i].getSpecifier(Specifier.IRON_ARMOUR_DEFENCE_RATING_MODIFIER, score);
-			if(diamond > 0.0) diamondDR+= diamond * attributes[i].getSpecifier(Specifier.DIAMOND_ARMOUR_DEFENCE_RATING_MODIFIER, score);
+			if(light > 0.0) lightDR+= light * attributes[i].getSpecifier(Specifier.LIGHT_ARMOUR_DEFENCE_RATING_MODIFIER, score);
+			if(heavy > 0.0) heavyDR+= heavy * attributes[i].getSpecifier(Specifier.HEAVY_ARMOUR_DEFENCE_RATING_MODIFIER, score);
+			if(exotic > 0.0) exoticDR+= exotic * attributes[i].getSpecifier(Specifier.EXOTIC_ARMOUR_DEFENCE_RATING_MODIFIER, score);
 		}
 		
 		// Skills:
 		Skill[] skills = SkillConfiguration.getSkills();
 		for (int i = 0; i < skills.length; i++) {
 			int score = getSkillScore(skills[i].getName());
-			if(leather > 0.0) leatherDR+= leather * skills[i].getSpecifier(Specifier.LEATHER_ARMOUR_DEFENCE_RATING_MODIFIER, score);
-			if(gold > 0.0) goldDR+= gold * skills[i].getSpecifier(Specifier.GOLD_ARMOUR_DEFENCE_RATING_MODIFIER, score);
-			if(chain > 0.0) chainDR+= chain * skills[i].getSpecifier(Specifier.CHAIN_ARMOUR_DEFENCE_RATING_MODIFIER, score);
-			if(iron > 0.0) ironDR+= iron * skills[i].getSpecifier(Specifier.IRON_ARMOUR_DEFENCE_RATING_MODIFIER, score);
-			if(diamond > 0.0) diamondDR+= diamond * skills[i].getSpecifier(Specifier.DIAMOND_ARMOUR_DEFENCE_RATING_MODIFIER, score);
+			if(heavy > 0.0) lightDR+= heavy * skills[i].getSpecifier(Specifier.LIGHT_ARMOUR_DEFENCE_RATING_MODIFIER, score);
+			if(heavy > 0.0) heavyDR+= heavy * skills[i].getSpecifier(Specifier.HEAVY_ARMOUR_DEFENCE_RATING_MODIFIER, score);
+			if(exotic > 0.0) exoticDR+= exotic * skills[i].getSpecifier(Specifier.EXOTIC_ARMOUR_DEFENCE_RATING_MODIFIER, score);
 		}
 	 }
 
@@ -409,11 +436,9 @@ public abstract class DerivedStats {
 	 {
 		armour = 1.0;
 
-		leatherDR = 0;
-		goldDR = 0;
-		chainDR = 0;
-		ironDR = 0;
-		diamondDR = 0;
+		lightDR = 0;
+		heavyDR = 0;
+		exoticDR = 0;
 	 }
 	
 	
@@ -447,7 +472,7 @@ public abstract class DerivedStats {
 	 {
 		// Damage and defence:
 		int damage = random(attacker.minBaseDmg, attacker.maxBaseDmg);
-		double defenceRating = leatherDR + goldDR + chainDR + ironDR + diamondDR;
+		double defenceRating = lightDR + heavyDR + exoticDR;
 		double armour = this.armour;
 		
 		// Attack:

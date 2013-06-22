@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_5_R3.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.sk89q.Command;
 import org.sk89q.CommandContext;
@@ -23,6 +24,30 @@ import org.sk89q.CommandPermissions;
 
 public class AdminCommands {
 
+	@SuppressWarnings("deprecation")
+	@Command(
+			aliases = {"atest"},
+			usage = "",
+			flags = "",
+			desc = "Test command.",
+			min = 0,
+			max = 0
+	)
+	@CommandPermissions({"mythr.admin.test"})
+	public static void test(CommandContext args, MythrPlayer mythrPlayer) {
+
+		Player player = mythrPlayer.getPlayer();
+		
+		if(player.getItemInHand().getItemMeta() instanceof BookMeta){
+			
+			System.out.println("BOOK META");
+			
+		}
+		
+		
+		player.updateInventory();
+		
+	}
 	
 	@SuppressWarnings("deprecation")
 	@Command(
