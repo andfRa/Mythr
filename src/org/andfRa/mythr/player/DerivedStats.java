@@ -3,6 +3,7 @@ package org.andfRa.mythr.player;
 import java.util.Random;
 
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.CreatureConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.ItemType;
@@ -17,6 +18,22 @@ public abstract class DerivedStats {
 
 	/** Random number generator. */
 	public static Random RANDOM = new Random();
+	
+	/** Derived stats for default creatures. */
+	public static DerivedStats DEFAULT_CREATURE_STATS = new DerivedStats() {
+		
+		@Override
+		protected int getAttributeScore(String attribName) {
+			// TODO Auto-generated method stub
+			return CreatureConfiguration.getDefaultAttribScore();
+		}
+
+		@Override
+		protected int getSkillScore(String skillName) {
+			return CreatureConfiguration.getDefaultSkillScore();
+		}
+		
+	};
 	
 	
 	/** Minimum damage. */
