@@ -4,18 +4,12 @@
  [
 	{
 	 "name":"heavy armour",
-	 "specifiers":{
-	 	GOLD_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0},
-	 	IRON_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0}
-	 }
+	 "specifiers":{ HEAVY_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0} }
 	},
 	
 	{
 	 "name":"light armour",
-	 "specifiers":{
-	 	LEATHER_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0},
-	 	CHAIN_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0}
-	 }
+	 "specifiers":{ LIGHT_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0} }
 	},
 	
 	{
