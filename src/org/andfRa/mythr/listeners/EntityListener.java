@@ -2,7 +2,6 @@ package org.andfRa.mythr.listeners;
 
 
 import org.andfRa.mythr.Mythr;
-import org.andfRa.mythr.attributes.StatsCollector;
 import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.ItemType;
 import org.andfRa.mythr.player.MythrPlayer;
@@ -16,11 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class EntityListener implements Listener {
@@ -80,18 +74,12 @@ public class EntityListener implements Listener {
 		
 		// PvP:
 		if(mattacker != null && mdefender != null){
-			StatsCollector collector = new StatsCollector(type, mattacker, mdefender);
-			collector.apply(event);
 		}
 		// PvC:
 		else if(mattacker != null && cdefender != null){
-			StatsCollector collector = new StatsCollector(type, mattacker, cdefender);
-			collector.apply(event);
 		}
 		// CvP:
 		else if(cattacker != null && mdefender != null){
-			StatsCollector collector = new StatsCollector(type, cattacker, mdefender);
-			collector.apply(event);
 		}
 		// CvC:
 		// TODO: CvC
