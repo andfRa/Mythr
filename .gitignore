@@ -4,3 +4,13 @@
 *.jar
 *.war
 *.ear
+*.jardesc
+
+# Eclipse and OP System Files #
+.classpath
+.directory
+/.settings
+.project
+
+# Project Files #
+lib/
