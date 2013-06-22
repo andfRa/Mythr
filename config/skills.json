@@ -1,0 +1,57 @@
+{
+                                                                          #
+"skills":
+ [
+	{
+	 "name":"heavy armour",
+	 "specifiers":{
+	 	GOLD_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0},
+	 	IRON_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0}
+	 }
+	},
+	
+	{
+	 "name":"light armour",
+	 "specifiers":{
+	 	LEATHER_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0},
+	 	CHAIN_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0}
+	 }
+	},
+	
+	{
+	 "name":"archery",
+	 "specifiers":{ RANGED_ATTACK_RATING_MODIFIER:{"m":1,"b":0} }
+	},
+
+	{
+	 "name":"devotion",
+	 "specifiers":{
+	 	CURSE_ATTACK_RATING_MODIFIER:{"m":1,"b":0},
+	 	BLESSING_ATTACK_RATING_MODIFIER:{"m":1,"b":0}
+	 }
+	},
+
+	{
+	 "name":"arcane knowledge",
+	 "specifiers":{ MAGIC_ATTACK_RATING_MODIFIER:{"m":1,"b":0} }
+	},
+
+	{
+	 "name":"farming",
+	 "specifiers":{ }
+	},
+
+	{
+	 "name":"mining",
+	 "specifiers":{ }
+	},
+
+	{
+	 "name":"woodcutting",
+	 "specifiers":{ }
+	}
+
+ ]
+#                                                                               #
+#################################################################################
+}

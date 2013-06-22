@@ -1,0 +1,57 @@
+{
+#################################################################################
+#                            ATTRIBUTES DEFINITIONS                             #
+# name            - Attribute name. Must be lower case and remain consistent    #
+#                   throughout the configuration files.                         #
+# abbrev          - Attribute name abbreviation. Can be freely chosen.          #
+# specifiers      - A list of specifier elements ("Specifier":LinerarFunction). #
+# Specifier       - Determines effect the attribute will have. Attributes can   #
+#                   have multiple specifiers.                                   #
+#                   Warning, not all specifiers are supported!                  #
+# LinerarFunction - Determines the magnitude of the Specifier. Takes attribute  #
+#                   score as the x value and returns the magnitude.             #
+#################################################################################
+#                                                                               #
+"attributes":
+ [
+	# STRENGTH ATTRIBUTE #
+	{
+	 "name":"strength",
+	 "abbrev":"STR",
+	 "specifiers":{ MELEE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4} }
+	},
+	
+	# PRECISION ATTRIBUTE #
+	{
+	 "name":"precision",
+	 "abbrev":"PRE",
+	 "specifiers":{ RANGED_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4} }
+	},
+	
+	# WILLPOWER ATTRIBUTE #
+	{
+	 "name":"willpower",
+	 "abbrev":"WIL",
+	 "specifiers":{ CURSE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4} }
+	},
+	
+	# DIVINITY ATTRIBUTE #
+	{
+	 "name":"divinity",
+	 "abbrev":"DIV",
+	 "specifiers":{
+	 	BLESSING_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4},
+	 	CURSE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4}
+	 }
+	},
+	
+	# CONSTITUTION ATTRIBUTE #
+	{
+	 "name":"constitution",
+	 "abbrev":"CON",
+	 "specifiers":{ HEALTH_MODIFIER:{"m":1,"b":-4} }
+	}
+ ]
+#                                                                               #
+#################################################################################
+}
