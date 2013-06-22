@@ -7,6 +7,7 @@ import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.ItemType;
 import org.andfRa.mythr.items.MythrItem;
+import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
@@ -81,14 +82,12 @@ public abstract class DerivedStats {
 		resetWeapon();
 		
 		MythrItem mitem;
-		ItemType type;
 		EntityEquipment inventory = living.getEquipment();
 		
 		// Weapon item:
 		if(inventory.getItemInHand() != null){
 			
 			mitem = MythrItem.fromBukkitItem(inventory.getItemInHand());
-			type = mitem.getType();
 			
 			switch (mitem.getType()) {
 			case MELEE_WEAPON:
@@ -390,6 +389,65 @@ public abstract class DerivedStats {
 	 * @return score
 	 */
 	abstract protected int getAttributeScore(String attribName);
+	
+	
+	// DAMAGE:
+	/**
+	 * 
+	 * 
+	 * @param type
+	 * @param attacker
+	 * @return
+	 */
+	public int defend(ItemType type, DerivedStats attacker)
+	 {
+		// Damage and defence:
+		int damage = attacker.minDamage + RANDOM.nextInt(attacker.maxDamage - attacker.minDamage + 1);
+		double defenceRating = leatherDR + goldDR + chainDR + ironDR + diamondDR;
+		double armour = this.armour;
+		
+		// Attack rating:
+		double attackRating = 0;
+		
+		switch (type) {
+		case MELEE_WEAPON:
+			attackRating+= attacker.meleeAR;
+			break;
+			
+		case RANGED_WEAPON:
+			attackRating+= attacker.rangedAR;
+			break;
+			
+		case MAGIC_WEAPON:
+			attackRating+= attacker.magicAR;
+			break;
+
+		case CURSE_WEAPON:
+			attackRating+= attacker.curseAR;
+			break;
+
+		case BLESSING_WEAPON:
+			attackRating+= attacker.blessingAR;
+			break;
+			
+		default:
+			break;
+		}
+		
+		// Hit chance:
+		double tohit = attackRating / (attackRating + defenceRating);
+		boolean hit = RANDOM.nextDouble() >= tohit;
+		
+		// Half armour on hit:
+		if(hit){
+			armour = armour / 2;
+		}else{
+			// Apply perks:
+		}
+		
+		// Calculate damage:
+		return LinearFunction.roundRand(damage*armour);
+	 }
 	
 	
 }
