@@ -9,6 +9,8 @@ import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.CreatureConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.dependencies.PermissionsDependency;
+import org.andfRa.mythr.inout.Directory;
+import org.andfRa.mythr.inout.FileIO;
 import org.andfRa.mythr.listeners.EntityListener;
 import org.andfRa.mythr.listeners.InventoryListener;
 import org.andfRa.mythr.listeners.PlayerListener;
@@ -42,7 +44,7 @@ public class Mythr extends JavaPlugin{
     
 	/** All Mythr players. */
 	private Hashtable<String, MythrPlayer> mplayers = new Hashtable<String, MythrPlayer>();
-    
+	
 	
 	// INITIALISATION:
     /* 
@@ -111,7 +113,6 @@ public class Mythr extends JavaPlugin{
 		pluginManager.registerEvents(new PlayerListener(), this);
 		pluginManager.registerEvents(new EntityListener(), this);
 		pluginManager.registerEvents(new InventoryListener(), this);
-		pluginManager.registerEvents(new SecondListener(), this);
 
 		// Register commands:
 		CommandsManager<Player> commandMap = PermissionsDependency.getCommandMap();
@@ -138,7 +139,23 @@ public class Mythr extends JavaPlugin{
      * @return loaded player, null if none
      */
     public MythrPlayer getLoadedPlayer(String name)
-     { return mplayers.get(name); }
+     { return mplayers.get(name.toLowerCase()); }
+    
+    /**
+     * Gets player. Reads the player data if needed.
+     * 
+     * @param name player name
+     * @return requested player, null if doesn't exist
+     */
+    public MythrPlayer requestPlayer(String name)
+     {
+    	MythrPlayer mplayer = getLoadedPlayer(name);
+    	if(mplayer != null) return mplayer;
+    	
+    	if(!FileIO.exists(Directory.PLAYER_DATA, name)) return null;
+    	
+    	return MythrPlayer.load(name);
+     }
     
 	/**
 	 * Loads a Mythr player.
@@ -177,7 +194,7 @@ public class Mythr extends JavaPlugin{
 
 		// Unload:
 		MythrLogger.info("Unloading Mythr player for " + name + ".");
-		mplayers.remove(name);
+		mplayers.remove(name.toLowerCase());
 
 		// Unload:
 		mplayer.unload();
@@ -248,8 +265,7 @@ public class Mythr extends JavaPlugin{
 
 			try {
 				
-				MythrPlayer mplayer = new MythrPlayer("");
-				mplayer.wrapPlayer(player);
+				MythrPlayer mplayer = plugin().getLoadedPlayer(player.getName());
 
 				commandMap.execute(split, player, mplayer);
 				MythrLogger.info("[Mythr Command] " + player.getName() + ": " + command);

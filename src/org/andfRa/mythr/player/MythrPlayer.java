@@ -114,29 +114,47 @@ public class MythrPlayer {
 	 * 
 	 * @return player, null if not wrapped
 	 */
-	public Player getPlayer() {
-		return player;
-	}
+	public Player getPlayer()
+	 { return player; }
 	
+	/**
+	 * Gets players name.
+	 * 
+	 * @return player name
+	 */
+	public String getName() 
+	 { return name; }
 	
-	// STATS:
+	// ATTRIBUTES:
 	/**
 	 * Gets the attribute score.
 	 * 
 	 * @param name attribute name
 	 */
-	public Integer getAttribute(String name) {
+	public Integer getAttribute(String name)
+	 {
 		Integer score = attrib.get(name);
 		if(score == null)  return 0;
 		return score;
-	}
+	 }
+	
+	/**
+	 * Gets the attribute score.
+	 * 
+	 * @param name attribute name
+	 * @param value attribute score
+	 */
+	public void setAttribute(String name, Integer value)
+	 {
+		attrib.put(name, value);
+	 }
 	
 	/**
 	 * Gets players attribute scores.
 	 * 
 	 * @return players attribute scores
 	 */
-	public int[] getAttrbScores()
+	public int[] getAttrbutes()
 	 { 
 		String[] names = AttributeConfiguration.getAttrNames();
 		int[] scores = new int[names.length];
@@ -146,16 +164,34 @@ public class MythrPlayer {
 		return scores;
 	 }
 	
+	
+	// SKILLS:
 	/**
 	 * Gets the attribute score.
 	 * 
 	 * @param name attribute name
 	 */
-	public Integer getSkill(String name) {
+	public Integer getSkill(String name)
+	 {
 		Integer score = skills.get(name);
 		if(score == null)  return 0;
 		return score;
-	}
+	 }
+
+	/**
+	 * Gets the skill score.
+	 * 
+	 * @param name skill name
+	 * @param value skill score
+	 */
+	public void setSkill(String name, Integer value)
+	 {
+		skills.put(name, value);
+	 }
+	
+	
+	// PERKS:
+	// TODO: Add perks.
 	
 	
 	// DERIVED STATS:
@@ -188,10 +224,29 @@ public class MythrPlayer {
 	 */
 	public void message(String message)
 	 {
-		if(message.length() == 0) return;
 		if(player != null) player.sendMessage(message);
 	 }
+	
+	/**
+	 * Sends a positive message.
+	 * 
+	 * @param message message to send
+	 */
+	public void positive(String message)
+	 {
+		message(ChatColor.GREEN + message);
+	 }
 
+	/**
+	 * Sends a negative message.
+	 * 
+	 * @param message message to send
+	 */
+	public void negative(String message)
+	 {
+		message(ChatColor.RED + message);
+	 }
+	
 	/**
 	 * Sends an error message.
 	 * 
@@ -212,12 +267,11 @@ public class MythrPlayer {
 	 */
 	public static MythrPlayer load(String name)
 	 {
-		
 		// Try loading:
 		MythrPlayer mplayer;
 		
 		// New players:
-		if(!FileIO.exists(Directory.PLAYER_DATA, name)){
+		if(!FileIO.exists(Directory.PLAYER_DATA, name.toLowerCase())){
 		
 			mplayer = new MythrPlayer(name);
 			mplayer.save();

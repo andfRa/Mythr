@@ -36,11 +36,27 @@ public abstract class DerivedStats {
 	};
 	
 	
-	/** Minimum damage. */
-	private int minDamage = 0;
+	/** Minimum base damage. */
+	private int minBaseDmg = 0;
 
-	/** Maximum damage. */
-	private int maxDamage = 0;
+	/** Maximum base damage. */
+	private int maxBaseDmg = 0;
+
+
+	/** Melee damage modifier. */
+	private int meleeDmgMod = 0;
+
+	/** Ranged damage modifier. */
+	private int rangedDmgMod = 0;
+
+	/** Magic damage modifier. */
+	private int magicDmgMod = 0;
+
+	/** Curse damage modifier. */
+	private int curseDmgMod = 0;
+
+	/** Blessing damage modifier. */
+	private int blessingDmgMod = 0;
 
 	
 	/** Melee attack rating. */
@@ -131,14 +147,14 @@ public abstract class DerivedStats {
 				break;
 			}
 			
-			minDamage = mitem.getDmgMin();
-			maxDamage = mitem.getDmgMax();
+			minBaseDmg = mitem.getDmgMin();
+			maxBaseDmg = mitem.getDmgMax();
 			
 		}
 		// No weapon item:
 		else{
-			minDamage = VanillaConfiguration.DEFAULT_DAMAGE;
-			maxDamage = VanillaConfiguration.DEFAULT_DAMAGE;
+			minBaseDmg = VanillaConfiguration.DEFAULT_DAMAGE;
+			maxBaseDmg = VanillaConfiguration.DEFAULT_DAMAGE;
 		}
 
 		// Skills:
@@ -152,7 +168,18 @@ public abstract class DerivedStats {
 			curseAR+= skills[i].getSpecifier(Specifier.CURSE_ATTACK_RATING_MODIFIER, score);
 			blessingAR+= skills[i].getSpecifier(Specifier.BLESSING_ATTACK_RATING_MODIFIER, score);
 		}
-		
+
+		// Skills:
+		Attribute[] attributes = AttributeConfiguration.getAttributes();
+		for (int i = 0; i < attributes.length; i++) {
+			int score = getAttributeScore(attributes[i].getName());
+			
+			meleeDmgMod+= attributes[i].getSpecifier(Specifier.MELEE_ATTACK_DAMAGE_MODIFIER, score);
+			rangedDmgMod+= attributes[i].getSpecifier(Specifier.RANGED_ATTACK_DAMAGE_MODIFIER, score);
+			magicDmgMod+= attributes[i].getSpecifier(Specifier.MAGIC_ATTACK_DAMAGE_MODIFIER, score);
+			curseDmgMod+= attributes[i].getSpecifier(Specifier.CURSE_ATTACK_DAMAGE_MODIFIER, score);
+			blessingDmgMod+= attributes[i].getSpecifier(Specifier.BLESSING_ATTACK_DAMAGE_MODIFIER, score);
+		}
 		
 		
 	 }
@@ -160,8 +187,8 @@ public abstract class DerivedStats {
 	/** Resets weapon stats. */
 	public void resetWeapon()
 	 {
-		minDamage = 0;
-		maxDamage = 0;
+		minBaseDmg = 0;
+		maxBaseDmg = 0;
 		
 		meleeAR = 1;
 		rangedAR = 1;
@@ -419,32 +446,37 @@ public abstract class DerivedStats {
 	public int defend(ItemType type, DerivedStats attacker)
 	 {
 		// Damage and defence:
-		int damage = attacker.minDamage + RANDOM.nextInt(attacker.maxDamage - attacker.minDamage + 1);
+		int damage = random(attacker.minBaseDmg, attacker.maxBaseDmg);
 		double defenceRating = leatherDR + goldDR + chainDR + ironDR + diamondDR;
 		double armour = this.armour;
 		
-		// Attack rating:
+		// Attack:
 		double attackRating = 0;
 		
 		switch (type) {
 		case MELEE_WEAPON:
 			attackRating+= attacker.meleeAR;
+			damage+= attacker.meleeDmgMod;
 			break;
 			
 		case RANGED_WEAPON:
 			attackRating+= attacker.rangedAR;
+			damage+= attacker.rangedDmgMod;
 			break;
 			
 		case MAGIC_WEAPON:
 			attackRating+= attacker.magicAR;
+			damage+= attacker.magicDmgMod;
 			break;
 
 		case CURSE_WEAPON:
 			attackRating+= attacker.curseAR;
+			damage+= attacker.curseDmgMod;
 			break;
 
 		case BLESSING_WEAPON:
 			attackRating+= attacker.blessingAR;
+			damage+= attacker.blessingDmgMod;
 			break;
 			
 		default:
@@ -453,7 +485,7 @@ public abstract class DerivedStats {
 		
 		// Hit chance:
 		double tohit = attackRating / (attackRating + defenceRating);
-		boolean hit = RANDOM.nextDouble() >= tohit;
+		boolean hit = tohit >= RANDOM.nextDouble();
 		
 		// Half armour on hit:
 		if(hit){
@@ -466,5 +498,17 @@ public abstract class DerivedStats {
 		return LinearFunction.roundRand(damage*armour);
 	 }
 	
+	
+	// UTIL:
+	/**
+	 * Generates a random number between the given values.
+	 * 
+	 * @param min minimum value
+	 * @param max maximum value
+	 * @return random number
+	 */
+	public static int random(int min, int max) {
+		return min + (int)(RANDOM.nextDouble() * ((max - min) + 1));
+	}
 	
 }

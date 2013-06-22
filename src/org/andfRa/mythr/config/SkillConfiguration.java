@@ -65,6 +65,21 @@ public class SkillConfiguration {
 		return result;
 	 }
 	
+
+	/**
+	 * Checks if the skill exists.
+	 * 
+	 * @param name skill name
+	 * @return true if exists
+	 */
+	public static boolean checkSkill(String name)
+	 {
+		for (int i = 0; i < config.skills.length; i++) {
+			if(config.skills[i].getName().equalsIgnoreCase(name)) return true;
+		}
+		return false;
+	 }
+	
 	
 	// LOAD UNLOAD:
 	/** Loads the configuration. */

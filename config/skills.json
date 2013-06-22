@@ -19,6 +19,11 @@
 	},
 	
 	{
+	 "name":"swordsmanship",
+	 "specifiers":{MELEE_ATTACK_RATING_MODIFIER:{"m":1,"b":0} }
+	},
+
+	{
 	 "name":"archery",
 	 "specifiers":{ RANGED_ATTACK_RATING_MODIFIER:{"m":1,"b":0} }
 	},

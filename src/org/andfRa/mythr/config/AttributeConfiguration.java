@@ -80,6 +80,21 @@ public class AttributeConfiguration {
 	 }
 	
 	
+	/**
+	 * Checks if the attribute exists.
+	 * 
+	 * @param name attribute name
+	 * @return true if exists
+	 */
+	public static boolean checkAttribute(String name)
+	 {
+		for (int i = 0; i < config.attributes.length; i++) {
+			if(config.attributes[i].getName().equalsIgnoreCase(name)) return true;
+		}
+		return false;
+	 }
+	
+	
 	// LOAD UNLOAD:
 	/** Loads the configuration. */
 	public static void load(){
