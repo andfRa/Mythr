@@ -8,6 +8,7 @@ import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.LocalisationConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.items.ItemType;
+import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.bukkit.Bukkit;
@@ -26,12 +27,12 @@ public class AdminCommands {
 
 	@SuppressWarnings("deprecation")
 	@Command(
-			aliases = {"atest"},
-			usage = "",
-			flags = "",
-			desc = "Test command.",
-			min = 0,
-			max = 0
+	 aliases = {"atest"},
+	 usage = "",
+	 flags = "",
+	 desc = "Test command.",
+	 min = 0,
+	 max = 0
 	)
 	@CommandPermissions({"mythr.admin.test"})
 	public static void test(CommandContext args, MythrPlayer mythrPlayer) {
@@ -51,12 +52,12 @@ public class AdminCommands {
 	
 	@SuppressWarnings("deprecation")
 	@Command(
-			aliases = {"aitem"},
-			usage = "",
-			flags = "",
-			desc = "Create a test item.",
-			min = 0,
-			max = 0
+	 aliases = {"aitem"},
+	 usage = "",
+	 flags = "",
+	 desc = "Create a test item.",
+	 min = 0,
+	 max = 0
 	)
 	@CommandPermissions({"mythr.admin.test"})
 	public static void testItem(CommandContext args, MythrPlayer mythrPlayer) {
@@ -258,7 +259,54 @@ public class AdminCommands {
 		// Save target:
 		mtarget.save();
 	 }
-	
+
+	@SuppressWarnings("deprecation")
+	@Command(
+	 aliases = {"aspawnjournal","ajournal"},
+	 usage = "[player_name]",
+	 flags = "",
+	 desc = "Spawn a player stats journal.",
+	 min = 0,
+	 max = 1
+	)
+	@CommandPermissions({"mythr.admin.spawnjournal"})
+	public static void spawnJournal(CommandContext args, MythrPlayer mplayer)
+	 {
+		String argTarget;
+		MythrPlayer mtarget;
+		
+		switch (args.argsLength()) {
+		case 1:
+			
+			// Player:
+			argTarget = args.getString(0);
+			mtarget = Mythr.plugin().matchPlayer(argTarget);
+			if(mtarget == null){
+				mplayer.negative(LocalisationConfiguration.getString(LocalisationConfiguration.PLAYER_NOT_ONLINE, argTarget));
+				return;
+			}
+			
+			break;
+
+		default:
+			
+			// Player:
+			mtarget = mplayer;
+			
+			break;
+		}
+		
+		// Add book:
+		mtarget.getPlayer().getInventory().addItem(JournalSpawner.create());
+		mtarget.getPlayer().updateInventory();
+		
+		// Report:
+		if(mplayer == mtarget){
+		}else{
+			mplayer.positive(LocalisationConfiguration.getString(LocalisationConfiguration.JOURNAL_SPAWNED_OTHER, mtarget.getName()));
+		}
+		
+	 }
 	
 	
 }

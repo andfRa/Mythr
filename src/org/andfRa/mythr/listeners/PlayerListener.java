@@ -2,10 +2,13 @@ package org.andfRa.mythr.listeners;
 
 
 import org.andfRa.mythr.Mythr;
+import org.andfRa.mythr.items.ItemType;
+import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -78,6 +81,7 @@ public class PlayerListener implements Listener {
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	 {
@@ -95,6 +99,12 @@ public class PlayerListener implements Listener {
 				
 				mitem = MythrItem.fromBukkitItem(item);
 				// TODO: Tomes etc.
+				
+				// Claim journal:
+				if(mitem.getType() == ItemType.JOURNAL){
+					player.setItemInHand(JournalSpawner.claim(mplayer));
+					player.updateInventory();
+				}
 				
 			}
 			

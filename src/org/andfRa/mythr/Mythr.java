@@ -1,5 +1,6 @@
 package org.andfRa.mythr;
 
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -230,6 +231,30 @@ public class Mythr extends JavaPlugin{
 		}
 	 }
     
+	/**
+	 * Matches a Mythr player.
+	 * 
+	 * @param name name to match to
+	 * @return matched Mythr player, null if not found
+	 */
+	public MythrPlayer matchPlayer(String name)
+	 {
+		Collection<MythrPlayer> mplayers = this.mplayers.values();
+		
+		// Try full match:
+		for (MythrPlayer mplayer : mplayers) {
+			if(mplayer.getName().equalsIgnoreCase(name)) return mplayer;
+		}
+
+		// Try starts with:
+		for (MythrPlayer mplayer : mplayers) {
+			if(mplayer.getName().toLowerCase().startsWith(name.toLowerCase())) return mplayer;
+		}
+		
+		return null;
+	 }
+	
+	
     
     // COMMANDS:
     /**

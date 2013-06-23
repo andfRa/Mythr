@@ -24,6 +24,10 @@ public class LocalisationConfiguration {
 	public final static String PLAYER_DOESNT_EXIST = "Player " + VALUE_INDICATOR + " doesn't exist.";
 
 	/** Command message. */
+	public final static String PLAYER_NOT_ONLINE = "Player " + VALUE_INDICATOR + " is not online.";
+
+	
+	/** Command message. */
 	public final static String ATTRIBUTE_DOESNT_EXIST = "Attribute " + VALUE_INDICATOR + " doesn't exist.";
 
 	/** Command message. */
@@ -41,6 +45,9 @@ public class LocalisationConfiguration {
 
 	/** Command message. */
 	public final static String SKILL_SET_OTHER = "Players " + VALUE_INDICATOR + " skill " + VALUE_INDICATOR + " set to " + VALUE_INDICATOR + ".";
+
+	/** Command message. */
+	public final static String JOURNAL_SPAWNED_OTHER = "Spawned journal for player " + VALUE_INDICATOR + ".";
 	
 	
 	public static String getString(String message)
