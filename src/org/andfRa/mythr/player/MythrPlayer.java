@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
 import org.bukkit.ChatColor;
@@ -22,12 +23,15 @@ public class MythrPlayer {
 	
 	/** True if player information can be saved. */
 	transient private boolean save = true;
-	
+
 	/** Player name. */
 	private String name;
+
+	/** Player level. */
+	private Integer level;
 	
 	/** Attribute scores. */
-	private HashMap<String, Integer> attrib;
+	private HashMap<String, Integer> attribs;
 
 	/** Skill scores. */
 	private HashMap<String, Integer> skills;
@@ -50,7 +54,8 @@ public class MythrPlayer {
 	 {
 		// Fields:
 		this.name = name;
-		this.attrib = new HashMap<String, Integer>();
+		this.level = 0;
+		this.attribs = new HashMap<String, Integer>();
 		this.skills = new HashMap<String, Integer>();
 		this.perks = new HashMap<String, Integer>();
 		
@@ -71,10 +76,11 @@ public class MythrPlayer {
 			name = "????";
 			MythrLogger.severe(getClass(), "Received a Myth player with a null name.");
 		}
+		if(level == null) level = 0;
 		
 		// Fields:
-		if(attrib == null) attrib = new HashMap<String, Integer>();
-		if(skills == null) attrib = new HashMap<String, Integer>();
+		if(attribs == null) attribs = new HashMap<String, Integer>();
+		if(skills == null) attribs = new HashMap<String, Integer>();
 		
 		// Transient:
 		derived = new DerivedStats() {
@@ -125,6 +131,7 @@ public class MythrPlayer {
 	public String getName() 
 	 { return name; }
 	
+	
 	// ATTRIBUTES:
 	/**
 	 * Gets the attribute score.
@@ -133,8 +140,8 @@ public class MythrPlayer {
 	 */
 	public Integer getAttribute(String name)
 	 {
-		Integer score = attrib.get(name);
-		if(score == null)  return 0;
+		Integer score = attribs.get(name);
+		if(score == null) return 0;
 		return score;
 	 }
 	
@@ -146,7 +153,7 @@ public class MythrPlayer {
 	 */
 	public void setAttribute(String name, Integer value)
 	 {
-		attrib.put(name, value);
+		attribs.put(name, value);
 	 }
 	
 	/**
@@ -162,6 +169,45 @@ public class MythrPlayer {
 			scores[i] = getAttribute(names[i]);
 		}
 		return scores;
+	 }
+	
+	
+	/**
+	 * Gets the amount of available attribute points.
+	 * 
+	 * @return available attribute points
+	 */
+	public Integer getAvailableAttribs()
+	 {
+		return AttributeConfiguration.getAttribPoints(level);
+	 }
+
+	/**
+	 * Gets the amount of used attribute points.
+	 * 
+	 * @return used attribute points
+	 */
+	public Integer getUsedAttribs()
+	 {
+		int total = 0;
+		
+		String[] names = AttributeConfiguration.getAttrNames();
+		for (int i = 0; i < names.length; i++) {
+			int score = getAttribute(names[i]);
+			total+= AttributeConfiguration.calcCost(score);
+		}
+		
+		return total;
+	 }
+
+	/**
+	 * Gets the amount of remaining attribute points.
+	 * 
+	 * @return remaining attribute points
+	 */
+	public Integer getRemainingAttribs()
+	 {
+		return getAvailableAttribs() - getUsedAttribs();
 	 }
 	
 	
@@ -188,6 +234,44 @@ public class MythrPlayer {
 	 {
 		skills.put(name, value);
 	 }
+	
+	
+	/**
+	 * Gets the amount of available skill points.
+	 * 
+	 * @return available skill points
+	 */
+	public Integer getAvailableSkills()
+	 {
+		return SkillConfiguration.getSkillPoints(level);
+	 }
+
+	/**
+	 * Gets the amount of used skill points.
+	 * 
+	 * @return used skill points
+	 */
+	public Integer getUsedSkills()
+	 {
+		int total = 0;
+		
+		String[] names = SkillConfiguration.getSkillNames();
+		for (int i = 0; i < names.length; i++) {
+			total+= getSkill(names[i]);
+		}
+		
+		return total;
+	 }
+
+	/**
+	 * Gets the amount of remaining skill points.
+	 * 
+	 * @return remaining skill points
+	 */
+	public Integer getRemainingSkills() {
+		return getAvailableSkills() - getUsedSkills();
+	}
+	
 	
 	
 	// PERKS:

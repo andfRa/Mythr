@@ -50,15 +50,6 @@ public class AttributeConfiguration {
 	
 	// VALUES:
 	/**
-	 * Gets the range at which the attribute point cost remains constant.
-	 * 
-	 * @return constant cost range
-	 */
-	public static Integer getCostCostRange() {
-		return config.costCostRange;
-	}
-	
-	/**
 	 * Gets the number of available attribute points.
 	 * 
 	 * @param level player level
@@ -68,6 +59,55 @@ public class AttributeConfiguration {
 		return config.attribPoints.yIntFloor(level);
 	}
 	
+	/**
+	 * Gets the range at which the attribute point cost remains constant.
+	 * 
+	 * @return constant cost range
+	 */
+	public static Integer getCostCostRange() {
+		return config.costCostRange;
+	}
+
+	/**
+	 * Calculates attribute point cost.
+	 * 
+	 * @param score score.
+	 * @return point cost
+	 */
+	public static int calcCost(int score)
+	 {
+
+		int total = 0;
+		
+		int con = getCostCostRange();
+		int max = con;
+		int cost = 1;
+		
+		for (int s = 1; s <= score; s++) {
+			
+			total+= cost;
+			
+			if(s == max){
+				max+= con;
+				cost++;
+			}
+			
+		}
+		
+		return total;
+	 }
+
+	/**
+	 * Calculates next increase attribute point cost.
+	 * 
+	 * @param score score.
+	 * @return point cost
+	 */
+	public static int calcNextCost(int score)
+	 {
+		return calcCost(score + 1) - calcCost(score);
+	 }
+
 	/**
 	 * Gets attributes.
 	 * 

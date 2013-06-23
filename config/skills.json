@@ -1,5 +1,10 @@
 {
 
+ # The number of skill points available to the player.
+ #  m - points gained per level
+ #  b - points at level 0
+"skillPoints":{"m":3.75,"b":25},
+
 "skills":
  [
 	{

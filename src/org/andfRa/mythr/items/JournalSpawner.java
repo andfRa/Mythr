@@ -1,7 +1,6 @@
 package org.andfRa.mythr.items;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -99,6 +98,27 @@ public class JournalSpawner {
 			line.append("\n");
 			page.append(line);
 		}
+
+		page.append('\n');
+		
+		page.append(WordUtils.capitalize(LocalisationConfiguration.getString("points")) +  ": ");
+		page.append(mplayer.getRemainingAttribs());
+		
+		page.append('\n');
+		
+		page.append(WordUtils.capitalize(LocalisationConfiguration.getString("cost")) +  ": ");
+		int cons = AttributeConfiguration.getCostCostRange();
+		int min = 1;
+		int max = cons;
+		int pts = 1;
+		for (int i = 0; i < 3; i++) {
+			if(i != 0) page.append(", ");
+			page.append(min + "-" + max + " " + pts);
+			min+= cons;
+			max+= cons;
+			pts++;
+		}
+		
 		bookMeta.addPage(page.toString());
 
 		// Write skills:
@@ -117,6 +137,12 @@ public class JournalSpawner {
 			line.append("\n");
 			page.append(line);
 		}
+
+		page.append('\n');
+
+		page.append(WordUtils.capitalize(LocalisationConfiguration.getString("points")) +  ": ");
+		page.append(mplayer.getRemainingSkills());
+		
 		bookMeta.addPage(page.toString());
 		
 		// TODO: Journal should record kills.

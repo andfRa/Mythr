@@ -1,9 +1,9 @@
 {
 
  # The number of attribute points available to the player.
- #  m - attribute points gained per level
- #  b - attribute points at level 0
-"attribPoints":{"m":1,"b":18},
+ #  m - points gained per level
+ #  b - points at level 0
+"attribPoints":{"m":1,"b":24},
 
  # The number of spent points after which the cost of upgrading the attribute
  # increases by 1 additional point.

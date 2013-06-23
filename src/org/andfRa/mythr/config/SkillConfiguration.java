@@ -6,6 +6,7 @@ import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
 import org.andfRa.mythr.player.Skill;
+import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
 
 public class SkillConfiguration {
@@ -13,6 +14,9 @@ public class SkillConfiguration {
 	/** Instance of the configuration. */
 	private static SkillConfiguration config;
 	
+
+	/** Number of available skill points based on level. */
+	private LinearFunction skillPoints;
 	
 	/** Skills. */
 	private Skill[] skills;
@@ -22,6 +26,11 @@ public class SkillConfiguration {
 	/** Fixes all missing fields. */
 	public void complete()
 	 {
+		if(skillPoints == null){
+			MythrLogger.nullField(getClass(), "skillPoints");
+			skillPoints = new LinearFunction(0.0);
+		}
+		
 		if(skills == null){
 			MythrLogger.nullField(getClass(), "skills");
 			skills = new Skill[0];
@@ -33,6 +42,17 @@ public class SkillConfiguration {
 	
 	
 	// VALUES:
+	/**
+	 * Gets the number of available skill points.
+	 * 
+	 * @param level player level
+	 * @return skill points
+	 */
+	public static int getSkillPoints(Integer level) {
+		return config.skillPoints.yIntFloor(level);
+	}
+	
+	
 	/**
 	 * Gets skills.
 	 * 
@@ -46,7 +66,7 @@ public class SkillConfiguration {
 	 * 
 	 * @return skill count
 	 */
-	public static int getAttrCount()
+	public static int getSkillCount()
 	 {
 		return config.skills.length;
 	 }
@@ -56,7 +76,7 @@ public class SkillConfiguration {
 	 * 
 	 * @return skill names
 	 */
-	public static String[] getAttrNames()
+	public static String[] getSkillNames()
 	 {
 		String[] result = new String[config.skills.length];
 		for (int i = 0; i < result.length; i++) {
