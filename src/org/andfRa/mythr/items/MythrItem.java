@@ -290,41 +290,54 @@ public class MythrItem {
 		
 		if(description.size() > 0) lore.add("");
 		
-		// Base damage:
-		lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getString("Damage:") + " " + dmgMin + " - " + dmgMax);
+		switch (type) {
+		case JOURNAL:
 
-		// Type:
-		lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
-		
-		// Piercing:
-		lore.add("" + ChatColor.COLOR_CHAR + PIERCING_PERCENT_INDICATOR + statsCol + LocalisationConfiguration.getString("Piercing:") + " " + (int)(piercing*100) + "%");
+			// Type:
+			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
+			
+			break;
 
-		// Chance to hit:
-		lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getString("Attack rating:") + " " + attackRating);
+		default:
+			
+			// Base damage:
+			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getString("Damage:") + " " + dmgMin + " - " + dmgMax);
 
-		// Requires:
-		StringBuffer strb = new StringBuffer();
-		 String[] attrAbbrev = AttributeConfiguration.getAttrAbbreviations();
-		 for (int i = 0; i < attrReq.length; i++) {
-			if(attrReq[i] == 0) continue;
-			if(strb.length() != 0) strb.append(", ");
-			strb.append(attrAbbrev[i] + " " + attrReq[i]);
-		 }
-		 if(levelReq != 0){
-			if(strb.length() != 0) strb.append(", ");
-			strb.append("lvl" + " " + levelReq);
-		 }
-		 if(strb.length() == 0) strb.append('-');
-		lore.add("" + ChatColor.COLOR_CHAR + ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR + statsCol + LocalisationConfiguration.getString("Requires:") + " " + strb.toString());
-		
-		// Usable by:
-		strb = new StringBuffer();
-		 for (int i = 0; i < useableBy.length; i++) {
-			if(i != 0) strb.append(", ");
-			strb.append(useableBy[i]);
-		 }
-		 if(strb.length() == 0) strb.append('-');
-		lore.add("" + ChatColor.COLOR_CHAR + USABLE_BY_INDICATOR + statsCol + LocalisationConfiguration.getString(statsCol + "Usable by:") + " " + strb.toString());
+			// Type:
+			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
+			
+			// Piercing:
+			lore.add("" + ChatColor.COLOR_CHAR + PIERCING_PERCENT_INDICATOR + statsCol + LocalisationConfiguration.getString("Piercing:") + " " + (int)(piercing*100) + "%");
+
+			// Chance to hit:
+			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getString("Attack rating:") + " " + attackRating);
+
+			// Requires:
+			StringBuffer strb = new StringBuffer();
+			 String[] attrAbbrev = AttributeConfiguration.getAttrAbbreviations();
+			 for (int i = 0; i < attrReq.length; i++) {
+				if(attrReq[i] == 0) continue;
+				if(strb.length() != 0) strb.append(", ");
+				strb.append(attrAbbrev[i] + " " + attrReq[i]);
+			 }
+			 if(levelReq != 0){
+				if(strb.length() != 0) strb.append(", ");
+				strb.append("lvl" + " " + levelReq);
+			 }
+			 if(strb.length() == 0) strb.append('-');
+			lore.add("" + ChatColor.COLOR_CHAR + ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR + statsCol + LocalisationConfiguration.getString("Requires:") + " " + strb.toString());
+			
+			// Usable by:
+			strb = new StringBuffer();
+			 for (int i = 0; i < useableBy.length; i++) {
+				if(i != 0) strb.append(", ");
+				strb.append(useableBy[i]);
+			 }
+			 if(strb.length() == 0) strb.append('-');
+			lore.add("" + ChatColor.COLOR_CHAR + USABLE_BY_INDICATOR + statsCol + LocalisationConfiguration.getString(statsCol + "Usable by:") + " " + strb.toString());
+			
+			break;
+		}
 		
 		bmeta.setLore(lore);
 		
