@@ -1,38 +1,45 @@
 {
-#################################################################################
-#                            ATTRIBUTES DEFINITIONS                             #
-# name            - Attribute name. Must be lower case and remain consistent    #
-#                   throughout the configuration files.                         #
-# abbrev          - Attribute name abbreviation. Can be freely chosen.          #
-# specifiers      - A list of specifier elements ("Specifier":LinerarFunction). #
-# Specifier       - Determines effect the attribute will have. Attributes can   #
-#                   have multiple specifiers.                                   #
-#                   Warning, not all specifiers are supported!                  #
-# LinerarFunction - Determines the magnitude of the Specifier. Takes attribute  #
-#                   score as the x value and returns the magnitude.             #
-#################################################################################
-#                                                                               #
+
+ # The number of attribute points available to the player.
+ #  m - attribute points gained per level
+ #  b - attribute points at level 0
+"attribPoints":{"m":1,"b":18},
+
+ # The number of spent points after which the cost of upgrading the attribute
+ # increases by 1 additional point.
+"costCostRange":6,
+
+ # Definition of attributes and their effects.
+ # name            - Attribute name. Must be lower case and remain consistent
+ #                   throughout the configuration files.
+ # abbrev          - Attribute name abbreviation. Can be freely chosen.
+ # specifiers      - A list of specifier elements ("Specifier":LinerarFunction).
+ # Specifier       - Determines effect the attribute will have. Attributes can
+ #                   have multiple specifiers.
+ #                   Warning, not all specifiers are supported!
+ # LinerarFunction - Determines the magnitude of the Specifier. Takes attribute
+ #                   score as the x value and returns the magnitude.
 "attributes":
  [
 	# STRENGTH ATTRIBUTE #
 	{
 	 "name":"strength",
 	 "abbrev":"STR",
-	 "specifiers":{ MELEE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4} }
+	 "specifiers":{ MELEE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-6} }
 	},
 	
 	# PRECISION ATTRIBUTE #
 	{
 	 "name":"precision",
 	 "abbrev":"PRE",
-	 "specifiers":{ RANGED_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4} }
+	 "specifiers":{ RANGED_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-6} }
 	},
 	
 	# WILLPOWER ATTRIBUTE #
 	{
 	 "name":"willpower",
 	 "abbrev":"WIL",
-	 "specifiers":{ CURSE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4} }
+	 "specifiers":{ CURSE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-6} }
 	},
 	
 	# DIVINITY ATTRIBUTE #
@@ -40,8 +47,8 @@
 	 "name":"divinity",
 	 "abbrev":"DIV",
 	 "specifiers":{
-	 	BLESSING_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4},
-	 	CURSE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-4}
+	 	BLESSING_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-6},
+	 	CURSE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-6}
 	 }
 	},
 	
@@ -49,9 +56,8 @@
 	{
 	 "name":"constitution",
 	 "abbrev":"CON",
-	 "specifiers":{ HEALTH_MODIFIER:{"m":1,"b":-4} }
+	 "specifiers":{ HEALTH_MODIFIER:{"m":1,"b":0} }
 	}
  ]
-#                                                                               #
-#################################################################################
+
 }

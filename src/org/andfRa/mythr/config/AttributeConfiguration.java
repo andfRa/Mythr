@@ -6,6 +6,7 @@ import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
 import org.andfRa.mythr.player.Attribute;
+import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
 
 public class AttributeConfiguration {
@@ -13,6 +14,12 @@ public class AttributeConfiguration {
 	/** Instance of the configuration. */
 	private static AttributeConfiguration config;
 	
+	
+	/** Number of available attribute points based on level. */
+	private LinearFunction attribPoints;
+	
+	/** Range for which the cost remains constant. */
+	private Integer costCostRange;
 	
 	/** Attributes. */
 	private Attribute[] attributes;
@@ -22,17 +29,45 @@ public class AttributeConfiguration {
 	/** Fixes all missing fields. */
 	public void complete()
 	 {
+		if(attribPoints == null){
+			MythrLogger.nullField(getClass(), "attribPoints");
+			attribPoints = new LinearFunction(0.0);
+		}
+		attribPoints.complete();
+		
+		if(costCostRange == null){
+			MythrLogger.nullField(getClass(), "costCostRange");
+			costCostRange = 6;
+		}
+		
 		if(attributes == null){
 			MythrLogger.nullField(getClass(), "attributes");
 			attributes = new Attribute[0];
 		}
-		
-		
-		
+
 	 }
 	
 	
 	// VALUES:
+	/**
+	 * Gets the range at which the attribute point cost remains constant.
+	 * 
+	 * @return constant cost range
+	 */
+	public static Integer getCostCostRange() {
+		return config.costCostRange;
+	}
+	
+	/**
+	 * Gets the number of available attribute points.
+	 * 
+	 * @param level player level
+	 * @return attribute points
+	 */
+	public static int getAttribPoints(Integer level) {
+		return config.attribPoints.yIntFloor(level);
+	}
+	
 	/**
 	 * Gets attributes.
 	 * 

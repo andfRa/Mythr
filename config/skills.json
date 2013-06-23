@@ -1,38 +1,38 @@
 {
-                                                                          #
+
 "skills":
  [
 	{
 	 "name":"heavy armour",
-	 "specifiers":{ HEAVY_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0} }
+	 "specifiers":{ HEAVY_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":1} }
 	},
 	
 	{
 	 "name":"light armour",
-	 "specifiers":{ LIGHT_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":0} }
+	 "specifiers":{ LIGHT_ARMOUR_DEFENCE_RATING_MODIFIER:{"m":1,"b":1} }
 	},
 	
 	{
 	 "name":"swordsmanship",
-	 "specifiers":{MELEE_ATTACK_RATING_MODIFIER:{"m":1,"b":0} }
+	 "specifiers":{MELEE_ATTACK_RATING_MODIFIER:{"m":1,"b":1} }
 	},
 
 	{
 	 "name":"archery",
-	 "specifiers":{ RANGED_ATTACK_RATING_MODIFIER:{"m":1,"b":0} }
+	 "specifiers":{ RANGED_ATTACK_RATING_MODIFIER:{"m":1,"b":1} }
 	},
 
 	{
 	 "name":"devotion",
 	 "specifiers":{
-	 	CURSE_ATTACK_RATING_MODIFIER:{"m":1,"b":0},
-	 	BLESSING_ATTACK_RATING_MODIFIER:{"m":1,"b":0}
+	 	CURSE_ATTACK_RATING_MODIFIER:{"m":1,"b":1},
+	 	BLESSING_ATTACK_RATING_MODIFIER:{"m":1,"b":1}
 	 }
 	},
 
 	{
 	 "name":"arcane knowledge",
-	 "specifiers":{ MAGIC_ATTACK_RATING_MODIFIER:{"m":1,"b":0} }
+	 "specifiers":{ MAGIC_ATTACK_RATING_MODIFIER:{"m":1,"b":1} }
 	},
 
 	{
@@ -51,6 +51,5 @@
 	}
 
  ]
-#                                                                               #
-#################################################################################
+ 
 }

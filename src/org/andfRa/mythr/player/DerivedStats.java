@@ -60,19 +60,19 @@ public abstract class DerivedStats {
 
 	
 	/** Melee attack rating. */
-	private int meleeAR = 1;
+	private int meleeAR = 0;
 
 	/** Ranged attack rating. */
-	private int rangedAR = 1;
+	private int rangedAR = 0;
 
 	/** Magic attack rating. */
-	private int magicAR = 1;
+	private int magicAR = 0;
 
 	/** Curse attack rating. */
-	private int curseAR = 1;
+	private int curseAR = 0;
 
 	/** Blessing attack rating. */
-	private int blessingAR = 1;
+	private int blessingAR = 0;
 
 
 	/** Armour induced damage multiplier. */
