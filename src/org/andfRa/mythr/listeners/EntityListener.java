@@ -8,7 +8,6 @@ import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -38,6 +37,16 @@ public class EntityListener implements Listener {
 		}else{
 			projectile = null;
 		}
+
+		if(!(attacker instanceof LivingEntity)) return;
+		if(!(defender instanceof LivingEntity)) return;
+		
+		// Check ticks:
+		LivingEntity lattacker = (LivingEntity) attacker;
+		if(!VanillaConfiguration.checkAttackTicks(lattacker)){
+			//event.setCancelled(true); // Just in case!
+			return;
+		}
 		
 		MythrPlayer mattacker = null;
 		MythrPlayer mdefender = null;
@@ -49,9 +58,6 @@ public class EntityListener implements Listener {
 		
 		if(defender instanceof Creature) cdefender = (Creature) defender;
 		else if(defender instanceof Player) mdefender = Mythr.plugin().getLoadedPlayer(((Player) defender).getName());
-		
-		if(!(attacker instanceof LivingEntity)) return;
-		if(!(defender instanceof LivingEntity)) return;
 		
 		// Attack type:
 		ItemStack item = ((LivingEntity) attacker).getEquipment().getItemInHand();
@@ -98,7 +104,6 @@ public class EntityListener implements Listener {
 
 		// Prepare:
 		final LivingEntity ldefender = (LivingEntity) defender;
-		final LivingEntity lattacker = (LivingEntity) attacker;
 		final int harm = damage;
 		
 		// Not on my watch:

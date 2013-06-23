@@ -3,6 +3,7 @@ package org.andfRa.mythr.config;
 import java.util.HashMap;
 
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
 public class VanillaConfiguration {
@@ -177,5 +178,16 @@ public class VanillaConfiguration {
 		return damage.intValue();
 	 }
 	
+
+	/**
+	 * Checks is the given the entity will not get damaged.
+	 * 
+	 * @param lentity living entity
+	 * @return true if can't be damaged
+	 */
+	public static boolean checkAttackTicks(LivingEntity lentity)
+	{
+		return lentity.getNoDamageTicks() > lentity.getMaximumNoDamageTicks()/2F;
+	 }
 	
 }
