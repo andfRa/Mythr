@@ -61,7 +61,7 @@ public class EntityListener implements Listener {
 		if(projectile != null){
 			// Magic:
 			if(projectile.getType() == EntityType.FIREBALL){
-				type = ItemType.MAGIC_WEAPON;
+				type = ItemType.ARCANE_SPELL;
 			}
 			// Ranged:
 			else {

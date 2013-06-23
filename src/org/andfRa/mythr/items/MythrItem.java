@@ -24,7 +24,7 @@ public class MythrItem {
 	public final static char BASE_DAMAGE_INDICATOR = '\u2474';
 
 	/** Base damage indicator. */
-	public final static char ITEMTYPE_INDICATOR = '\u2475';
+	public final static char ITEM_TYPE_INDICATOR = '\u2475';
 
 	/** Attribute requirements indicator. */
 	public final static char ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR = '\u2476';
@@ -177,7 +177,7 @@ public class MythrItem {
 				break;
 
 			// Item type:
-			case ITEMTYPE_INDICATOR:
+			case ITEM_TYPE_INDICATOR:
 				
 				if(line.length() >= 4 && line.charAt(2) == ChatColor.COLOR_CHAR){
 					mitem.type = ItemType.match(line.charAt(3));
@@ -294,7 +294,7 @@ public class MythrItem {
 		lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getString("Damage:") + " " + dmgMin + " - " + dmgMax);
 
 		// Type:
-		lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + ChatColor.COLOR_CHAR + ITEMTYPE_INDICATOR + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
+		lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
 		
 		// Piercing:
 		lore.add("" + ChatColor.COLOR_CHAR + PIERCING_PERCENT_INDICATOR + statsCol + LocalisationConfiguration.getString("Piercing:") + " " + (int)(piercing*100) + "%");

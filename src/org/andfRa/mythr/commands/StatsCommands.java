@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.items.MythrItem;
+import org.andfRa.mythr.player.Attribute;
 import org.andfRa.mythr.player.MythrPlayer;
+import org.andfRa.mythr.player.Skill;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -31,12 +34,21 @@ public class StatsCommands {
 	 {
 		StringBuffer message = new StringBuffer();
 		
-		String[] attrbs = AttributeConfiguration.getAttrNames();
-		String[] abbrevs = AttributeConfiguration.getAttrNames();
-		
-		for (int i = 0; i < attrbs.length; i++) {
+		// Attributes:
+		Attribute[] attributes = AttributeConfiguration.getAttributes();
+		for (int i = 0; i < attributes.length; i++) {
 			if(i != 0) message.append("\n");
-			message.append(abbrevs[i] + " " + mythrPlayer.getAttribute(attrbs[i]));
+			message.append(attributes[i].getAbbrev() + " " + mythrPlayer.getAttribute(attributes[i].getName()));
+		}
+		
+		message.append("\n");
+		message.append("\n");
+		
+		// Skills:
+		Skill[] skills = SkillConfiguration.getSkills();
+		for (int i = 0; i < skills.length; i++) {
+			if(i != 0) message.append("\n");
+			message.append(skills[i].getName() + " " + mythrPlayer.getSkill(skills[i].getName()));
 		}
 		
 		mythrPlayer.message(message.toString());

@@ -8,6 +8,14 @@ import org.bukkit.inventory.ItemStack;
 public class VanillaConfiguration {
 
 	
+	// BOOK:
+	/** Book page lines. */
+	public static final int BOOK_PAGE_LINES = 13;
+	
+	/** Book line characters. */
+	public static final int BOOK_LINE_CHARACTERS = 19;
+
+	
 	// ARMOUR RATIOS:
 	/** The percent the helmet affects armour. */
 	public static final double HELMET_RATIO = 0.15; 

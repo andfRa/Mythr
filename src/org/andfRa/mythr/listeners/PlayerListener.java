@@ -2,16 +2,20 @@ package org.andfRa.mythr.listeners;
 
 
 import org.andfRa.mythr.Mythr;
+import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
 
@@ -32,7 +36,6 @@ public class PlayerListener implements Listener {
 	 {		
 		Player player = event.getPlayer();
 		MythrPlayer mythrPlayer = Mythr.plugin().getLoadedPlayer(player.getName());
-		
 		if(mythrPlayer == null) return;
 
 		// Unload:
@@ -58,7 +61,7 @@ public class PlayerListener implements Listener {
 	{
 		
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerMove(PlayerMoveEvent event)
 	{
@@ -74,6 +77,33 @@ public class PlayerListener implements Listener {
 		}
 		
 	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onPlayerInteract(PlayerInteractEvent event)
+	 {
+		Player player = event.getPlayer();
+		MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(player.getName());
+		if(mplayer == null) return;
+
+		ItemStack item = event.getItem();
+		if(item != null){
+			
+			MythrItem mitem;
+
+			// Spells:
+			if(item.getType() == Material.BOOK){
+				
+				mitem = MythrItem.fromBukkitItem(item);
+				// TODO: Tomes etc.
+				
+			}
+			
+		}
+		
+		
+		
+		
+	 }
 	
 	
 }

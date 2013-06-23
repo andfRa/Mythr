@@ -6,9 +6,9 @@ public enum ItemType {
 
 	MELEE_WEAPON('\u24D0'),
 	RANGED_WEAPON('\u24D1'),
-	MAGIC_WEAPON('\u24D2'),
-	CURSE_WEAPON('\u24D3'),
-	BLESSING_WEAPON('\u24D4'),
+	ARCANE_SPELL('\u24D2'),
+	CURSE_SPELL('\u24D3'),
+	BLESSING_SPELL('\u24D4'),
 	
 	LIGHT_ARMOUR('\u24D5'),
 	HEAVY_ARMOUR('\u24D6'),
@@ -18,9 +18,10 @@ public enum ItemType {
 	
 	SKILL_TOME('\u24D9'),
 	PERK_TOME('\u24DA'),
-	SCROLL('\u24DB'),
+	JOURNAL('\u24DB'),
+	SCROLL('\u24DC'),
 	
-	OTHER('\u24DC');
+	OTHER('\u24DD');
 
 	/** Type indicator. */
 	private char ind;

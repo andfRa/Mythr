@@ -125,15 +125,15 @@ public abstract class DerivedStats {
 				rangedAR+= mitem.getAttackRating();
 				break;
 			
-			case MAGIC_WEAPON:
+			case ARCANE_SPELL:
 				magicAR+= mitem.getAttackRating();
 				break;
 			
-			case CURSE_WEAPON:
+			case CURSE_SPELL:
 				curseAR+= mitem.getAttackRating();
 				break;
 				
-			case BLESSING_WEAPON:
+			case BLESSING_SPELL:
 				blessingAR+= mitem.getAttackRating();
 				break;
 
@@ -489,17 +489,17 @@ public abstract class DerivedStats {
 			damage+= attacker.rangedDmgMod;
 			break;
 			
-		case MAGIC_WEAPON:
+		case ARCANE_SPELL:
 			attackRating+= attacker.magicAR;
 			damage+= attacker.magicDmgMod;
 			break;
 
-		case CURSE_WEAPON:
+		case CURSE_SPELL:
 			attackRating+= attacker.curseAR;
 			damage+= attacker.curseDmgMod;
 			break;
 
-		case BLESSING_WEAPON:
+		case BLESSING_SPELL:
 			attackRating+= attacker.blessingAR;
 			damage+= attacker.blessingDmgMod;
 			break;
