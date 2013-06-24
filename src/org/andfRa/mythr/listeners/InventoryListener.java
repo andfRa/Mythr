@@ -30,12 +30,12 @@ public class InventoryListener  implements Listener {
 			final MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(event.getWhoClicked().getName());
 			if(mplayer == null) return;
 		
-			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Mythr.plugin(), new Runnable() {
+			Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 				@Override
 				public void run() {
 					mplayer.updateWeapon();
 				}
-			}, 1);
+			});
 			
 			
 		}
@@ -44,20 +44,20 @@ public class InventoryListener  implements Listener {
 		else if(event.getSlotType() == SlotType.QUICKBAR){
 
 			int heldSlot = VanillaConfiguration.QUICkBAR_FIRST_SLOT + event.getWhoClicked().getInventory().getHeldItemSlot();
+			int numberSlot = VanillaConfiguration.QUICkBAR_FIRST_SLOT + event.getHotbarButton();
 			int clickSlot = event.getRawSlot();
-			
 			// Update player weapon:
-			if(clickSlot == heldSlot){
+			if(clickSlot == heldSlot || ((event.getHotbarButton() != -1)  && numberSlot == heldSlot)) {
 				
 				final MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(event.getWhoClicked().getName());
 				if(mplayer == null) return;
 				
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Mythr.plugin(), new Runnable() {
+				Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 					@Override
 					public void run() {
 						mplayer.updateWeapon();
 					}
-				}, 1);
+				});
 				
 			}
 			
@@ -78,12 +78,12 @@ public class InventoryListener  implements Listener {
 			if(mitem.getType() == ItemType.JOURNAL) JournalSpawner.update(item, mplayer);
 		}
 		
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Mythr.plugin(), new Runnable() {
+		Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 			@Override
 			public void run() {
 				mplayer.updateWeapon();
 			}
-		}, 1);
+		});
 	 }
 	
 }
