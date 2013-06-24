@@ -110,12 +110,12 @@ public class EntityListener implements Listener {
 		if(event.getDamage() > ldefender.getHealth()) event.setDamage(ldefender.getHealth() - 1);
 		
 		// Queue damage:
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Mythr.plugin(), new Runnable() {
+		Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 			@Override
 			public void run() {
 				ldefender.damage(harm);
 			}
-		}, 1);
+		});
 		
 	 }
 
