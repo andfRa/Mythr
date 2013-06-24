@@ -1,0 +1,133 @@
+package org.andfRa.mythr.config;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.andfRa.mythr.MythrLogger;
+import org.andfRa.mythr.inout.Directory;
+import org.andfRa.mythr.inout.FileIO;
+import org.andfRa.mythr.responses.Response;
+import org.andfRa.mythr.responses.ResponseEffect;
+import org.andfRa.mythr.responses.ShootFireballEffect;
+import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
+
+public class ResponseConfiguration {
+	
+	/** Instance of the configuration. */
+	private static ResponseConfiguration config;
+	
+	
+	/** Responses. */
+	private Response[] responses;
+
+	/** Response effects. */
+	transient private HashMap<String, ResponseEffect> effects;
+
+	/** Response map. */
+	transient private HashMap<String, Response> responseMap;
+	
+
+	// CONSTRUCTION:
+	/** Fixes all missing fields. */
+	public void complete()
+	 {
+		initEffects();
+		
+		// Fields:
+		if(responses == null){
+			MythrLogger.nullField(getClass(), "responses");
+			responses = new Response[0];
+		}
+		for (int i = 0; i < responses.length; i++){
+			responses[i].complete();
+			responses[i].assign(effects);
+		}
+		
+		// Response map:
+		responseMap = new HashMap<String, Response>();
+		for (int i = 0; i < responses.length; i++) {
+			if(responseMap.put(responses[i].getName(), responses[i]) != null){
+				MythrLogger.warning(getClass(), "Found duplicate responce: " + responses[i].getName() + ".");
+			}
+		}
+
+	 }
+	
+	/** Initiates effects. */
+	private void initEffects() {
+
+		effects = new HashMap<String, ResponseEffect>();
+		ResponseEffect effect;
+		
+		// Shoot fireball:
+		effect = new ShootFireballEffect();
+		effects.put(effect.key(), effect);
+		
+	}
+	
+	// VALUES:
+	/**
+	 * Gets a response with the given name.
+	 * 
+	 * @param name response name
+	 * @return response, null if none
+	 */
+	public static Response getResponse(String name)
+	 {
+		return config.responseMap.get(name);
+	 }
+	
+	
+	// LOAD UNLOAD:
+	/** Loads the configuration. */
+	public static void load(){
+
+
+		// Create config:
+		if(!FileIO.exists(Directory.RESPONSE_CONFIG)){
+
+			try {
+				FileIO.unpackConfig(Directory.RESPONSE_CONFIG);
+			}
+			catch (IOException e) {
+				MythrLogger.severe(ResponseConfiguration.class, "Failed to unpack default configuration.");
+				MythrLogger.severe(" " + e.getClass().getSimpleName() + ":" + e.getMessage());
+			}
+			
+		}
+		
+		// Read config:
+		ResponseConfiguration config;
+		try {
+			
+			config = FileIO.readConfig(Directory.RESPONSE_CONFIG, ResponseConfiguration.class);
+			
+		} catch (IOException e) {
+			
+			MythrLogger.severe(ResponseConfiguration.class, "Failed to read configuration.");
+			MythrLogger.severe(" " + e.getClass().getSimpleName() + ":" + e.getMessage());
+			config = new ResponseConfiguration();
+			
+		} catch (JsonParseException e) {
+
+			MythrLogger.severe(ResponseConfiguration.class, "Failed to parse configuration.");
+			MythrLogger.severe(" " + e.getClass().getSimpleName() + ":" + e.getMessage());
+			config = new ResponseConfiguration();
+			
+		}
+		
+		// Set instance:
+		ResponseConfiguration.config = config;
+		
+		// Complete:
+		config.complete();
+		
+	}
+	
+	/** Unloads the configuration. */
+	public static void unload()
+	 {
+		ResponseConfiguration.config = null;
+	 }
+	
+}

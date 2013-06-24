@@ -2,13 +2,13 @@ package org.andfRa.mythr.listeners;
 
 
 import org.andfRa.mythr.Mythr;
-import org.andfRa.mythr.items.ItemType;
+import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
+import org.andfRa.mythr.responses.Response;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -98,12 +98,28 @@ public class PlayerListener implements Listener {
 			if(item.getType() == Material.BOOK){
 				
 				mitem = MythrItem.fromBukkitItem(item);
-				// TODO: Tomes etc.
 				
-				// Claim journal:
-				if(mitem.getType() == ItemType.JOURNAL){
+				// SPELLS:
+				switch (mitem.getType()) {
+				case ARCANE_SPELL:
+				case CURSE_SPELL:
+					String respName = mitem.getResponse();
+					if(respName == null) break;
+					Response response = ResponseConfiguration.getResponse(respName);
+					if(response == null) break;
+					response.interactTrigger(mplayer, mplayer.getDerived());
+					
+					break;
+				
+				// JOURNAL:	
+				case JOURNAL:
 					player.setItemInHand(JournalSpawner.claim(mplayer));
 					player.updateInventory();
+					
+					break;
+
+				default:
+					break;
 				}
 				
 			}

@@ -38,24 +38,43 @@ public class AdminCommands {
 	@SuppressWarnings("deprecation")
 	@Command(
 	 aliases = {"aitem"},
-	 usage = "",
+	 usage = "<item_name>",
 	 flags = "",
 	 desc = "Create a test item.",
-	 min = 0,
-	 max = 0
+	 min = 1,
+	 max = 1
 	)
 	@CommandPermissions({"mythr.admin.test"})
-	public static void testItem(CommandContext args, MythrPlayer mythrPlayer) {
+	public static void testItem(CommandContext args, MythrPlayer mplayer) {
 
-		Player player = mythrPlayer.getPlayer();
+		Player player = mplayer.getPlayer();
 		
-		MythrItem mitem = new MythrItem(Material.IRON_SWORD);
-		mitem.setMinDamage(7);
-		mitem.setMaxDamage(10);
-		mitem.setType(ItemType.MELEE_WEAPON);
+		String itemName = args.getString(0);
 		
-		ItemStack bitem = mitem.toBukkitItem();
-		player.getInventory().addItem(bitem);
+		// Sword:
+		if(itemName.equalsIgnoreCase("sword")){
+			MythrItem mitem = new MythrItem(Material.IRON_SWORD);
+			mitem.setMinDamage(7);
+			mitem.setMaxDamage(10);
+			mitem.setType(ItemType.MELEE_WEAPON);
+			ItemStack bitem = mitem.toBukkitItem();
+			player.getInventory().addItem(bitem);
+		}
+		
+		// Arcane:
+		else if(itemName.equalsIgnoreCase("arcane")){
+			MythrItem mitem = new MythrItem(Material.BOOK);
+			mitem.setMinDamage(6);
+			mitem.setMaxDamage(12);
+			mitem.setType(ItemType.ARCANE_SPELL);
+			mitem.setResponse("shoot fireball");
+			ItemStack bitem = mitem.toBukkitItem();
+			player.getInventory().addItem(bitem);
+		}
+		
+		else{
+			mplayer.negative(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_DOESNT_EXIST, itemName));
+		}
 		
 		player.updateInventory();
 		

@@ -26,23 +26,26 @@ public class MythrItem {
 	/** Base damage indicator. */
 	public final static char ITEM_TYPE_INDICATOR = '\u2475';
 
+	/** Response indicator. */
+	public final static char RESPONSE_INDICATOR = '\u2476';
+
 	/** Attribute requirements indicator. */
-	public final static char ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR = '\u2476';
+	public final static char ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR = '\u2477';
 
 	/** Attribute modifiers indicator. */
-	public final static char ATTRIBUTE_MODIFIERS_INDICATOR = '\u2477';
+	public final static char ATTRIBUTE_MODIFIERS_INDICATOR = '\u2478';
 
 	/** Piercing percent indicator. */
-	public final static char PIERCING_PERCENT_INDICATOR = '\u2478';
+	public final static char PIERCING_PERCENT_INDICATOR = '\u2479';
 
 	/** Attack rating indicator. */
-	public final static char ATTACK_RATING_INDICATOR = '\u2479';
+	public final static char ATTACK_RATING_INDICATOR = '\u247A';
 
 	/** Defence rating indicator. */
-	public final static char DEFENCE_RATING_INDICATOR = '\u247A';
+	public final static char DEFENCE_RATING_INDICATOR = '\u247B';
 
 	/** Perk indicator. */
-	public final static char USABLE_BY_INDICATOR = '\u247B';
+	public final static char USABLE_BY_INDICATOR = '\u247C';
 	
 	
 	/** True if the item failed to parse. */
@@ -57,9 +60,12 @@ public class MythrItem {
 	/** Data value. */
 	private byte data = 0;
 	
-	
+
 	/** Weapon type. */
 	private ItemType type = ItemType.OTHER;
+
+	/** Response effect. */
+	private String response = null;
 	
 	/** Items description. */
 	private ArrayList<String> description = new ArrayList<String>();
@@ -186,6 +192,16 @@ public class MythrItem {
 				}
 				
 				break;
+			
+			// Response:
+			case RESPONSE_INDICATOR:
+
+				pattern = Pattern.compile("(?<=: ).+");
+				matcher = pattern.matcher(line);
+				if(matcher.find()) mitem.response = matcher.group();
+				else mitem.error = true;
+				
+				break;
 
 			// Attributes:
 			case ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR:	
@@ -217,36 +233,30 @@ public class MythrItem {
 
 			case PIERCING_PERCENT_INDICATOR:	
 				
-				for (int i = 0; i < abrevs.length; i++) {
-					pattern = Pattern.compile("(?<=: )\\d+(?=%)");
-					matcher = pattern.matcher(line);
-					if(matcher.find()) mitem.piercing = 0.01 * Integer.parseInt(matcher.group());
-					else mitem.error = true;
-				}
+				pattern = Pattern.compile("(?<=: )\\d+(?=%)");
+				matcher = pattern.matcher(line);
+				if(matcher.find()) mitem.piercing = 0.01 * Integer.parseInt(matcher.group());
+				else mitem.error = true;
 					
 				break;
 			
 			case ATTACK_RATING_INDICATOR:	
 				
-				for (int i = 0; i < abrevs.length; i++) {
-					pattern = Pattern.compile("(?<=: )\\d+(?=)");
-					matcher = pattern.matcher(line);
-					if(matcher.find()) mitem.attackRating = Integer.parseInt(matcher.group());
-					else mitem.error = true;
-				}
+				pattern = Pattern.compile("(?<=: )\\d+(?=)");
+				matcher = pattern.matcher(line);
+				if(matcher.find()) mitem.attackRating = Integer.parseInt(matcher.group());
+				else mitem.error = true;
 					
 				break;
 
 			case USABLE_BY_INDICATOR:	
 				
-				for (int i = 0; i < abrevs.length; i++) {
-					pattern = Pattern.compile("(?<=: ).+");
-					matcher = pattern.matcher(line);
-					if(matcher.find()){
-						mitem.useableBy = matcher.group().split(", ");
-					}
-					else mitem.error = true;
+				pattern = Pattern.compile("(?<=: ).+");
+				matcher = pattern.matcher(line);
+				if(matcher.find()){
+					mitem.useableBy = matcher.group().split(", ");
 				}
+				else mitem.error = true;
 					
 				break;
 			
@@ -305,6 +315,10 @@ public class MythrItem {
 
 			// Type:
 			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
+
+			// Response:
+			if(response != null)
+			lore.add("" + ChatColor.COLOR_CHAR + RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + response);
 			
 			// Piercing:
 			lore.add("" + ChatColor.COLOR_CHAR + PIERCING_PERCENT_INDICATOR + statsCol + LocalisationConfiguration.getString("Piercing:") + " " + (int)(piercing*100) + "%");
@@ -380,6 +394,14 @@ public class MythrItem {
 	public ItemType getType() 
 	 { return type; }
 
+	/**
+	 * Gets response.
+	 * 
+	 * @return response, null if none
+	 */
+	public String getResponse()
+	 { return response; }
+	
 	/**
 	 * Gets item description.
 	 * 
@@ -498,6 +520,15 @@ public class MythrItem {
 		this.type = type;
 	}
 
+	/**
+	 * Sets the response.
+	 * 
+	 * @param response the response of the item
+	 */
+	public void setResponse(String response) {
+		this.response = response;
+	}
+	
 	/**
 	 * Sets the description.
 	 * 

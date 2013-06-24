@@ -1,5 +1,7 @@
 package org.andfRa.mythr.config;
 
+import org.apache.commons.lang.WordUtils;
+
 
 
 public class LocalisationConfiguration {
@@ -50,9 +52,19 @@ public class LocalisationConfiguration {
 	public final static String JOURNAL_SPAWNED_OTHER = "Spawned journal for player " + VALUE_INDICATOR + ".";
 	
 	
+	//ITEMS:
+	/** Command message. */
+	public final static String ITEM_DOESNT_EXIST = "Item " + VALUE_INDICATOR + " doesn't exist.";
+	
+	
 	public static String getString(String message)
 	 {
 		return message;
+	 }
+	
+	public static String getCapitString(String message)
+	 {
+		return WordUtils.capitalize(message);
 	 }
 
 	public static String getString(String message, Object... values)

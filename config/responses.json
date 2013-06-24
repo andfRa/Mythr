@@ -1,0 +1,24 @@
+{
+
+ # Definition of responses and their effects. Used by items and perks to determine
+ # the resulting effect when triggered.
+ # name            - Response name.  Must be unique and consistent throughout the 
+ #                   configuration files.
+ # effectKey       - An unique key that binds a certain effect to the response.
+ # attribute       - (Optional) Attribute that is used to calculate rating.
+ #                   Rating will determine the effectiveness of the response effect. 
+ #                   effectiveness. Response effect specific.
+ # rating          - (Optional) Base rating to determine effectiveness. 
+ #                   If both attribute and base rating are available,
+ #                   the higher one is used.
+ # ratingMod       - (Optional) Modifies the rating.
+"responses":
+ [
+	# ARCANE SPELLS #
+	{
+	 "name":"shoot fireball",
+	 "effectKey":"SHOOT_FIREBALL_EFFECT"
+	}
+ ]
+
+}
