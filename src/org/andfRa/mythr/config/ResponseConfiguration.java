@@ -17,6 +17,9 @@ public class ResponseConfiguration {
 	private static ResponseConfiguration config;
 	
 	
+	/** Spell cast radius. */
+	private Double spellCastRadius;
+	
 	/** Responses. */
 	private Response[] responses;
 
@@ -43,6 +46,11 @@ public class ResponseConfiguration {
 			responses[i].assign(effects);
 		}
 		
+		if(spellCastRadius == null){
+			MythrLogger.nullField(getClass(), "spellCastRadius");
+			spellCastRadius = 1.0;
+		}
+		
 		// Response map:
 		responseMap = new HashMap<String, Response>();
 		for (int i = 0; i < responses.length; i++) {
@@ -66,6 +74,14 @@ public class ResponseConfiguration {
 	}
 	
 	// VALUES:
+	/**
+	 * Gets the radius after witch the spell is cancelled.
+	 * 
+	 * @return spell cancel radius
+	 */
+	public static Double getCastRadius()
+	 { return config.spellCastRadius; }
+	
 	/**
 	 * Gets a response with the given name.
 	 * 

@@ -11,6 +11,7 @@ import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.sk89q.Command;
@@ -19,6 +20,8 @@ import org.sk89q.CommandPermissions;
 
 public class AdminCommands {
 
+	public static int i = 0; 
+	
 	@Command(
 	 aliases = {"atest"},
 	 usage = "",
@@ -31,7 +34,8 @@ public class AdminCommands {
 	public static void test(CommandContext args, MythrPlayer mythrPlayer) {
 
 		Player player = mythrPlayer.getPlayer();
-		EffectDependancy.playParticle(ParticleEffect.ANGRY_VILLAGER, player.getLocation(), 2f, 0.1f, 4);
+		player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 0.25f);
+		EffectDependancy.playParticle(ParticleEffect.FIREWORKS_SPARK, player.getLocation(), 2f, 0.1f, 4);
 		
 	}
 	

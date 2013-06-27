@@ -17,6 +17,7 @@ import org.andfRa.mythr.listeners.EntityListener;
 import org.andfRa.mythr.listeners.InventoryListener;
 import org.andfRa.mythr.listeners.PlayerListener;
 import org.andfRa.mythr.player.MythrPlayer;
+import org.andfRa.mythr.player.SpellManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -64,7 +65,8 @@ public class Mythr extends JavaPlugin{
 		unloadAllMythrPlayers();
 
 		// Managers:
-
+		SpellManager.unload();
+		
 		// Dependencies:
 		PermissionsDependency.disable();
 
@@ -111,6 +113,7 @@ public class Mythr extends JavaPlugin{
 		PermissionsDependency.enable();
 		
 		// Managers:
+		SpellManager.load();
 		
 		// Register events:
 		final PluginManager pluginManager = getServer().getPluginManager();

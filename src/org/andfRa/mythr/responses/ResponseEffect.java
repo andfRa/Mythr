@@ -6,12 +6,26 @@ import org.bukkit.entity.Creature;
 
 public abstract class ResponseEffect {
 
+	/** Cast ticks key. */
+	final public static String CAST_TICKS_KEY = "CAST_TICKS";
+	
+	
 	/**
 	 * Response key.
 	 * 
 	 * @return response key
 	 */
 	public abstract String key();
+	
+	
+	/**
+	 * Triggers the response effect.
+	 * 
+	 * @param response response
+	 * @param dsstats derived stats
+	 */
+	public void castTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	 { }
 	
 	/**
 	 * Called on interact.

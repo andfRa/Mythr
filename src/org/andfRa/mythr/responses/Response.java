@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
+import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.entity.Creature;
 
 public class Response {
@@ -12,14 +13,11 @@ public class Response {
 	/** Response name. */
 	private String name;
 
-	/** Attribute used to calculate effectiveness. */
-	private String attribute = null;
+	/** Parameters values. */
+	private HashMap<String, String> parameters;
 
-	/** Attack or defence base rating. */
-	private Integer baseRating = null;
-
-	/** Attack or defence base modifier. */
-	private Integer ratingMod;
+	/** Linear function values. */
+	private HashMap<String, LinearFunction> linVals;
 
 	/** Response effect key. */
 	private String effectKey = null;
@@ -38,10 +36,9 @@ public class Response {
 			name = "????";
 		}
 		
-		// attribute can be null
-		// baseRating can be null
-		if(ratingMod == null) ratingMod = 0;
-
+		if(parameters == null) parameters = new HashMap<String, String>();
+		if(linVals == null) linVals = new HashMap<String, LinearFunction>();
+		
 		if(effectKey == null){
 			MythrLogger.nullField(getClass(), "effect");
 			effectKey = "????";
@@ -70,31 +67,95 @@ public class Response {
 	 { return name; }
 
 	/**
-	 * Gets the attribute to calculate rating.
+	 * Response effect key.
 	 * 
-	 * @return attribute, null if none
+	 * @return effect key
 	 */
-	public String getAttribute()
-	 { return attribute; }
+	public String getEffectKey()
+	 { return effectKey; }
 	
 	/**
-	 * Gets the base rating.
+	 * Returns the integer value for the requested key.
 	 * 
-	 * @return the base rating, null if none
+	 * @param key key
+	 * @return integer value
+	 * @throws NumberFormatException if the parameter value can't be parsed (configuration should be assumed correct)
 	 */
-	public Integer getBaseRating()
-	 { return baseRating; }
+	public Integer getInt(String key)
+	 {
+		String val = parameters.get(key);
+		if(val == null){
+			MythrLogger.warning(getClass(), "Response " + name + " received request for an undefined key " + key + ".");
+			val = "0";
+		}
+		
+		return Integer.parseInt(val);
+	 }
 
 	/**
-	 * Gets the rating modifier.
+	 * Returns the double value for the requested key.
 	 * 
-	 * @return the rating modifier
+	 * @param key key
+	 * @return double value
+	 * @throws NumberFormatException if the parameter value can't be parsed (configuration should be assumed correct)
 	 */
-	public Integer getRatingMod()
-	 { return ratingMod; }
+	public Double getDouble(String key)
+	 {
+		String val = parameters.get(key);
+		if(val == null){
+			MythrLogger.warning(getClass(), "Response " + name + " received request for an undefined key " + key + ".");
+			val = "0";
+		}
+		
+		return Double.parseDouble(val);
+	 }
+
+	/**
+	 * Returns the string value for the requested key.
+	 * 
+	 * @param key key
+	 * @return string value
+	 */
+	public String getString(String key)
+	 {
+		String val = parameters.get(key);
+		if(val == null){
+			MythrLogger.warning(getClass(), "Response " + name + " received request for an undefined key " + key + ".");
+			return "";
+		}
+		
+		return val;
+	 }
 	
+	/**
+	 * Returns the linear function value for the requested key.
+	 * 
+	 * @param key key
+	 * @return linear function value
+	 */
+	public LinearFunction getFunction(String key)
+	 {
+		LinearFunction val = linVals.get(key);
+		if(val == null){
+			MythrLogger.warning(getClass(), "Response " + name + " received request for an undefined key " + key + ".");
+			return new LinearFunction(0.0);
+		}
+		
+		return val;
+	 }
+
 	
 	// TRIGGERS:
+	/**
+	 * Triggers the response effect.
+	 * 
+	 * @param dsstats derived stats
+	 */
+	public void trigger(MythrPlayer mplayer, DerivedStats dsstats)
+	 {
+		if(effect != null) effect.castTrigger(this, mplayer, dsstats);
+	 }
+	
 	/**
 	 * Called on interact.
 	 * 

@@ -20,10 +20,11 @@ public class MythrPlayer {
 
 	/** Derived stats. */
 	transient private DerivedStats derived;
-	
+
 	/** True if player information can be saved. */
 	transient private boolean save = true;
 
+	
 	/** Player name. */
 	private String name;
 
@@ -271,7 +272,6 @@ public class MythrPlayer {
 	public Integer getRemainingSkills() {
 		return getAvailableSkills() - getUsedSkills();
 	}
-	
 	
 	
 	// PERKS:

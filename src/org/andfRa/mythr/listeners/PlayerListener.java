@@ -6,6 +6,7 @@ import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
+import org.andfRa.mythr.player.SpellManager;
 import org.andfRa.mythr.responses.Response;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -68,6 +69,8 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerMove(PlayerMoveEvent event)
 	{
+		// Update casting:
+		SpellManager.handleMoving(event.getPlayer().getName(), event.getTo());
 		
 		if(event.getPlayer().isSprinting()){
 			
@@ -78,7 +81,6 @@ public class PlayerListener implements Listener {
 			event.getPlayer().setWalkSpeed(0.2f);
 			
 		}
-		
 	}
 
 	@SuppressWarnings("deprecation")
