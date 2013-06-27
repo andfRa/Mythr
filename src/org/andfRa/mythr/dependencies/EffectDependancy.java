@@ -4,6 +4,8 @@ import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.dependencies.particles.ParticleEffect;
 import org.andfRa.mythr.dependencies.particles.ParticleEffectSender;
 import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 // TODO: Use reflection or a separate plugin to stop bukkit from breaking the plugin every update.
@@ -27,6 +29,12 @@ public class EffectDependancy {
 		}
 	 }
 	
+	/**
+	 * Plays arcane spell effect.
+	 * 
+	 * @param loc location
+	 * @param progress spell progress
+	 */
 	public static void playArcane(Location loc, double progress)
 	 {
 		final double r = 0.5;
@@ -42,7 +50,19 @@ public class EffectDependancy {
 			phi+= dPhi;
 		}
 	 }
+
+	/**
+	 * Plays action fail.
+	 * 
+	 * @param player player
+	 */
+	public static void playFail(Player player)
+	 {
+		player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 1.0f, 0.80f);
+	 }
 	
+	
+	// ENABLE DISABLE:
 	/** Enables the dependency manager. */
 	public static void enable()
 	 {

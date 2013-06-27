@@ -149,21 +149,27 @@ public class Response {
 	/**
 	 * Triggers the response effect.
 	 * 
+	 * @param mplayer Mythr player
 	 * @param dsstats derived stats
+	 * @return true if successful
 	 */
-	public void trigger(MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean castTrigger(MythrPlayer mplayer, DerivedStats dsstats)
 	 {
-		if(effect != null) effect.castTrigger(this, mplayer, dsstats);
+		if(effect != null) return effect.castTrigger(this, mplayer, dsstats);
+		return false;
 	 }
 	
 	/**
 	 * Called on interact.
 	 * 
+	 * @param mplayer Mythr player
 	 * @param dsstats derived stats
+	 * @return true if successful
 	 */
-	public void interactTrigger(MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean interactTrigger(MythrPlayer mplayer, DerivedStats dsstats)
 	 {
-		if(effect != null) effect.interactTrigger(this, mplayer, dsstats);
+		if(effect != null) return effect.interactTrigger(this, mplayer, dsstats);
+		return false;
 	 }
 
 	/**
@@ -173,10 +179,12 @@ public class Response {
 	 * @param mdefender Mythrl player defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
+	 * @return true if successful
 	 */
-	public void attackTrigger(MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean attackTrigger(MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
-		if(effect != null) effect.attackTrigger(this, mattacker, mdefender, dsattacker, dsdefender);
+		if(effect != null) return effect.attackTrigger(this, mattacker, mdefender, dsattacker, dsdefender);
+		return false;
 	 }
 
 	/**
@@ -186,10 +194,12 @@ public class Response {
 	 * @param mdefender creature defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
+	 * @return true if successful
 	 */
-	public void attackTrigger(MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean attackTrigger(MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
-		if(effect != null) effect.attackTrigger(this, mattacker, cdefender, dsattacker, dsdefender);
+		if(effect != null) return effect.attackTrigger(this, mattacker, cdefender, dsattacker, dsdefender);
+		return false;
 	 }
 
 	/**
@@ -199,10 +209,12 @@ public class Response {
 	 * @param mdefender Mythrl player defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
+	 * @return true if successful
 	 */
-	public void defendTrigger(MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean defendTrigger(MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
-		if(effect != null) effect.defendTrigger(this, mattacker, mdefender, dsdefender, dsdefender);
+		if(effect != null) return effect.defendTrigger(this, mattacker, mdefender, dsdefender, dsdefender);
+		return false;
 	 }
 
 	/**
@@ -212,10 +224,12 @@ public class Response {
 	 * @param mdefender creature defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
+	 * @return true if successful
 	 */
-	public void defendTrigger(MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean defendTrigger(MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
-		if(effect != null) effect.defendTrigger(this, mattacker, cdefender, dsdefender, dsdefender);
+		if(effect != null) return effect.defendTrigger(this, mattacker, cdefender, dsdefender, dsdefender);
+		return false;
 	 }
 	
 }

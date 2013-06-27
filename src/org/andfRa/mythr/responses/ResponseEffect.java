@@ -22,19 +22,23 @@ public abstract class ResponseEffect {
 	 * Triggers the response effect.
 	 * 
 	 * @param response response
+	 * @param mplayer Mythr player
 	 * @param dsstats derived stats
+	 * @return true if successful
 	 */
-	public void castTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
-	 { }
+	public boolean castTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	 { return false; }
 	
 	/**
 	 * Called on interact.
 	 * 
 	 * @param response response
+	 * @param mplayer Mythr player
 	 * @param dsstats derived stats
+	 * @return true if successful
 	 */
-	public void interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
-	 { }
+	public boolean interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	 { return false; }
 
 	/**
 	 * Called on attack.
@@ -44,9 +48,10 @@ public abstract class ResponseEffect {
 	 * @param mdefender Mythrl player defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
+	 * @return true if successful
 	 */
-	public void attackTrigger(Response response, MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 { }
+	public boolean attackTrigger(Response response, MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	 { return false; }
 
 	/**
 	 * Called on attack.
@@ -56,9 +61,10 @@ public abstract class ResponseEffect {
 	 * @param mdefender creature defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
+	 * @return true if successful
 	 */
-	public void attackTrigger(Response response, MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 { }
+	public boolean attackTrigger(Response response, MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	 { return false; }
 
 	/**
 	 * Called on defend.
@@ -68,9 +74,10 @@ public abstract class ResponseEffect {
 	 * @param mdefender Mythrl player defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
+	 * @return true if successful
 	 */
-	public void defendTrigger(Response response, MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 { }
+	public boolean defendTrigger(Response response, MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	 { return false; }
 
 	/**
 	 * Called on defend.
@@ -80,8 +87,9 @@ public abstract class ResponseEffect {
 	 * @param mdefender creature defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
+	 * @return true if successful
 	 */
-	public void defendTrigger(Response response, MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 { }
+	public boolean defendTrigger(Response response, MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	 { return false; }
 	
 }

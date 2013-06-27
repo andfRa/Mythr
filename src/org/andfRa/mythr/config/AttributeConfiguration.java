@@ -115,6 +115,20 @@ public class AttributeConfiguration {
 	 */
 	public static Attribute[] getAttributes()
 	 { return config.attributes; }
+
+	/**
+	 * Get an attribute.
+	 * 
+	 * @param name attribute name
+	 * @return attribute, null if none
+	 */
+	public static Attribute getAttribute(String name)
+	 {
+		for (int i = 0; i < config.attributes.length; i++) {
+			if(config.attributes[i].getName().equals(name)) return config.attributes[i];
+		}
+		return null;
+	 }
 	
 	/**
 	 * Gets the attribute count.

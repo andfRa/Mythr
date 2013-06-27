@@ -16,7 +16,21 @@
 	 "name":"shoot fireball",
 	 "effectKey":"SHOOT_FIREBALL_EFFECT",
 	 "parameters":{"CAST_TICKS":25}
+	},
+	
+	# ATTRIBUTE SCROLLS #
+	{
+	 "name":"+5 STR",
+	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"strength", "AMOUNT":5}
+	},
+	
+	{
+	 "name":"+1 STR",
+	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"strength", "AMOUNT":1}
 	}
+	
  ]
 
 }

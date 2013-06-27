@@ -54,9 +54,19 @@ public class AdminCommands {
 		Player player = mplayer.getPlayer();
 		
 		String itemName = args.getString(0);
-		
+
+		// Journal:
+		if(itemName.equalsIgnoreCase("journal")){
+			MythrItem mitem = new MythrItem(Material.BOOK);
+			mitem.setMinDamage(7);
+			mitem.setMaxDamage(10);
+			mitem.setType(ItemType.JOURNAL);
+			ItemStack bitem = mitem.toBukkitItem();
+			player.getInventory().addItem(bitem);
+		}
+
 		// Sword:
-		if(itemName.equalsIgnoreCase("sword")){
+		else if(itemName.equalsIgnoreCase("sword")){
 			MythrItem mitem = new MythrItem(Material.IRON_SWORD);
 			mitem.setMinDamage(7);
 			mitem.setMaxDamage(10);
@@ -64,7 +74,7 @@ public class AdminCommands {
 			ItemStack bitem = mitem.toBukkitItem();
 			player.getInventory().addItem(bitem);
 		}
-		
+
 		// Arcane:
 		else if(itemName.equalsIgnoreCase("arcane")){
 			MythrItem mitem = new MythrItem(Material.BOOK);
@@ -72,6 +82,15 @@ public class AdminCommands {
 			mitem.setMaxDamage(12);
 			mitem.setType(ItemType.ARCANE_SPELL);
 			mitem.setResponse("shoot fireball");
+			ItemStack bitem = mitem.toBukkitItem();
+			player.getInventory().addItem(bitem);
+		}
+
+		// Attribute scroll:
+		else if(itemName.equalsIgnoreCase("attribute")){
+			MythrItem mitem = new MythrItem(Material.PAPER);
+			mitem.setType(ItemType.SCROLL);
+			mitem.setResponse("+1 STR");
 			ItemStack bitem = mitem.toBukkitItem();
 			player.getInventory().addItem(bitem);
 		}

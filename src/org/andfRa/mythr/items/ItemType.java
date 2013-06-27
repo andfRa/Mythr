@@ -1,6 +1,5 @@
 package org.andfRa.mythr.items;
 
-import org.bukkit.ChatColor;
 
 public enum ItemType {
 

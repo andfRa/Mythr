@@ -5,6 +5,7 @@ import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
+import org.andfRa.mythr.items.ScrollManager;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.andfRa.mythr.player.SpellManager;
 import org.andfRa.mythr.responses.Response;
@@ -123,6 +124,30 @@ public class PlayerListener implements Listener {
 				default:
 					break;
 				}
+				
+			}
+			
+			// Scrolls:
+			else if(item.getType() == Material.PAPER){
+
+				mitem = MythrItem.fromBukkitItem(item);
+				
+				switch (mitem.getType()) {
+				case SCROLL:
+					String respName = mitem.getResponse();
+					if(respName == null) break;
+					Response response = ResponseConfiguration.getResponse(respName);
+					if(response == null) break;
+					boolean remove = response.interactTrigger(mplayer, mplayer.getDerived());
+					if(remove) ScrollManager.handleUseScroll(mplayer);
+					
+					break;
+
+				default:
+					break;
+				}
+				
+				
 				
 			}
 			

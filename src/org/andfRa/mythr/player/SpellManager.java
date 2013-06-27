@@ -153,7 +153,7 @@ public class SpellManager implements Runnable {
 		
 		if(mplayer == null || response == null) return;
 		
-		response.trigger(mplayer, mplayer.getDerived());
+		response.castTrigger(mplayer, mplayer.getDerived());
 	 }
 	
 	

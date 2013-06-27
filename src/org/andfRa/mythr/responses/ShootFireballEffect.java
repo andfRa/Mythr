@@ -16,7 +16,7 @@ public class ShootFireballEffect extends ResponseEffect {
 	 { return "SHOOT_FIREBALL_EFFECT"; }
 	
 	@Override
-	public void castTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean castTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
 	 {
 		Player player = mplayer.getPlayer();
 		double speed = 2.0;
@@ -41,15 +41,19 @@ public class ShootFireballEffect extends ResponseEffect {
 		// Effect:
 		Location loc = mplayer.getPlayer().getLocation();
 		loc.getWorld().playSound(loc, Sound.GHAST_FIREBALL, 1.0f, 1.0f);
+		
+		return true;
 	 }
 	
 	@Override
-	public void interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
 	 {
 		Location loc = mplayer.getPlayer().getLocation();
 		loc.getWorld().playSound(loc, Sound.GHAST_FIREBALL, 0.5f, 0.5f);
 		
 		SpellManager.startCast(mplayer, response.getName(), response.getDouble(CAST_TICKS_KEY));
+		
+		return true;
 	 }
 	
 }
