@@ -1,0 +1,63 @@
+{
+
+ # Defines items.
+ #  material      - Base item material. See https://github.com/Bukkit/Bukkit/blob/master/src/main/java/org/bukkit/Material.java
+ #  data          - (Optional) Base item data value.
+ #  name          - Item name. Must be unique.
+ #  description   - (Optional) Item description.
+ #  type          - Item type. See https://github.com/andfRa/Mythr/blob/master/src/org/andfRa/mythr/items/ItemType.java
+ #  effect        - (Optional) Main response (effect).
+ #  responses     - (Optional) Bonus responses.
+ #  dmgMin        - (Optional) Damage minimum value.
+ #  dmgMax        - (Optional) Damage maximum value.
+ #  piercing      - (Optional) Armour penetration percent.
+ #  attackRating  - (Optional) Attack rating.
+ #  defenceRating - (Optional) Defence rating.
+ #  attrReq       - (Optional) Attribute required to equip the item.
+ #  levelReq      - (Optional) Level required to equip the item.
+ #  useableBy     - (Optional) Additional requirements for item equipping.
+"items":
+ [
+	# SWORDS #
+
+	# SPELLS #
+	
+	# ATTRIBUTE SCROLLS #
+	{
+	 "name":"Strength Scroll",
+	 "material":"PAPER",
+	 "type":"SCROLL",
+	 "effect":"+1 STR",
+	},
+
+	{
+	 "name":"Precision Scroll",
+	 "material":"PAPER",
+	 "type":"SCROLL",
+	 "effect":"+1 PRE",
+	},
+
+	{
+	 "name":"Willpower Scroll",
+	 "material":"PAPER",
+	 "type":"SCROLL",
+	 "effect":"+1 WIL",
+	},
+
+	{
+	 "name":"Divinity Scroll",
+	 "material":"PAPER",
+	 "type":"SCROLL",
+	 "effect":"+1 DIV",
+	},
+
+	{
+	 "name":"Constitution Scroll",
+	 "material":"PAPER",
+	 "type":"SCROLL",
+	 "effect":"+1 CON",
+	}
+	
+ ]
+
+}

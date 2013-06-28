@@ -52,9 +52,6 @@ public class MythrItem {
 	/** True if the item failed to parse. */
 	boolean error = false;
 	
-	/** Item name. */
-	private String name = null;
-	
 	/** Material. */
 	private Material material;
 
@@ -62,17 +59,21 @@ public class MythrItem {
 	private byte data = 0;
 	
 
+	/** Item name. */
+	private String name = null;
+	
+	/** Items description. */
+	private ArrayList<String> description = new ArrayList<String>();
+	
 	/** Weapon type. */
 	private ItemType type = ItemType.OTHER;
 
+	
 	/** Response effect. */
 	private String effect = null;
 
 	/** Responses. */
 	private List<String> responses = new ArrayList<String>();
-	
-	/** Items description. */
-	private ArrayList<String> description = new ArrayList<String>();
 	
 	
 	/** Item minimum damage. */
@@ -117,9 +118,19 @@ public class MythrItem {
 	/** Fixes all missing fields. */
 	public void complete()
 	 {
+		if(name == null){
+			MythrLogger.nullField(getClass(), "name");
+			name = "????";
+		}
+
 		if(material == null){
 			MythrLogger.nullField(getClass(), "material");
 			material = Material.AIR;
+		}
+
+		if(type == null){
+			MythrLogger.nullField(getClass(), "type");
+			type = ItemType.OTHER;
 		}
 
 		
@@ -380,13 +391,12 @@ public class MythrItem {
 	
 	// VALUES:
 	/**
-	 * Gets item name.
+	 * Gets item material.
 	 * 
-	 * @return item name
+	 * @return item material
 	 */
-	public String getName()
-	 { return name; }
-	
+	public Material getMaterial()
+	 { return material; }
 
 	/**
 	 * Gets item data.
@@ -395,14 +405,23 @@ public class MythrItem {
 	 */
 	public byte getData()
 	 { return data; }
+
 	
 	/**
-	 * Gets item material.
+	 * Gets item name.
 	 * 
-	 * @return item material
+	 * @return item name
 	 */
-	public Material getMaterial()
-	 { return material; }
+	public String getName()
+	 { return name; }
+	
+	/**
+	 * Gets item description.
+	 * 
+	 * @return item description
+	 */
+	public ArrayList<String> getDescription()
+	 { return description; }
 
 	/**
 	 * Gets item type.
@@ -412,6 +431,7 @@ public class MythrItem {
 	public ItemType getType() 
 	 { return type; }
 
+	
 	/**
 	 * Gets item effect response.
 	 * 
@@ -427,15 +447,8 @@ public class MythrItem {
 	 */
 	public List<String> getResponses()
 	 { return responses; }
-	
-	/**
-	 * Gets item description.
-	 * 
-	 * @return item description
-	 */
-	public ArrayList<String> getDescription()
-	 { return description; }
 
+	
 	/**
 	 * Gets item minimum damage.
 	 * 
@@ -500,17 +513,8 @@ public class MythrItem {
 	 */
 	public String[] getUseableBy()
 	 { return useableBy; }
-	
-	
-	/**
-	 * Sets item name.
-	 * 
-	 * @param name name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
 
+	
 	/**
 	 * Sets the material.
 	 * 
@@ -529,6 +533,25 @@ public class MythrItem {
 		this.data = data;
 	}
 
+	
+	/**
+	 * Sets item name.
+	 * 
+	 * @param name name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * Sets the description.
+	 * 
+	 * @param description the description to set
+	 */
+	public void setDescription(ArrayList<String> description) {
+		this.description = description;
+	}
+	
 	/**
 	 * Sets the type.
 	 * 
@@ -538,6 +561,7 @@ public class MythrItem {
 		this.type = type;
 	}
 
+	
 	/**
 	 * Sets the effect response.
 	 * 
@@ -554,16 +578,8 @@ public class MythrItem {
 	 */
 	public void addResponse(String reponse)
 	 { responses.add(reponse); }
-	
-	/**
-	 * Sets the description.
-	 * 
-	 * @param description the description to set
-	 */
-	public void setDescription(ArrayList<String> description) {
-		this.description = description;
-	}
 
+	
 	/**
 	 * Sets the dmgMin.
 	 * 

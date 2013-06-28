@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.libs.jline.Terminal;
 import org.bukkit.craftbukkit.libs.jline.console.ConsoleReader;
@@ -102,6 +103,7 @@ public class MythrLogger{
 	 * @param msg message
 	 */
 	public static void severe(String msg) {
+		Bukkit.getServer().broadcastMessage(msg); // TODO REMOVE ME
 		instance.logger.severe(instance.format(ChatColor.RED + msg));
 	}
 	
@@ -111,6 +113,7 @@ public class MythrLogger{
 	 * @param msg message
 	 */
 	public static void warning(String msg) {
+		Bukkit.getServer().broadcastMessage(msg); // TODO REMOVE ME
 		instance.logger.warning(instance.format(ChatColor.YELLOW + msg));
 	}
 	
@@ -120,7 +123,7 @@ public class MythrLogger{
 	 * @param msg message
 	 */
 	public static void info(String msg) {
-
+		Bukkit.getServer().broadcastMessage(msg); // TODO REMOVE ME
 		instance.logger.info(instance.format(msg));
 		
 	}

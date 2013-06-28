@@ -1,14 +1,14 @@
 {
 
-# Determines the blocks the player can move until the spell is cancelled.
+ # Determines the blocks the player can move until the spell is cancelled.
 "spellCastRadius":1,
 
  # Definition of responses and their effects. Used by items and perks to determine
  # the resulting effect when triggered.
- # name            - Response name.  Must be unique and consistent throughout the 
- #                   configuration files.
- # effectKey       - An unique key that binds a certain effect to the response.
- # parameters      - (Optional) Determines effect parameters. Effect specific.
+ #  name       - Response name.  Must be unique and consistent throughout the 
+ #              configuration files.
+ #  effectKey  - An unique key that binds a certain effect to the response.
+ #  parameters - (Optional) Determines effect parameters. Effect specific.
 "responses":
  [
 	# ARCANE SPELLS #
@@ -20,15 +20,33 @@
 	
 	# ATTRIBUTE SCROLLS #
 	{
-	 "name":"+5 STR",
-	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
-	 "parameters":{"ATTRIBUTE":"strength", "AMOUNT":5}
-	},
-	
-	{
 	 "name":"+1 STR",
 	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
 	 "parameters":{"ATTRIBUTE":"strength", "AMOUNT":1}
+	},
+	
+	{
+	 "name":"+1 PRE",
+	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"precision", "AMOUNT":1}
+	},
+	
+	{
+	 "name":"+1 WIL",
+	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"willpower", "AMOUNT":1}
+	},
+	
+	{
+	 "name":"+1 DIV",
+	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"divinity", "AMOUNT":1}
+	},
+	
+	{
+	 "name":"+1 CON",
+	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"constitution", "AMOUNT":1}
 	}
 	
  ]
