@@ -12,6 +12,7 @@ public enum Directory {
 	ECONOMY_CONFIG("plugins/Mythr/config/", "economy.json"),
 	CREATURE_CONFIG("plugins/Mythr/config/", "creatures.json"),
 	RESPONSE_CONFIG("plugins/Mythr/config/", "responses.json"),
+	ITEM_CONFIG("plugins/Mythr/config/", "items.json"),
 	
 	PLAYER_DATA("plugins/Mythr/players/", FileIO.NAME_SUBS + ".json"),
 	

@@ -81,7 +81,7 @@ public class AdminCommands {
 			mitem.setMinDamage(6);
 			mitem.setMaxDamage(12);
 			mitem.setType(ItemType.ARCANE_SPELL);
-			mitem.setResponse("shoot fireball");
+			mitem.setEffect("shoot fireball");
 			ItemStack bitem = mitem.toBukkitItem();
 			player.getInventory().addItem(bitem);
 		}
@@ -90,7 +90,7 @@ public class AdminCommands {
 		else if(itemName.equalsIgnoreCase("attribute")){
 			MythrItem mitem = new MythrItem(Material.PAPER);
 			mitem.setType(ItemType.SCROLL);
-			mitem.setResponse("+1 STR");
+			mitem.setEffect("+1 STR");
 			ItemStack bitem = mitem.toBukkitItem();
 			player.getInventory().addItem(bitem);
 		}

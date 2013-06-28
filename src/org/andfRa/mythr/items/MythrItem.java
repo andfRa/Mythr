@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.LocalisationConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
@@ -26,14 +27,14 @@ public class MythrItem {
 	/** Base damage indicator. */
 	public final static char ITEM_TYPE_INDICATOR = '\u2475';
 
+	/** Effect response indicator. */
+	public final static char EFFECT_RESPONSE_INDICATOR = '\u2476';
+
 	/** Response indicator. */
-	public final static char RESPONSE_INDICATOR = '\u2476';
+	public final static char RESPONSE_INDICATOR = '\u2477';
 
 	/** Attribute requirements indicator. */
-	public final static char ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR = '\u2477';
-
-	/** Attribute modifiers indicator. */
-	public final static char ATTRIBUTE_MODIFIERS_INDICATOR = '\u2478';
+	public final static char ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR = '\u2478';
 
 	/** Piercing percent indicator. */
 	public final static char PIERCING_PERCENT_INDICATOR = '\u2479';
@@ -65,10 +66,14 @@ public class MythrItem {
 	private ItemType type = ItemType.OTHER;
 
 	/** Response effect. */
-	private String response = null;
+	private String effect = null;
+
+	/** Responses. */
+	private List<String> responses = new ArrayList<String>();
 	
 	/** Items description. */
 	private ArrayList<String> description = new ArrayList<String>();
+	
 	
 	/** Item minimum damage. */
 	private int dmgMin = 0;
@@ -90,9 +95,6 @@ public class MythrItem {
 
 	/** Required level. */
 	private int levelReq = 0;
-
-	/** Attribute modifiers. */
-	private int[] attrMod = new int[AttributeConfiguration.getAttrCount()];
 	
 	/** Usable by. */
 	private String[] useableBy = new String[0];
@@ -110,6 +112,18 @@ public class MythrItem {
 	public MythrItem(Material mat)
 	 {
 		this.material = mat;
+	 }
+	
+	/** Fixes all missing fields. */
+	public void complete()
+	 {
+		if(material == null){
+			MythrLogger.nullField(getClass(), "material");
+			material = Material.AIR;
+		}
+
+		
+		
 	 }
 	
 	
@@ -192,17 +206,27 @@ public class MythrItem {
 				}
 				
 				break;
-			
-			// Response:
-			case RESPONSE_INDICATOR:
+
+			// Effect:
+			case EFFECT_RESPONSE_INDICATOR:
 
 				pattern = Pattern.compile("(?<=: ).+");
 				matcher = pattern.matcher(line);
-				if(matcher.find()) mitem.response = matcher.group();
+				if(matcher.find()) mitem.effect = matcher.group();
 				else mitem.error = true;
 				
 				break;
 
+			// Responses:
+			case RESPONSE_INDICATOR:
+
+				pattern = Pattern.compile("(?<=" + RESPONSE_INDICATOR +").+");
+				matcher = pattern.matcher(line);
+				if(matcher.find()) mitem.responses.add(matcher.group());
+				else mitem.error = true;
+				
+				break;
+					
 			// Attributes:
 			case ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR:	
 				
@@ -218,17 +242,6 @@ public class MythrItem {
 				if(matcher.find()) mitem.levelReq = Integer.parseInt(matcher.group());
 				else mitem.error = true;	
 				
-				break;
-
-			case ATTRIBUTE_MODIFIERS_INDICATOR:	
-				
-				for (int i = 0; i < abrevs.length; i++) {
-					pattern = Pattern.compile("(?<=" + abrevs[i] + " )\\d+");
-					matcher = pattern.matcher(line);
-					if(matcher.find()) mitem.attrMod[i] = Integer.parseInt(matcher.group());
-					else mitem.error = true;
-				}
-					
 				break;
 
 			case PIERCING_PERCENT_INDICATOR:	
@@ -316,9 +329,14 @@ public class MythrItem {
 			// Type:
 			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
 
-			// Response:
-			if(response != null)
-			lore.add("" + ChatColor.COLOR_CHAR + RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + response);
+			// Effect:
+			if(effect != null)
+			lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
+			
+			// Responses:
+			for (String response : responses) {
+				lore.add("" + ChatColor.COLOR_CHAR + RESPONSE_INDICATOR + statsCol + response);
+			}
 			
 			// Piercing:
 			lore.add("" + ChatColor.COLOR_CHAR + PIERCING_PERCENT_INDICATOR + statsCol + LocalisationConfiguration.getString("Piercing:") + " " + (int)(piercing*100) + "%");
@@ -395,12 +413,20 @@ public class MythrItem {
 	 { return type; }
 
 	/**
-	 * Gets response.
+	 * Gets item effect response.
 	 * 
-	 * @return response, null if none
+	 * @return effect
 	 */
-	public String getResponse()
-	 { return response; }
+	public String getEffect()
+	 { return effect; }
+	
+	/**
+	 * Gets responses.
+	 * 
+	 * @return responses
+	 */
+	public List<String> getResponses()
+	 { return responses; }
 	
 	/**
 	 * Gets item description.
@@ -468,14 +494,6 @@ public class MythrItem {
 	 { return levelReq; }
 
 	/**
-	 * Gets item attribute modifiers.
-	 * 
-	 * @return attribute modifiers
-	 */
-	public int[] getAttrMod()
-	 { return attrMod; }
-
-	/**
 	 * Gets the useableBy.
 	 * 
 	 * @return the useableBy
@@ -521,13 +539,21 @@ public class MythrItem {
 	}
 
 	/**
-	 * Sets the response.
+	 * Sets the effect response.
 	 * 
-	 * @param response the response of the item
+	 * @param effect the effect of the item
 	 */
-	public void setResponse(String response) {
-		this.response = response;
+	public void setEffect(String effect) {
+		this.effect = effect;
 	}
+	
+	/**
+	 * Adds a response.
+	 * 
+	 * @param reponse response
+	 */
+	public void addResponse(String reponse)
+	 { responses.add(reponse); }
 	
 	/**
 	 * Sets the description.
@@ -602,15 +628,6 @@ public class MythrItem {
 	}
 
 	/**
-	 * Sets the attrMod.
-	 * 
-	 * @param attrMod the attrMod to set
-	 */
-	public void setAttrMod(int[] attrMod) {
-		this.attrMod = attrMod;
-	}
-
-	/**
 	 * Sets the useableBy.
 	 * 
 	 * @param useableBy the useableBy to set
@@ -642,15 +659,6 @@ public class MythrItem {
 		result.append("damage=" + dmgMin + "-" + dmgMax);
 		result.append(", ");
 		
-		result.append(", ");
-		
-		result.append("attrMod=[");
-		 for (int i = 0; i < attrMod.length; i++) {
-			if(i!=0) result.append(",");
-			result.append(attrMod[i]);
-		 }
-		 result.append("]");
-		 
 		result.append(", ");
 		
 		result.append("piercing=" + piercing);

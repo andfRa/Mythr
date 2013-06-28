@@ -106,7 +106,7 @@ public class PlayerListener implements Listener {
 				switch (mitem.getType()) {
 				case ARCANE_SPELL:
 				case CURSE_SPELL:
-					String respName = mitem.getResponse();
+					String respName = mitem.getEffect();
 					if(respName == null) break;
 					Response response = ResponseConfiguration.getResponse(respName);
 					if(response == null) break;
@@ -134,7 +134,7 @@ public class PlayerListener implements Listener {
 				
 				switch (mitem.getType()) {
 				case SCROLL:
-					String respName = mitem.getResponse();
+					String respName = mitem.getEffect();
 					if(respName == null) break;
 					Response response = ResponseConfiguration.getResponse(respName);
 					if(response == null) break;
