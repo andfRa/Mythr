@@ -27,35 +27,42 @@
 	 "name":"Strength Scroll",
 	 "material":"PAPER",
 	 "type":"SCROLL",
-	 "effect":"+1 STR",
+	 "effect":"+1 STR"
 	},
 
 	{
 	 "name":"Precision Scroll",
 	 "material":"PAPER",
 	 "type":"SCROLL",
-	 "effect":"+1 PRE",
+	 "effect":"+1 PRE"
 	},
 
 	{
 	 "name":"Willpower Scroll",
 	 "material":"PAPER",
 	 "type":"SCROLL",
-	 "effect":"+1 WIL",
+	 "effect":"+1 WIL"
 	},
 
 	{
 	 "name":"Divinity Scroll",
 	 "material":"PAPER",
 	 "type":"SCROLL",
-	 "effect":"+1 DIV",
+	 "effect":"+1 DIV"
 	},
 
 	{
 	 "name":"Constitution Scroll",
 	 "material":"PAPER",
 	 "type":"SCROLL",
-	 "effect":"+1 CON",
+	 "effect":"+1 CON"
+	},
+	
+	# OTHER #
+	{
+	 "name":"Journal",
+	 "material":"BOOK",
+	 "type":"JOURNAL"
 	}
 	
  ]

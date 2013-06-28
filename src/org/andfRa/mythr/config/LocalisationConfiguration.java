@@ -55,7 +55,13 @@ public class LocalisationConfiguration {
 	//ITEMS:
 	/** Command message. */
 	public final static String ITEM_DOESNT_EXIST = "Item " + VALUE_INDICATOR + " doesn't exist.";
-	
+
+	/** Command message. */
+	public final static String ITEM_SPAWNED = "Item " + VALUE_INDICATOR + " spawned.";
+
+	/** Command message. */
+	public final static String ITEM_SPAWNED_OTHER = "Spawned item " + VALUE_INDICATOR + " for player " + VALUE_INDICATOR + ".";
+
 	
 	public static String getString(String message)
 	 {

@@ -2,18 +2,16 @@ package org.andfRa.mythr.commands;
 
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.ItemConfiguration;
 import org.andfRa.mythr.config.LocalisationConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.dependencies.EffectDependancy;
 import org.andfRa.mythr.dependencies.particles.ParticleEffect;
-import org.andfRa.mythr.items.ItemType;
 import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.sk89q.Command;
 import org.sk89q.CommandContext;
 import org.sk89q.CommandPermissions;
@@ -41,67 +39,72 @@ public class AdminCommands {
 	
 	@SuppressWarnings("deprecation")
 	@Command(
-	 aliases = {"aitem"},
-	 usage = "<item_name>",
+	 aliases = {"aspawnitem","aitem"},
+	 usage = "[player_name] <item_name>",
 	 flags = "",
-	 desc = "Create a test item.",
+	 desc = "Spawn an item.",
 	 min = 1,
-	 max = 1
+	 max = 2
 	)
-	@CommandPermissions({"mythr.admin.test"})
-	public static void testItem(CommandContext args, MythrPlayer mplayer) {
-
-		Player player = mplayer.getPlayer();
+	@CommandPermissions({"mythr.admin.items.spawn"})
+	public static void testItem(CommandContext args, MythrPlayer mplayer)
+	 {
+		String argTarget;
+		String argItem;
 		
-		String itemName = args.getString(0);
+		MythrPlayer mtarget;
+		MythrItem mitem;
 
-		// Journal:
-		if(itemName.equalsIgnoreCase("journal")){
-			MythrItem mitem = new MythrItem(Material.BOOK);
-			mitem.setMinDamage(7);
-			mitem.setMaxDamage(10);
-			mitem.setType(ItemType.JOURNAL);
-			ItemStack bitem = mitem.toBukkitItem();
-			player.getInventory().addItem(bitem);
+		switch (args.argsLength()) {
+		case 2:
+			
+			// Player:
+			argTarget = args.getString(0);
+			mtarget = Mythr.plugin().getLoadedPlayer(argTarget);
+			if(mtarget == null){
+				mplayer.negative(LocalisationConfiguration.getString(LocalisationConfiguration.PLAYER_NOT_ONLINE, argTarget));
+				return;
+			}
+			
+			// Item:
+			argItem = LocalisationConfiguration.handleArg(args.getString(1));
+			mitem = ItemConfiguration.matchItem(argItem);
+			if(mitem == null){
+				mplayer.negative(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_DOESNT_EXIST, argItem));
+				return;
+			}
+			
+			break;
+
+		default:
+			
+			// Player:
+			mtarget = mplayer;
+
+			// Item:
+			argItem = LocalisationConfiguration.handleArg(args.getString(0));
+			mitem = ItemConfiguration.matchItem(argItem);
+			if(mitem == null){
+				mplayer.negative(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_DOESNT_EXIST, argItem));
+				return;
+			}
+			
+			break;
 		}
 
-		// Sword:
-		else if(itemName.equalsIgnoreCase("sword")){
-			MythrItem mitem = new MythrItem(Material.IRON_SWORD);
-			mitem.setMinDamage(7);
-			mitem.setMaxDamage(10);
-			mitem.setType(ItemType.MELEE_WEAPON);
-			ItemStack bitem = mitem.toBukkitItem();
-			player.getInventory().addItem(bitem);
-		}
-
-		// Arcane:
-		else if(itemName.equalsIgnoreCase("arcane")){
-			MythrItem mitem = new MythrItem(Material.BOOK);
-			mitem.setMinDamage(6);
-			mitem.setMaxDamage(12);
-			mitem.setType(ItemType.ARCANE_SPELL);
-			mitem.setEffect("shoot fireball");
-			ItemStack bitem = mitem.toBukkitItem();
-			player.getInventory().addItem(bitem);
-		}
-
-		// Attribute scroll:
-		else if(itemName.equalsIgnoreCase("attribute")){
-			MythrItem mitem = new MythrItem(Material.PAPER);
-			mitem.setType(ItemType.SCROLL);
-			mitem.setEffect("+1 STR");
-			ItemStack bitem = mitem.toBukkitItem();
-			player.getInventory().addItem(bitem);
-		}
-		
-		else{
-			mplayer.negative(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_DOESNT_EXIST, itemName));
-		}
-		
+		// Add item:
+		Player player = mtarget.getPlayer();
+		player.getInventory().addItem(mitem.toBukkitItem());
 		player.updateInventory();
-		
-	}
+	
+		// Report:
+		if(mplayer == mtarget){
+			mtarget.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED, argItem));
+		}else{
+			mtarget.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED, argItem));
+			mplayer.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED_OTHER, argItem, mtarget.getName()));
+		}
+	 }
 	
 	@Command(
 	 aliases = {"asetattribute","asetattr"},

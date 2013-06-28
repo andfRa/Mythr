@@ -35,6 +35,7 @@ public class ItemConfiguration {
 		}
 		
 		// Transient:
+		itemMap = new HashMap<String, MythrItem>();
 		for (int i = 0; i < items.length; i++) {
 			if(itemMap.put(items[i].getName(), items[i]) != null) MythrLogger.warning(getClass(), "Found item " + items[i] + " with a duplicate name.");
 		}
@@ -52,6 +53,27 @@ public class ItemConfiguration {
 	public static MythrItem getItem(String name) {
 		return config.itemMap.get(name);
 	}
+	
+	/**
+	 * Matches and item.
+	 * 
+	 * @param name name to match to
+	 * @return Mythrl item, null if none
+	 */
+	public static MythrItem matchItem(String name)
+	 {
+		// Full match:
+		for (int i = 0; i < config.items.length; i++) {
+			if(config.items[i].getName().equalsIgnoreCase(name)) return config.items[i];
+		}
+
+		// Starts with match:
+		for (int i = 0; i < config.items.length; i++) {
+			if(config.items[i].getName().toLowerCase().startsWith(name.toLowerCase())) return config.items[i];
+		}
+		
+		return null;
+	 }
 	
 	public static ChatColor getDamageColour(){
 		return ChatColor.GRAY;

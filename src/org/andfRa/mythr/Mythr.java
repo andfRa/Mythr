@@ -8,6 +8,7 @@ import org.andfRa.mythr.commands.AdminCommands;
 import org.andfRa.mythr.commands.StatsCommands;
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.CreatureConfiguration;
+import org.andfRa.mythr.config.ItemConfiguration;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.dependencies.PermissionsDependency;
@@ -71,11 +72,12 @@ public class Mythr extends JavaPlugin{
 		PermissionsDependency.disable();
 
 		// Configuration:
+		ItemConfiguration.load();
 		ResponseConfiguration.unload();
 		CreatureConfiguration.unload();
 		SkillConfiguration.unload();
 		AttributeConfiguration.load();
-
+		
 		// Instances:
 		Mythr.plugin = null;
 
@@ -108,7 +110,8 @@ public class Mythr extends JavaPlugin{
 		SkillConfiguration.load();
 		CreatureConfiguration.load();
 		ResponseConfiguration.load();
-
+		ItemConfiguration.load();
+		
 		// Dependencies:
 		PermissionsDependency.enable();
 		
