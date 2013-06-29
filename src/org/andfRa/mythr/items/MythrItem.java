@@ -1,7 +1,10 @@
 package org.andfRa.mythr.items;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +12,7 @@ import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.LocalisationConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
+import org.andfRa.mythr.player.Attribute;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,17 +40,14 @@ public class MythrItem {
 	/** Attribute requirements indicator. */
 	public final static char ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR = '\u2478';
 
-	/** Piercing percent indicator. */
-	public final static char PIERCING_PERCENT_INDICATOR = '\u2479';
-
 	/** Attack rating indicator. */
-	public final static char ATTACK_RATING_INDICATOR = '\u247A';
+	public final static char ATTACK_RATING_INDICATOR = '\u2479';
 
 	/** Defence rating indicator. */
-	public final static char DEFENCE_RATING_INDICATOR = '\u247B';
+	public final static char DEFENCE_RATING_INDICATOR = '\u247A';
 
 	/** Perk indicator. */
-	public final static char USABLE_BY_INDICATOR = '\u247C';
+	public final static char USABLE_BY_INDICATOR = '\u247B';
 	
 	
 	/** True if the item failed to parse. */
@@ -77,13 +78,10 @@ public class MythrItem {
 	
 	
 	/** Item minimum damage. */
-	private int dmgMin = 0;
+	private int damageMin = 0;
 
 	/** Item maximum damage. */
-	private int dmgMax = 0;
-
-	/** Piercing percent. */
-	private double piercing = 0.0;
+	private int damageMax = 0;
 
 	/** Attack rating. */
 	private int attackRating = 1;
@@ -92,7 +90,7 @@ public class MythrItem {
 	private int defenceRating = 0;
 
 	/** Attribute requirements. */
-	private int[] attrReq = new int[AttributeConfiguration.getAttrCount()];
+	private HashMap<String, Integer> attrReq = new HashMap<String, Integer>();
 
 	/** Required level. */
 	private int levelReq = 0;
@@ -155,8 +153,8 @@ public class MythrItem {
 		// Meta:
 		if(!bitem.hasItemMeta()){
 			int baseDmg = VanillaConfiguration.getBaseDamage(bitem);
-			mitem.dmgMin = baseDmg;
-			mitem.dmgMax = baseDmg;
+			mitem.damageMin = baseDmg;
+			mitem.damageMax = baseDmg;
 			mitem.type = matchType(mitem.material);
 			return mitem;
 		}
@@ -196,13 +194,13 @@ public class MythrItem {
 				pattern = Pattern.compile("(?<= )\\d+(?= - \\d)");
 				matcher = pattern.matcher(line);
 				
-				if(matcher.find()) mitem.dmgMin = Integer.parseInt(matcher.group());
+				if(matcher.find()) mitem.damageMin = Integer.parseInt(matcher.group());
 				else mitem.error = true;
 
 				pattern = Pattern.compile("(?<=\\d+ - )\\d+");
 				matcher = pattern.matcher(line);
 					
-				if(matcher.find()) mitem.dmgMax = Integer.parseInt(matcher.group());
+				if(matcher.find()) mitem.damageMax = Integer.parseInt(matcher.group());
 				else mitem.error = true;
 					
 				break;
@@ -244,7 +242,7 @@ public class MythrItem {
 				for (int i = 0; i < abrevs.length; i++) {
 					pattern = Pattern.compile("(?<=" + abrevs[i] + " )\\d+");
 					matcher = pattern.matcher(line);
-					if(matcher.find()) mitem.attrReq[i] = Integer.parseInt(matcher.group());
+					if(matcher.find()) mitem.attrReq.put(abrevs[i], Integer.parseInt(matcher.group()));
 					else mitem.error = true;
 				}
 				
@@ -255,15 +253,6 @@ public class MythrItem {
 				
 				break;
 
-			case PIERCING_PERCENT_INDICATOR:	
-				
-				pattern = Pattern.compile("(?<=: )\\d+(?=%)");
-				matcher = pattern.matcher(line);
-				if(matcher.find()) mitem.piercing = 0.01 * Integer.parseInt(matcher.group());
-				else mitem.error = true;
-					
-				break;
-			
 			case ATTACK_RATING_INDICATOR:	
 				
 				pattern = Pattern.compile("(?<=: )\\d+(?=)");
@@ -335,7 +324,7 @@ public class MythrItem {
 		default:
 			
 			// Base damage:
-			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getString("Damage:") + " " + dmgMin + " - " + dmgMax);
+			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getString("Damage:") + " " + damageMin + " - " + damageMax);
 
 			// Type:
 			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
@@ -349,19 +338,17 @@ public class MythrItem {
 				lore.add("" + ChatColor.COLOR_CHAR + RESPONSE_INDICATOR + statsCol + response);
 			}
 			
-			// Piercing:
-			lore.add("" + ChatColor.COLOR_CHAR + PIERCING_PERCENT_INDICATOR + statsCol + LocalisationConfiguration.getString("Piercing:") + " " + (int)(piercing*100) + "%");
-
 			// Chance to hit:
 			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getString("Attack rating:") + " " + attackRating);
 
 			// Requires:
 			StringBuffer strb = new StringBuffer();
 			 String[] attrAbbrev = AttributeConfiguration.getAttrAbbreviations();
-			 for (int i = 0; i < attrReq.length; i++) {
-				if(attrReq[i] == 0) continue;
+			 for (int i = 0; i < attrAbbrev.length; i++) {
+				Integer req = attrReq.get(attrAbbrev[i]);  
+				if(req == null) continue;
 				if(strb.length() != 0) strb.append(", ");
-				strb.append(attrAbbrev[i] + " " + attrReq[i]);
+				strb.append(attrAbbrev[i] + " " + req);
 			 }
 			 if(levelReq != 0){
 				if(strb.length() != 0) strb.append(", ");
@@ -454,24 +441,16 @@ public class MythrItem {
 	 * 
 	 * @return minimum damage
 	 */
-	public int getDmgMin()
-	 { return dmgMin; }
+	public int getDamageMin()
+	 { return damageMin; }
 
 	/**
 	 * Gets item maximum damage.
 	 * 
 	 * @return maximum damage
 	 */
-	public int getDmgMax()
-	 { return dmgMax; }
-	
-	/**
-	 * Gets item piercing.
-	 * 
-	 * @return item piercing
-	 */
-	public double getPiercing() 
-	 { return piercing; }
+	public int getDamageMax()
+	 { return damageMax; }
 	
 	/**
 	 * Gets item attack rating.
@@ -490,13 +469,19 @@ public class MythrItem {
 	 { return defenceRating; }
 
 	/**
-	 * Gets the attribute requirements.
+	 * Gets the attribute requirement.
 	 * 
-	 * @return attribute requirments
+	 * @param attrName attribute name
+	 * @return required score
 	 */
-	public int[] getAttrReq() {
-		return attrReq;
-	}
+	public Integer getAttrReq(String attrName)
+	 {
+		Attribute attribute = AttributeConfiguration.getAttribute(attrName);
+		if(attribute == null) return 0;
+		Integer req = attrReq.get(attribute.getName());
+		if(req == null) return 0;
+		return req;
+	 }
 
 	/**
 	 * Gets the level requirement.
@@ -581,40 +566,35 @@ public class MythrItem {
 
 	
 	/**
-	 * Sets the dmgMin.
+	 * Sets the damageMin.
 	 * 
-	 * @param dmgMin the dmgMin to set
+	 * @param damageMin the damageMin to set
 	 */
-	public void setMinDamage(int dmgMin) {
-		this.dmgMin = dmgMin;
+	public void setMinDamage(int damageMin) {
+		this.damageMin = damageMin;
 	}
 
 	/**
-	 * Sets the dmgMax.
+	 * Sets the damageMax.
 	 * 
-	 * @param dmgMax the dmgMax to set
+	 * @param damageMax the damageMax to set
 	 */
-	public void setMaxDamage(int dmgMax) {
-		this.dmgMax = dmgMax;
+	public void setMaxDamage(int damageMax) {
+		this.damageMax = damageMax;
 	}
 
 	/**
-	 * Sets the piercing.
+	 * Sets attribute score.
 	 * 
-	 * @param piercing the piercing to set
+	 * @param attrName attribute name
+	 * @param attrScore attribute score
 	 */
-	public void setPiercing(double piercing) {
-		this.piercing = piercing;
-	}
-
-	/**
-	 * Sets the attrReq.
-	 * 
-	 * @param attrReq the attrReq to set
-	 */
-	public void setAttrReq(int[] attrReq) {
-		this.attrReq = attrReq;
-	}
+	public void setAttrReq(String attrName, Integer attrScore)
+	 {
+		String attrAbbrev = AttributeConfiguration.matchAbbreviation(attrName);
+		if(attrAbbrev == null) return;
+		this.attrReq.put(attrAbbrev, attrScore);
+	 }
 
 	/**
 	 * Sets the levelReq.
@@ -672,15 +652,11 @@ public class MythrItem {
 		
 		result.append(", ");
 		
-		result.append("damage=" + dmgMin + "-" + dmgMax);
+		result.append("damage=" + damageMin + "-" + damageMax);
 		result.append(", ");
 		
 		result.append(", ");
 		
-		result.append("piercing=" + piercing);
-			 
-		result.append(", ");
-
 		result.append("attackRating=" + attackRating);
 		
 		result.append(", ");
@@ -689,12 +665,17 @@ public class MythrItem {
 
 		result.append(", ");
 		
-		result.append("attrReq=[");
-		 for (int i = 0; i < attrReq.length; i++) {
-			if(i!=0) result.append(",");
-			result.append(attrReq[i]);
+		result.append("attrReq={");
+		 Set<Entry<String, Integer>> reqs = attrReq.entrySet();
+		 boolean first = true;
+		 for (Entry<String, Integer> req : reqs) {
+			if(first){
+				result.append(",");
+				first = false;
+			}
+			result.append(req.getKey() + ":" + req.getValue());
 		 }
-		 result.append("]");
+		result.append("}");
 		
 		result.append(", ");
 		

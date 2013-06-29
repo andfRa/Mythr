@@ -8,8 +8,8 @@
  #  type          - Item type. See https://github.com/andfRa/Mythr/blob/master/src/org/andfRa/mythr/items/ItemType.java
  #  effect        - (Optional) Main response (effect).
  #  responses     - (Optional) Bonus responses.
- #  dmgMin        - (Optional) Damage minimum value.
- #  dmgMax        - (Optional) Damage maximum value.
+ #  damageMin        - (Optional) Damage minimum value.
+ #  damageMax        - (Optional) Damage maximum value.
  #  piercing      - (Optional) Armour penetration percent.
  #  attackRating  - (Optional) Attack rating.
  #  defenceRating - (Optional) Defence rating.
@@ -19,7 +19,56 @@
 "items":
  [
 	# SWORDS #
-
+	{
+	 "name":"Shortsword",
+	 "material":"IRON_SWORD",
+	 "damageMin":6,
+	 "damageMax":8,
+	 "attackRating":6,
+	 "type":"MELEE_WEAPON",
+	 "attrReq":{"STR":6}
+	},
+	
+	{
+	 "name":"Broadsword",
+	 "material":"IRON_SWORD",
+	 "damageMin":8,
+	 "damageMax":10,
+	 "attackRating":10,
+	 "type":"MELEE_WEAPON",
+	 "attrReq":{"STR":8}
+	},
+	
+	{
+	 "name":"Longsword",
+	 "material":"IRON_SWORD",
+	 "damageMin":10,
+	 "damageMax":13,
+	 "attackRating":14,
+	 "type":"MELEE_WEAPON",
+	 "attrReq":{"STR":11}
+	},
+	
+	{
+	 "name":"Bastard Sword",
+	 "material":"IRON_SWORD",
+	 "damageMin":12,
+	 "damageMax":15,
+	 "attackRating":18,
+	 "type":"MELEE_WEAPON",
+	 "attrReq":{"STR":13}
+	},
+	
+	{
+	 "name":"Greatsword",
+	 "material":"IRON_SWORD",
+	 "damageMin":14,
+	 "damageMax":18,
+	 "attackRating":24,
+	 "type":"MELEE_WEAPON",
+	 "attrReq":{"STR":16}
+	},
+	
 	# SPELLS #
 	
 	# ATTRIBUTE SCROLLS #

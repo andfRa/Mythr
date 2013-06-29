@@ -129,6 +129,21 @@ public class AttributeConfiguration {
 		}
 		return null;
 	 }
+
+	/**
+	 * Matches attribute abbreviation.
+	 * 
+	 * @param name attribute name
+	 * @return attribute abbreviation, null if not found
+	 */
+	public static String matchAbbreviation(String name)
+	 {
+		for (int i = 0; i < config.attributes.length; i++) {
+			if(config.attributes[i].getName().equals(name)) return config.attributes[i].getAbbrev();
+		}
+		return null;
+	 }
+
 	
 	/**
 	 * Gets the attribute count.

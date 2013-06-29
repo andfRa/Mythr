@@ -141,8 +141,8 @@ public abstract class DerivedStats {
 				break;
 			}
 			
-			minBaseDmg = mitem.getDmgMin();
-			maxBaseDmg = mitem.getDmgMax();
+			minBaseDmg = mitem.getDamageMin();
+			maxBaseDmg = mitem.getDamageMax();
 			
 		}
 		// No weapon item:
