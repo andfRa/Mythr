@@ -104,11 +104,11 @@ public class MythrPlayer {
 	public void wrapPlayer(Player player)
 	 {
 		this.player = player;
-		
-		updateWeapon();
-		updateArmour();
+
 		updateAttribs();
 		updateSkills();
+		updateWeapon();
+		updateArmour();
 	 }
 	
 	/**
@@ -300,13 +300,13 @@ public class MythrPlayer {
 	/** Updates derived statistics attributes. */
 	public void updateAttribs()
 	 {
-		derived.updateAttribs();
+		derived.updateAttribs(player);
 	 }
 
 	/** Updates derived statistics skills. */
 	public void updateSkills()
 	 {
-		derived.updateSkills();
+		derived.updateSkills(player);
 	 }
 	
 	

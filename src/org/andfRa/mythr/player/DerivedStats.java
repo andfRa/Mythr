@@ -89,23 +89,11 @@ public abstract class DerivedStats {
 
 
 	/** Players raw attributes. */
-	private int[] attributes;
-
-	/** Weapon attribute bonuses. */
-	private int[] weaponAttribs;
-
-	/** Armour attribute bonuses. */
-	private int[] armourAttribs;
+	private int[] attributes = new int[AttributeConfiguration.getAttribCount()];
 
 	/** Players raw attributes. */
-	private int[] skills;
+	private int[] skills = new int[SkillConfiguration.getSkillCount()];
 
-	/** Weapon skill bonuses. */
-	private int[] weaponSkills;
-
-	/** Armour skill bonuses. */
-	private int[] armourSkills;
-	
 	
 	// CONSTRUCTION:
 	/**
@@ -161,9 +149,6 @@ public abstract class DerivedStats {
 			
 			minBaseDmg = mitem.getDamageMin();
 			maxBaseDmg = mitem.getDamageMax();
-		
-			// TODO: Weapon attribute bonus.
-			// TODO: Weapon skill bonus.
 		}
 		// No weapon item:
 		else{
@@ -207,9 +192,6 @@ public abstract class DerivedStats {
 		magicAR = 1;
 		curseAR = 1;
 		blessingAR = 1;
-		
-		weaponAttribs = new int[AttributeConfiguration.getAttrCount()];
-		weaponSkills = new int[SkillConfiguration.getSkillCount()];
 	 }
 
 	/**
@@ -278,9 +260,6 @@ public abstract class DerivedStats {
 			default:
 				break;
 			}
-			
-			// TODO: Helmet attribute bonus.
-			// TODO: Helmet skill bonus.
 		}
 		
 		// Chestplate:
@@ -473,36 +452,43 @@ public abstract class DerivedStats {
 		lightDR = 0;
 		heavyDR = 0;
 		exoticDR = 0;
-		
-		weaponAttribs = new int[AttributeConfiguration.getAttrCount()];
-		weaponSkills = new int[SkillConfiguration.getSkillCount()];
 	 }
 	
 	
 	/**
 	 * Updates player attributes.
 	 * 
+	 * @param lentity living entity
 	 */
-	public void updateAttribs()
+	public void updateAttribs(LivingEntity lentity)
 	 {
+		attributes = new int[AttributeConfiguration.getAttribCount()];
+		
 		String[] attribNames = AttributeConfiguration.getAttrNames();
 		
 		for (int i = 0; i < attribNames.length; i++) {
 			attributes[i] = getRawAttribScore(attribNames[i]);
 		}
+		
+		// TODO: Skill bonus from responses.
 	 }
 
 	/**
 	 * Updates player skills.
 	 * 
+	 * @param lentity living entity
 	 */
-	public void updateSkills()
+	public void updateSkills(LivingEntity lentity)
 	 {
+		skills = new int[SkillConfiguration.getSkillCount()];
+		
 		String[] skillNames = SkillConfiguration.getSkillNames();
 		
 		for (int i = 0; i < skillNames.length; i++) {
 			skills[i] = getRawSkillScore(skillNames[i]);
 		}
+		
+		// TODO: Skill bonus from responses.
 	 }
 	
 	
@@ -560,7 +546,7 @@ public abstract class DerivedStats {
 	 */
 	public int getAttribScore(int index)
 	 {
-		return attributes[index] + weaponAttribs[index] + armourAttribs[index];
+		return attributes[index];
 	 }
 
 	/**
@@ -572,7 +558,7 @@ public abstract class DerivedStats {
 	 */
 	public int getSkillScore(int index)
 	 {
-		return skills[index] + weaponSkills[index] + armourSkills[index];
+		return skills[index];
 	 }
 	
 	

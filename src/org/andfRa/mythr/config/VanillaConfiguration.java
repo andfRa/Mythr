@@ -185,7 +185,7 @@ public class VanillaConfiguration {
 	 * @param lentity living entity
 	 * @return true if can't be damaged
 	 */
-	public static boolean checkAttackTicks(LivingEntity lentity)
+	public static boolean checkNoDamageTicks(LivingEntity lentity)
 	{
 		return lentity.getNoDamageTicks() > lentity.getMaximumNoDamageTicks()/2F;
 	 }

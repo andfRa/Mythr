@@ -44,9 +44,9 @@ public class EntityListener implements Listener {
 		if(!(defender instanceof LivingEntity)) return;
 		
 		// Check ticks:
-		LivingEntity lattacker = (LivingEntity) attacker;
-		if(!VanillaConfiguration.checkAttackTicks(lattacker)){
-			//event.setCancelled(true); // Just in case!
+		final LivingEntity ldefender = (LivingEntity) defender;
+		if(VanillaConfiguration.checkNoDamageTicks(ldefender)){
+			event.setCancelled(true); // Just in case!
 			return;
 		}
 		
@@ -82,6 +82,7 @@ public class EntityListener implements Listener {
 		}
 		// Other:
 		else{
+			System.out.println("OTHER");
 			return;
 		}
 		
@@ -113,7 +114,6 @@ public class EntityListener implements Listener {
 		}
 
 		// Prepare:
-		final LivingEntity ldefender = (LivingEntity) defender;
 		final int harm = damage;
 		
 		// Not on my watch:

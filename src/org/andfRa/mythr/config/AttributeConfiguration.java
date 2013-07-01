@@ -150,7 +150,7 @@ public class AttributeConfiguration {
 	 * 
 	 * @return attribute count
 	 */
-	public static int getAttrCount()
+	public static int getAttribCount()
 	 {
 		return config.attributes.length;
 	 }

@@ -47,7 +47,7 @@ public class AdminCommands {
 	 max = 2
 	)
 	@CommandPermissions({"mythr.admin.items.spawn"})
-	public static void testItem(CommandContext args, MythrPlayer mplayer)
+	public static void spawnItem(CommandContext args, MythrPlayer mplayer)
 	 {
 		String argTarget;
 		String argItem;
@@ -92,17 +92,20 @@ public class AdminCommands {
 			break;
 		}
 
+		// Name:
+		String itemName = mitem.getName();
+		
 		// Add item:
 		Player player = mtarget.getPlayer();
 		player.getInventory().addItem(mitem.toBukkitItem());
 		player.updateInventory();
-	
+		
 		// Report:
 		if(mplayer == mtarget){
-			mtarget.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED, argItem));
+			mtarget.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED, itemName));
 		}else{
-			mtarget.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED, argItem));
-			mplayer.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED_OTHER, argItem, mtarget.getName()));
+			mtarget.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED, itemName));
+			mplayer.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ITEM_SPAWNED_OTHER, itemName, mtarget.getName()));
 		}
 	 }
 	
