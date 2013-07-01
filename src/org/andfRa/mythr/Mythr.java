@@ -1,6 +1,7 @@
 package org.andfRa.mythr;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -183,7 +184,7 @@ public class Mythr extends JavaPlugin{
 
 		// Load:
 		mplayer = MythrPlayer.load(name);
-		MythrLogger.info("Loading Mythr player for " + name + ".");
+		MythrLogger.info("Loading Mythr player for " + mplayer.getName() + ".");
 		mplayers.put(name.toLowerCase(), mplayer);
 		
 		return mplayer;
@@ -203,7 +204,7 @@ public class Mythr extends JavaPlugin{
 		if (mplayer == null) return mplayer;
 
 		// Unload:
-		MythrLogger.info("Unloading Mythr player for " + name + ".");
+		MythrLogger.info("Unloading Mythr player for " + mplayer.getName() + ".");
 		mplayers.remove(name.toLowerCase());
 
 		// Unload:
@@ -217,7 +218,7 @@ public class Mythr extends JavaPlugin{
 	 */
 	private void unloadAllMythrPlayers()
 	 {
-		Set<String> names = mplayers.keySet();
+		Set<String> names = new HashSet<String>(mplayers.keySet());
 		
 		for (String name : names) {
 			MythrPlayer mplayer = unloadMythrPlayer(name);
