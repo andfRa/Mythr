@@ -69,7 +69,138 @@
 	 "attrReq":{"STR":16}
 	},
 	
+	
+	# ARMOUR #
+	{
+	 "name":"Scale Helmet",
+	 "material":"IRON_HELMET",
+	 "defenceRating":2,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":8}
+	},
+	{
+	 "name":"Scale Chestplate",
+	 "material":"IRON_CHESTPLATE",
+	 "defenceRating":3,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":8}
+	},
+	{
+	 "name":"Scale Leggings",
+	 "material":"IRON_LEGGINGS",
+	 "defenceRating":2,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":8}
+	},
+	{
+	 "name":"Scale Boots",
+	 "material":"IRON_BOOTS",
+	 "defenceRating":1,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":8}
+	},
+	
+	{
+	 "name":"Splint Mail Helmet",
+	 "material":"IRON_HELMET",
+	 "defenceRating":3,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":12}
+	},
+	{
+	 "name":"Splint Mail Chestplate",
+	 "material":"IRON_CHESTPLATE",
+	 "defenceRating":6,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":12}
+	},
+	{
+	 "name":"Splint Mail Leggings",
+	 "material":"IRON_LEGGINGS",
+	 "defenceRating":5,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":12}
+	},
+	
+	{
+	 "name":"Splint Mail Boots",
+	 "material":"IRON_BOOTS",
+	 "defenceRating":2,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":12}
+	},
+	
+	{
+	 "name":"Plate Mail Helmet",
+	 "material":"IRON_HELMET",
+	 "defenceRating":4,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":16}
+	},
+	{
+	 "name":"Plate Mail Chestplate",
+	 "material":"IRON_CHESTPLATE",
+	 "defenceRating":9,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":16}
+	},
+	{
+	 "name":"Plate Mail Leggings",
+	 "material":"IRON_LEGGINGS",
+	 "defenceRating":7,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":16}
+	},
+	{
+	 "name":"Plate Mail Boots",
+	 "material":"IRON_BOOTS",
+	 "defenceRating":4,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":16}
+	},
+	
+	{
+	 "name":"Full Plate Helmet",
+	 "material":"IRON_HELMET",
+	 "defenceRating":5,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":18}
+	},
+	{
+	 "name":"Full Plate Chestplate",
+	 "material":"IRON_CHESTPLATE",
+	 "defenceRating":13,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":18}
+	},
+	{
+	 "name":"Full Plate Leggings",
+	 "material":"IRON_LEGGINGS",
+	 "defenceRating":10,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":18}
+	},
+	{
+	 "name":"Full Plate Boots",
+	 "material":"IRON_BOOTS",
+	 "defenceRating":4,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":18}
+	},
+	
+	
 	# SPELLS #
+	{
+	 "name":"Fireball Spell",
+	 "material":"BOOK",
+	 "damageMin":11,
+	 "damageMax":14,
+	 "attackRating":15,
+	 "type":"ARCANE_SPELL",
+	 "effect":"shoot fireball",
+	 "attrReq":{"WIL":6}
+	},
+
 	
 	# ATTRIBUTE SCROLLS #
 	{

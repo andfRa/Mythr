@@ -313,37 +313,83 @@ public class MythrItem {
 		
 		if(description.size() > 0) lore.add("");
 		
+		StringBuffer strb;
+		String[] attrAbbrev;
+
+		// Responses:
+		for (String response : responses) {
+			lore.add("" + ChatColor.COLOR_CHAR + RESPONSE_INDICATOR + statsCol + response);
+		}
+		
 		switch (type) {
+		case MELEE_WEAPON:
+
+			// Base damage:
+			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("damage") + ": " + damageMin + " - " + damageMax);
+
+			// Type:
+			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getCapitString("type") + ": " + LocalisationConfiguration.getString(type.text()));
+
+			// Effect:
+			if(effect != null)
+			 lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
+			
+			// Attack rating:
+			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("attack rating") + ": " + attackRating);
+			
+			break;
+			
+		case LIGHT_ARMOUR:
+		case HEAVY_ARMOUR:
+		case EXOTIC_ARMOUR:
+
+			// Type:
+			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getCapitString("type") + ": " + LocalisationConfiguration.getString(type.text()));
+
+			// Effect:
+			if(effect != null)
+			 lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
+			
+			// Defence rating:
+			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("defence rating") + ": " + defenceRating);
+			
+			break;
+			
+		case ARCANE_SPELL:
+		case BLESSING_SPELL:
+		case CURSE_SPELL:
+
+			// Base damage:
+			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("damage") + ": " + damageMin + " - " + damageMax);
+
+			// Type:
+			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getCapitString("type") + ": " + LocalisationConfiguration.getString(type.text()));
+
+			// Effect:
+			if(effect != null)
+			 lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
+			
+			// Attack rating:
+			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("attack rating") + ": " + attackRating);
+			
+			break;
+			
 		case JOURNAL:
 
 			// Type:
-			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
+			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getCapitString("type") + ": " + LocalisationConfiguration.getString(type.text()));
 			
 			break;
 
 		default:
-			
-			// Base damage:
-			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getString("Damage:") + " " + damageMin + " - " + damageMax);
+			break;
+		}
 
-			// Type:
-			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getString("Type:") + " " + LocalisationConfiguration.getString(type.text()));
-
-			// Effect:
-			if(effect != null)
-			lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
+		// Requires:
+		if(!attrReq.isEmpty()){
 			
-			// Responses:
-			for (String response : responses) {
-				lore.add("" + ChatColor.COLOR_CHAR + RESPONSE_INDICATOR + statsCol + response);
-			}
-			
-			// Chance to hit:
-			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getString("Attack rating:") + " " + attackRating);
-
-			// Requires:
-			StringBuffer strb = new StringBuffer();
-			 String[] attrAbbrev = AttributeConfiguration.getAttrAbbreviations();
+			strb = new StringBuffer();
+			 attrAbbrev = AttributeConfiguration.getAttrAbbreviations();
 			 for (int i = 0; i < attrAbbrev.length; i++) {
 				Integer req = attrReq.get(attrAbbrev[i]);  
 				if(req == null) continue;
@@ -355,18 +401,21 @@ public class MythrItem {
 				strb.append("lvl" + " " + levelReq);
 			 }
 			 if(strb.length() == 0) strb.append('-');
-			lore.add("" + ChatColor.COLOR_CHAR + ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR + statsCol + LocalisationConfiguration.getString("Requires:") + " " + strb.toString());
+			lore.add("" + ChatColor.COLOR_CHAR + ATTRIBUTE_LEVEL_REQUIRMENTS_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("requires") + ": " + strb.toString());
 			
-			// Usable by:
+		}
+		
+		// Usable by:
+		if(useableBy.length > 0){
+			
 			strb = new StringBuffer();
 			 for (int i = 0; i < useableBy.length; i++) {
 				if(i != 0) strb.append(", ");
 				strb.append(useableBy[i]);
 			 }
 			 if(strb.length() == 0) strb.append('-');
-			lore.add("" + ChatColor.COLOR_CHAR + USABLE_BY_INDICATOR + statsCol + LocalisationConfiguration.getString(statsCol + "Usable by:") + " " + strb.toString());
+			lore.add("" + ChatColor.COLOR_CHAR + USABLE_BY_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("usable by") + ": " + strb.toString());
 			
-			break;
 		}
 		
 		bmeta.setLore(lore);
