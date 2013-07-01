@@ -71,7 +71,7 @@ public class PlayerListener implements Listener {
 	public void onPlayerMove(PlayerMoveEvent event)
 	{
 		// Update casting:
-		SpellManager.handleMoving(event.getPlayer().getName(), event.getTo());
+		SpellManager.handleMoving(event.getPlayer(), event.getTo());
 		
 		if(event.getPlayer().isSprinting()){
 			

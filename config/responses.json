@@ -1,7 +1,7 @@
 {
 
  # Determines the blocks the player can move until the spell is cancelled.
-"spellCastRadius":1,
+"spellCastRadius":2.5,
 
  # Definition of responses and their effects. Used by items and perks to determine
  # the resulting effect when triggered.

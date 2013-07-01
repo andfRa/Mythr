@@ -33,8 +33,9 @@ public class SpellManager implements Runnable {
 	/** Cast locations. */
 	private HashMap<String, Location> locations;
 	
+	
 	/** True if the clock is running. */
-	private boolean tick;
+	transient private boolean tick;
 	
 	
 	// CONSTRUCTION:
@@ -50,6 +51,7 @@ public class SpellManager implements Runnable {
 		locations = new HashMap<String, Location>();
 		tick = false;
 	 }
+	
 	
 	// OPERATION:
 	/* 
@@ -161,12 +163,14 @@ public class SpellManager implements Runnable {
 	/**
 	 * Handles player moving.
 	 * 
-	 * @param plyrName player name
+	 * @param player player
 	 * @param newLoc new location
 	 */
-	public static void handleMoving(String plyrName, Location newLoc)
+	public static void handleMoving(Player player, Location newLoc)
 	 {
 		if(manager.responses.isEmpty()) return;
+		
+		String plyrName = player.getName();
 		Location oldLoc = manager.locations.get(plyrName);
 		if(oldLoc == null) return;
 		
@@ -175,6 +179,7 @@ public class SpellManager implements Runnable {
 		// Stop casting:
 		if(newLoc.distanceSquared(oldLoc) > radius2){
 			interrupt(plyrName);
+			EffectDependancy.playFail(player);
 		}
 	 }
 	
@@ -190,6 +195,7 @@ public class SpellManager implements Runnable {
 		manager.steps.remove(plyrName);
 		manager.locations.remove(plyrName);
 	 }
+	
 	
 	// LOAD UNLOAD:
 	/** Loads the configuration. */
