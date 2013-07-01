@@ -15,7 +15,7 @@
 	{
 	 "name":"shoot fireball",
 	 "effectKey":"SHOOT_FIREBALL_EFFECT",
-	 "parameters":{"CAST_TICKS":25}
+	 "parameters":{"CAST_TICKS":25, "BURN_TICKS":20, "ATTRIBUTE":"willpower", "MODIFIER":-4}
 	},
 	
 	# ATTRIBUTE SCROLLS #

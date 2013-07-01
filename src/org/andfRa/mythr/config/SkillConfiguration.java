@@ -100,6 +100,21 @@ public class SkillConfiguration {
 		return false;
 	 }
 	
+	/**
+	 * Gets the skill index.
+	 * 
+	 * @param name skill name
+	 * @return skill index, -1 if none
+	 */
+	public static int getSkillIndex(String name)
+	 {
+		for (int i = 0; i < config.skills.length; i++) {
+			if(config.skills[i].getName().equals(name)) return i;
+		}
+		
+		return -1;
+	 }
+	
 	
 	// LOAD UNLOAD:
 	/** Loads the configuration. */

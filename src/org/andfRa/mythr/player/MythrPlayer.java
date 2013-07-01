@@ -63,15 +63,16 @@ public class MythrPlayer {
 		// Transient:
 		derived = new DerivedStats() {
 			@Override
-			protected int getSkillScore(String skillName) { return getSkill(skillName); }
+			protected int getRawSkillScore(String skillName) { return getSkill(skillName); }
 			
 			@Override
-			protected int getAttributeScore(String attribName) { return getAttribute(attribName); }
+			protected int getRawAttribScore(String attribName) { return getAttribute(attribName); }
 		};
 	 }
 	
 	/** Fixes all missing fields. */
-	private void complete() {
+	private void complete()
+	 {
 
 		if(name == null){
 			name = "????";
@@ -86,12 +87,12 @@ public class MythrPlayer {
 		// Transient:
 		derived = new DerivedStats() {
 			@Override
-			protected int getSkillScore(String skillName) { return getSkill(skillName); }
+			protected int getRawSkillScore(String skillName) { return getSkill(skillName); }
 			
 			@Override
-			protected int getAttributeScore(String attribName) { return getAttribute(attribName); }
+			protected int getRawAttribScore(String attribName) { return getAttribute(attribName); }
 		};
-	}
+	 }
 	
 	
 	// PLAYER:
@@ -106,6 +107,8 @@ public class MythrPlayer {
 		
 		updateWeapon();
 		updateArmour();
+		updateAttribs();
+		updateSkills();
 	 }
 	
 	/**
@@ -155,6 +158,7 @@ public class MythrPlayer {
 	public void setAttribute(String name, Integer value)
 	 {
 		attribs.put(name, value);
+		updateAttribs();
 	 }
 	
 	/**
@@ -234,6 +238,7 @@ public class MythrPlayer {
 	public void setSkill(String name, Integer value)
 	 {
 		skills.put(name, value);
+		updateSkills();
 	 }
 	
 	
@@ -290,6 +295,20 @@ public class MythrPlayer {
 	 {
 		derived.updateArmour(player);
 	 }
+
+	
+	/** Updates derived statistics attributes. */
+	public void updateAttribs()
+	 {
+		derived.updateAttribs();
+	 }
+
+	/** Updates derived statistics skills. */
+	public void updateSkills()
+	 {
+		derived.updateSkills();
+	 }
+	
 	
 	/**
 	 * Gets the derived stats.

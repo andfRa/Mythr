@@ -173,7 +173,7 @@ public class Response {
 	 }
 
 	/**
-	 * Called on attack.
+	 * Called on PvP.
 	 * 
 	 * @param mattacker Mythrl player attacker
 	 * @param mdefender Mythrl player defender
@@ -188,7 +188,7 @@ public class Response {
 	 }
 
 	/**
-	 * Called on attack.
+	 * Called on PvC.
 	 * 
 	 * @param mattacker Mythrl player attacker
 	 * @param mdefender creature defender
@@ -203,32 +203,32 @@ public class Response {
 	 }
 
 	/**
-	 * Called on defend.
+	 * Called on CvP.
 	 * 
-	 * @param mattacker Mythrl player attacker
-	 * @param mdefender Mythrl player defender
+	 * @param cattacker creature attacker
+	 * @param mdefender Mythr player defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
 	 * @return true if successful
 	 */
-	public boolean defendTrigger(MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean attackTrigger(Creature cattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
-		if(effect != null) return effect.defendTrigger(this, mattacker, mdefender, dsdefender, dsdefender);
+		if(effect != null) return effect.attackTrigger(this, cattacker, mdefender, dsattacker, dsdefender);
 		return false;
 	 }
 
 	/**
-	 * Called on defend.
+	 * Called on CvC.
 	 * 
-	 * @param mattacker Mythrl player attacker
-	 * @param mdefender creature defender
+	 * @param cattacker creature attacker
+	 * @param mdefender Creature defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
 	 * @return true if successful
 	 */
-	public boolean defendTrigger(MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean attackTrigger(Creature cattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
-		if(effect != null) return effect.defendTrigger(this, mattacker, cdefender, dsdefender, dsdefender);
+		if(effect != null) return effect.attackTrigger(this, cattacker, cdefender, dsattacker, dsdefender);
 		return false;
 	 }
 	

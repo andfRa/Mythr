@@ -6,6 +6,8 @@ import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.ItemType;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
+import org.andfRa.mythr.responses.Response;
+import org.andfRa.mythr.util.MetadataUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -85,21 +87,29 @@ public class EntityListener implements Listener {
 		
 		int damage = event.getDamage();
 		
+		// Response reaction:
+		Response reaction = null;
+		if(projectile != null) reaction = MetadataUtil.getResponseReaction(projectile);
+		
 		// PvP:
 		if(mattacker != null && mdefender != null){
 			damage = mdefender.getDerived().defend(type, mattacker.getDerived());
+			if(reaction != null) reaction.attackTrigger(mattacker, mdefender, mattacker.getDerived(), mdefender.getDerived());
 		}
 		// PvC:
 		else if(mattacker != null && cdefender != null){
 			damage = DerivedStats.DEFAULT_CREATURE_STATS.defend(type, mattacker.getDerived());
+			if(reaction != null) reaction.attackTrigger(mattacker, cdefender, mattacker.getDerived(), DerivedStats.DEFAULT_CREATURE_STATS);
 		}
 		// CvP:
 		else if(cattacker != null && mdefender != null){
 			damage = mdefender.getDerived().defend(type, DerivedStats.DEFAULT_CREATURE_STATS);
+			if(reaction != null) reaction.attackTrigger(cattacker, mdefender, DerivedStats.DEFAULT_CREATURE_STATS, mdefender.getDerived());
 		}
 		// CvC:
 		else if(cattacker != null && cdefender !=  null){
 			damage = DerivedStats.DEFAULT_CREATURE_STATS.defend(type, DerivedStats.DEFAULT_CREATURE_STATS);
+			reaction.attackTrigger(cattacker, cdefender, DerivedStats.DEFAULT_CREATURE_STATS, DerivedStats.DEFAULT_CREATURE_STATS);
 		}
 
 		// Prepare:

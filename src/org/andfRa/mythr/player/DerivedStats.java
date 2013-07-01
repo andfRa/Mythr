@@ -23,13 +23,12 @@ public abstract class DerivedStats {
 	public static DerivedStats DEFAULT_CREATURE_STATS = new DerivedStats() {
 		
 		@Override
-		protected int getAttributeScore(String attribName) {
-			// TODO Auto-generated method stub
+		protected int getRawAttribScore(String attribName) {
 			return CreatureConfiguration.getDefaultAttribScore();
 		}
 
 		@Override
-		protected int getSkillScore(String skillName) {
+		protected int getRawSkillScore(String skillName) {
 			return CreatureConfiguration.getDefaultSkillScore();
 		}
 		
@@ -88,6 +87,25 @@ public abstract class DerivedStats {
 	/** Exotic armour defence rating. */
 	private int exoticDR = 0;
 
+
+	/** Players raw attributes. */
+	private int[] attributes;
+
+	/** Weapon attribute bonuses. */
+	private int[] weaponAttribs;
+
+	/** Armour attribute bonuses. */
+	private int[] armourAttribs;
+
+	/** Players raw attributes. */
+	private int[] skills;
+
+	/** Weapon skill bonuses. */
+	private int[] weaponSkills;
+
+	/** Armour skill bonuses. */
+	private int[] armourSkills;
+	
 	
 	// CONSTRUCTION:
 	/**
@@ -108,7 +126,7 @@ public abstract class DerivedStats {
 	 {
 		resetWeapon();
 		
-		MythrItem mitem;
+		MythrItem mitem = null;
 		EntityEquipment inventory = living.getEquipment();
 		
 		// Weapon item:
@@ -143,7 +161,9 @@ public abstract class DerivedStats {
 			
 			minBaseDmg = mitem.getDamageMin();
 			maxBaseDmg = mitem.getDamageMax();
-			
+		
+			// TODO: Weapon attribute bonus.
+			// TODO: Weapon skill bonus.
 		}
 		// No weapon item:
 		else{
@@ -151,22 +171,10 @@ public abstract class DerivedStats {
 			maxBaseDmg = VanillaConfiguration.DEFAULT_DAMAGE;
 		}
 
-		// Skills:
-		Skill[] skills = SkillConfiguration.getSkills();
-		for (int i = 0; i < skills.length; i++) {
-			int score = getSkillScore(skills[i].getName());
-			
-			meleeAR+= skills[i].getSpecifier(Specifier.MELEE_ATTACK_RATING_MODIFIER, score);
-			rangedAR+= skills[i].getSpecifier(Specifier.RANGED_ATTACK_RATING_MODIFIER, score);
-			magicAR+= skills[i].getSpecifier(Specifier.MAGIC_ATTACK_RATING_MODIFIER, score);
-			curseAR+= skills[i].getSpecifier(Specifier.CURSE_ATTACK_RATING_MODIFIER, score);
-			blessingAR+= skills[i].getSpecifier(Specifier.BLESSING_ATTACK_RATING_MODIFIER, score);
-		}
-
-		// Skills:
+		// Attributes:
 		Attribute[] attributes = AttributeConfiguration.getAttributes();
 		for (int i = 0; i < attributes.length; i++) {
-			int score = getAttributeScore(attributes[i].getName());
+			int score = getAttribScore(i);
 			
 			meleeDmgMod+= attributes[i].getSpecifier(Specifier.MELEE_ATTACK_DAMAGE_MODIFIER, score);
 			rangedDmgMod+= attributes[i].getSpecifier(Specifier.RANGED_ATTACK_DAMAGE_MODIFIER, score);
@@ -175,11 +183,21 @@ public abstract class DerivedStats {
 			blessingDmgMod+= attributes[i].getSpecifier(Specifier.BLESSING_ATTACK_DAMAGE_MODIFIER, score);
 		}
 		
-		
+		// Skills:
+		Skill[] skills = SkillConfiguration.getSkills();
+		for (int i = 0; i < skills.length; i++) {
+			int score = getSkillScore(i);
+			
+			meleeAR+= skills[i].getSpecifier(Specifier.MELEE_ATTACK_RATING_MODIFIER, score);
+			rangedAR+= skills[i].getSpecifier(Specifier.RANGED_ATTACK_RATING_MODIFIER, score);
+			magicAR+= skills[i].getSpecifier(Specifier.MAGIC_ATTACK_RATING_MODIFIER, score);
+			curseAR+= skills[i].getSpecifier(Specifier.CURSE_ATTACK_RATING_MODIFIER, score);
+			blessingAR+= skills[i].getSpecifier(Specifier.BLESSING_ATTACK_RATING_MODIFIER, score);
+		}
 	 }
 
 	/** Resets weapon stats. */
-	public void resetWeapon()
+	private void resetWeapon()
 	 {
 		minBaseDmg = 0;
 		maxBaseDmg = 0;
@@ -189,6 +207,9 @@ public abstract class DerivedStats {
 		magicAR = 1;
 		curseAR = 1;
 		blessingAR = 1;
+		
+		weaponAttribs = new int[AttributeConfiguration.getAttrCount()];
+		weaponSkills = new int[SkillConfiguration.getSkillCount()];
 	 }
 
 	/**
@@ -257,6 +278,9 @@ public abstract class DerivedStats {
 			default:
 				break;
 			}
+			
+			// TODO: Helmet attribute bonus.
+			// TODO: Helmet skill bonus.
 		}
 		
 		// Chestplate:
@@ -308,6 +332,9 @@ public abstract class DerivedStats {
 			default:
 				break;
 			}
+
+			// TODO: Helmet attribute bonus.
+			// TODO: Helmet skill bonus.
 		}
 		
 		// Leggings:
@@ -359,6 +386,9 @@ public abstract class DerivedStats {
 			default:
 				break;
 			}
+		
+			// TODO: Leggings attribute bonus.
+			// TODO: Leggings skill bonus.
 		}
 		
 		// Boots:
@@ -410,12 +440,16 @@ public abstract class DerivedStats {
 			default:
 				break;
 			}
+			
+
+			// TODO: Boots attribute bonus.
+			// TODO: Boots skill bonus.
 		}
 
 		// Attributes:
 		Attribute[] attributes = AttributeConfiguration.getAttributes();
 		for (int i = 0; i < attributes.length; i++) {
-			int score = getSkillScore(attributes[i].getName());
+			int score = getAttribScore(i);
 			if(light > 0.0) lightDR+= light * attributes[i].getSpecifier(Specifier.LIGHT_ARMOUR_DEFENCE_RATING_MODIFIER, score);
 			if(heavy > 0.0) heavyDR+= heavy * attributes[i].getSpecifier(Specifier.HEAVY_ARMOUR_DEFENCE_RATING_MODIFIER, score);
 			if(exotic > 0.0) exoticDR+= exotic * attributes[i].getSpecifier(Specifier.EXOTIC_ARMOUR_DEFENCE_RATING_MODIFIER, score);
@@ -424,7 +458,7 @@ public abstract class DerivedStats {
 		// Skills:
 		Skill[] skills = SkillConfiguration.getSkills();
 		for (int i = 0; i < skills.length; i++) {
-			int score = getSkillScore(skills[i].getName());
+			int score = getSkillScore(i);
 			if(heavy > 0.0) lightDR+= heavy * skills[i].getSpecifier(Specifier.LIGHT_ARMOUR_DEFENCE_RATING_MODIFIER, score);
 			if(heavy > 0.0) heavyDR+= heavy * skills[i].getSpecifier(Specifier.HEAVY_ARMOUR_DEFENCE_RATING_MODIFIER, score);
 			if(exotic > 0.0) exoticDR+= exotic * skills[i].getSpecifier(Specifier.EXOTIC_ARMOUR_DEFENCE_RATING_MODIFIER, score);
@@ -432,32 +466,114 @@ public abstract class DerivedStats {
 	 }
 
 	/** Resets armour stats. */
-	public void resetArmour()
+	private void resetArmour()
 	 {
 		armour = 1.0;
 
 		lightDR = 0;
 		heavyDR = 0;
 		exoticDR = 0;
+		
+		weaponAttribs = new int[AttributeConfiguration.getAttrCount()];
+		weaponSkills = new int[SkillConfiguration.getSkillCount()];
+	 }
+	
+	
+	/**
+	 * Updates player attributes.
+	 * 
+	 */
+	public void updateAttribs()
+	 {
+		String[] attribNames = AttributeConfiguration.getAttrNames();
+		
+		for (int i = 0; i < attribNames.length; i++) {
+			attributes[i] = getRawAttribScore(attribNames[i]);
+		}
+	 }
+
+	/**
+	 * Updates player skills.
+	 * 
+	 */
+	public void updateSkills()
+	 {
+		String[] skillNames = SkillConfiguration.getSkillNames();
+		
+		for (int i = 0; i < skillNames.length; i++) {
+			skills[i] = getRawSkillScore(skillNames[i]);
+		}
 	 }
 	
 	
 	// SCORES:
 	/**
-	 * Gets the skill score.
+	 * Gets the raw skill score.
 	 * 
 	 * @param skillName skill name
 	 * @return score
 	 */
-	abstract protected int getSkillScore(String skillName);
+	abstract protected int getRawSkillScore(String skillName);
 
 	/**
-	 * Gets the attribute score.
+	 * Gets the raw attribute score.
 	 * 
 	 * @param attribName attribute name
 	 * @return score
 	 */
-	abstract protected int getAttributeScore(String attribName);
+	abstract protected int getRawAttribScore(String attribName);
+
+	/**
+	 * Gets the skill score.
+	 * 
+	 * @param skillName skill name
+	 * @return skill score
+	 */
+	public int getSkillScore(String skillName)
+	 {
+		int i = SkillConfiguration.getSkillIndex(skillName);
+		if(i == -1) return 0;
+		
+		return getSkillScore(i);
+	 }
+
+	/**
+	 * Gets the attribute score.
+	 * 
+	 * @param attributeName attribute name
+	 * @return attribute score
+	 */
+	public int getAttribScore(String atribName)
+	 {
+		int i = AttributeConfiguration.getAttribIndex(atribName);
+		if(i == -1) return 0;
+		
+		return getAttribScore(i);
+	 }
+
+	/**
+	 * Gets the attribute score.
+	 * 
+	 * @param index attribute index
+	 * @return attribute score
+	 * @throws IndexOutOfBoundsException when the index is out of bounds
+	 */
+	public int getAttribScore(int index)
+	 {
+		return attributes[index] + weaponAttribs[index] + armourAttribs[index];
+	 }
+
+	/**
+	 * Gets the skill score.
+	 * 
+	 * @param index skill index
+	 * @return skill score
+	 * @throws IndexOutOfBoundsException when the index is out of bounds
+	 */
+	public int getSkillScore(int index)
+	 {
+		return skills[index] + weaponSkills[index] + armourSkills[index];
+	 }
 	
 	
 	// DAMAGE:

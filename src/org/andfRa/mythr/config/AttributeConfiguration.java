@@ -198,6 +198,21 @@ public class AttributeConfiguration {
 		return false;
 	 }
 	
+	/**
+	 * Gets the attribute index.
+	 * 
+	 * @param name attribute name
+	 * @return attribute index, -1 if none
+	 */
+	public static int getAttribIndex(String name)
+	 {
+		for (int i = 0; i < config.attributes.length; i++) {
+			if(config.attributes[i].getName().equals(name)) return i;
+		}
+		
+		return -1;
+	 }
+	
 	
 	// LOAD UNLOAD:
 	/** Loads the configuration. */
