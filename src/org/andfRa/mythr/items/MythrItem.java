@@ -261,6 +261,15 @@ public class MythrItem {
 				else mitem.error = true;
 					
 				break;
+				
+			case DEFENCE_RATING_INDICATOR:	
+				
+				pattern = Pattern.compile("(?<=: )\\d+(?=)");
+				matcher = pattern.matcher(line);
+				if(matcher.find()) mitem.defenceRating = Integer.parseInt(matcher.group());
+				else mitem.error = true;
+					
+				break;
 
 			case USABLE_BY_INDICATOR:	
 				
@@ -323,6 +332,26 @@ public class MythrItem {
 		
 		switch (type) {
 		case MELEE_WEAPON:
+		case RANGED_WEAPON:
+
+			// Base damage:
+			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("damage") + ": " + damageMin + " - " + damageMax);
+
+			// Type:
+			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getCapitString("type") + ": " + LocalisationConfiguration.getString(type.text()));
+
+			// Effect:
+			if(effect != null)
+			 lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
+			
+			// Attack rating:
+			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("attack rating") + ": " + attackRating);
+			
+			break;
+		
+		case ARCANE_SPELL:
+		case BLESSING_SPELL:
+		case CURSE_SPELL:
 
 			// Base damage:
 			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("damage") + ": " + damageMin + " - " + damageMax);
@@ -351,29 +380,10 @@ public class MythrItem {
 			 lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
 			
 			// Defence rating:
-			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("defence rating") + ": " + defenceRating);
+			lore.add("" + ChatColor.COLOR_CHAR + DEFENCE_RATING_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("defence rating") + ": " + defenceRating);
 			
 			break;
-			
-		case ARCANE_SPELL:
-		case BLESSING_SPELL:
-		case CURSE_SPELL:
-
-			// Base damage:
-			lore.add("" + ChatColor.COLOR_CHAR + BASE_DAMAGE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("damage") + ": " + damageMin + " - " + damageMax);
-
-			// Type:
-			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getCapitString("type") + ": " + LocalisationConfiguration.getString(type.text()));
-
-			// Effect:
-			if(effect != null)
-			 lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
-			
-			// Attack rating:
-			lore.add("" + ChatColor.COLOR_CHAR + ATTACK_RATING_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("attack rating") + ": " + attackRating);
-			
-			break;
-			
+				
 		case JOURNAL:
 
 			// Type:

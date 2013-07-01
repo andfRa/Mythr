@@ -56,7 +56,8 @@ public class ShootFireballEffect extends ResponseEffect {
 		fireball.setIsIncendiary(false);
 		
 		// Metadata:
-		MetadataUtil.setResponseReaction(fireball, response);
+		MetadataUtil.attachResponseReaction(fireball, response);
+		MetadataUtil.attachDerivedStats(fireball, mplayer.getDerived());
 		
 		// Effect:
 		Location loc = mplayer.getPlayer().getLocation();

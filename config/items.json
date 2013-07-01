@@ -8,8 +8,8 @@
  #  type          - Item type. See https://github.com/andfRa/Mythr/blob/master/src/org/andfRa/mythr/items/ItemType.java
  #  effect        - (Optional) Main response (effect).
  #  responses     - (Optional) Bonus responses.
- #  damageMin        - (Optional) Damage minimum value.
- #  damageMax        - (Optional) Damage maximum value.
+ #  damageMin     - (Optional) Damage minimum value.
+ #  damageMax     - (Optional) Damage maximum value.
  #  piercing      - (Optional) Armour penetration percent.
  #  attackRating  - (Optional) Attack rating.
  #  defenceRating - (Optional) Defence rating.
@@ -18,13 +18,13 @@
  #  useableBy     - (Optional) Additional requirements for item equipping.
 "items":
  [
-	# SWORDS #
+	# MELEE WEAPONS #
 	{
 	 "name":"Shortsword",
 	 "material":"IRON_SWORD",
 	 "damageMin":6,
 	 "damageMax":8,
-	 "attackRating":6,
+	 "attackRating":2,
 	 "type":"MELEE_WEAPON",
 	 "attrReq":{"STR":6}
 	},
@@ -34,7 +34,7 @@
 	 "material":"IRON_SWORD",
 	 "damageMin":8,
 	 "damageMax":10,
-	 "attackRating":10,
+	 "attackRating":4,
 	 "type":"MELEE_WEAPON",
 	 "attrReq":{"STR":8}
 	},
@@ -44,7 +44,7 @@
 	 "material":"IRON_SWORD",
 	 "damageMin":10,
 	 "damageMax":13,
-	 "attackRating":14,
+	 "attackRating":6,
 	 "type":"MELEE_WEAPON",
 	 "attrReq":{"STR":11}
 	},
@@ -54,7 +54,7 @@
 	 "material":"IRON_SWORD",
 	 "damageMin":12,
 	 "damageMax":15,
-	 "attackRating":18,
+	 "attackRating":8,
 	 "type":"MELEE_WEAPON",
 	 "attrReq":{"STR":13}
 	},
@@ -64,13 +64,65 @@
 	 "material":"IRON_SWORD",
 	 "damageMin":14,
 	 "damageMax":18,
-	 "attackRating":24,
+	 "attackRating":10,
 	 "type":"MELEE_WEAPON",
 	 "attrReq":{"STR":16}
 	},
 	
 	
-	# ARMOUR #
+	# RANGED WEAPONS #
+	{
+	 "name":"Shortbow",
+	 "material":"BOW",
+	 "damageMin":8,
+	 "damageMax":10,
+	 "attackRating":2,
+	 "type":"RANGED_WEAPON",
+	 "attrReq":{"PRE":6}
+	},
+	
+	{
+	 "name":"Longbow",
+	 "material":"BOW",
+	 "damageMin":9,
+	 "damageMax":14,
+	 "attackRating":4,
+	 "type":"RANGED_WEAPON",
+	 "attrReq":{"PRE":6}
+	},
+	
+	{
+	 "name":"Reflex Bow",
+	 "material":"BOW",
+	 "damageMin":12,
+	 "damageMax":17,
+	 "attackRating":6,
+	 "type":"RANGED_WEAPON",
+	 "attrReq":{"PRE":10}
+	},
+	
+	{
+	 "name":"Recurve Bow",
+	 "material":"BOW",
+	 "damageMin":15,
+	 "damageMax":21,
+	 "attackRating":8,
+	 "type":"RANGED_WEAPON",
+	 "attrReq":{"PRE":14}
+	},
+	
+	{
+	 "name":"Composite Bow",
+	 "material":"BOW",
+	 "damageMin":17,
+	 "damageMax":24,
+	 "attackRating":10,
+	 "type":"RANGED_WEAPON",
+	 "attrReq":{"PRE":16}
+	},
+	
+	
+	# HEAVY ARMOUR #
 	{
 	 "name":"Scale Helmet",
 	 "material":"IRON_HELMET",
@@ -103,7 +155,7 @@
 	{
 	 "name":"Splint Mail Helmet",
 	 "material":"IRON_HELMET",
-	 "defenceRating":3,
+	 "defenceRating":4,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":12}
 	},
@@ -117,11 +169,10 @@
 	{
 	 "name":"Splint Mail Leggings",
 	 "material":"IRON_LEGGINGS",
-	 "defenceRating":5,
+	 "defenceRating":4,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":12}
 	},
-	
 	{
 	 "name":"Splint Mail Boots",
 	 "material":"IRON_BOOTS",
@@ -133,7 +184,7 @@
 	{
 	 "name":"Plate Mail Helmet",
 	 "material":"IRON_HELMET",
-	 "defenceRating":4,
+	 "defenceRating":6,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":16}
 	},
@@ -147,14 +198,14 @@
 	{
 	 "name":"Plate Mail Leggings",
 	 "material":"IRON_LEGGINGS",
-	 "defenceRating":7,
+	 "defenceRating":6,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":16}
 	},
 	{
 	 "name":"Plate Mail Boots",
 	 "material":"IRON_BOOTS",
-	 "defenceRating":4,
+	 "defenceRating":3,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":16}
 	},
@@ -162,21 +213,21 @@
 	{
 	 "name":"Full Plate Helmet",
 	 "material":"IRON_HELMET",
-	 "defenceRating":5,
+	 "defenceRating":8,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":18}
 	},
 	{
 	 "name":"Full Plate Chestplate",
 	 "material":"IRON_CHESTPLATE",
-	 "defenceRating":13,
+	 "defenceRating":12,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":18}
 	},
 	{
 	 "name":"Full Plate Leggings",
 	 "material":"IRON_LEGGINGS",
-	 "defenceRating":10,
+	 "defenceRating":8,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":18}
 	},
@@ -195,7 +246,7 @@
 	 "material":"BOOK",
 	 "damageMin":11,
 	 "damageMax":14,
-	 "attackRating":15,
+	 "attackRating":5,
 	 "type":"ARCANE_SPELL",
 	 "effect":"shoot fireball",
 	 "attrReq":{"WIL":6}

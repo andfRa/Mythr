@@ -90,34 +90,42 @@ public class EntityListener implements Listener {
 		
 		// Response reaction:
 		Response reaction = null;
-		if(projectile != null) reaction = MetadataUtil.getResponseReaction(projectile);
+		if(projectile != null) reaction = MetadataUtil.retrieveResponseReaction(projectile);
+		
+		// Derived stats:
+		DerivedStats dsattacker = null;
+		if(projectile != null) dsattacker = MetadataUtil.retrieveDerivedStats(projectile);
+		if(dsattacker == null){
+			if(mattacker != null) dsattacker = mattacker.getDerived();
+			else dsattacker = DerivedStats.DEFAULT_CREATURE_STATS;
+		}
 		
 		// PvP:
 		if(mattacker != null && mdefender != null){
-			damage = mdefender.getDerived().defend(type, mattacker.getDerived());
-			if(reaction != null) reaction.attackTrigger(mattacker, mdefender, mattacker.getDerived(), mdefender.getDerived());
+			damage = mdefender.getDerived().defend(type, dsattacker);
+			if(reaction != null) reaction.attackTrigger(mattacker, mdefender, dsattacker, mdefender.getDerived());
 		}
 		// PvC:
 		else if(mattacker != null && cdefender != null){
-			damage = DerivedStats.DEFAULT_CREATURE_STATS.defend(type, mattacker.getDerived());
-			if(reaction != null) reaction.attackTrigger(mattacker, cdefender, mattacker.getDerived(), DerivedStats.DEFAULT_CREATURE_STATS);
+			damage = DerivedStats.DEFAULT_CREATURE_STATS.defend(type, dsattacker);
+			if(reaction != null) reaction.attackTrigger(mattacker, cdefender, dsattacker, DerivedStats.DEFAULT_CREATURE_STATS);
 		}
 		// CvP:
 		else if(cattacker != null && mdefender != null){
-			damage = mdefender.getDerived().defend(type, DerivedStats.DEFAULT_CREATURE_STATS);
-			if(reaction != null) reaction.attackTrigger(cattacker, mdefender, DerivedStats.DEFAULT_CREATURE_STATS, mdefender.getDerived());
+			damage = mdefender.getDerived().defend(type, dsattacker);
+			if(reaction != null) reaction.attackTrigger(cattacker, mdefender, dsattacker, mdefender.getDerived());
 		}
 		// CvC:
 		else if(cattacker != null && cdefender !=  null){
-			damage = DerivedStats.DEFAULT_CREATURE_STATS.defend(type, DerivedStats.DEFAULT_CREATURE_STATS);
-			reaction.attackTrigger(cattacker, cdefender, DerivedStats.DEFAULT_CREATURE_STATS, DerivedStats.DEFAULT_CREATURE_STATS);
+			damage = DerivedStats.DEFAULT_CREATURE_STATS.defend(type, dsattacker);
+			reaction.attackTrigger(cattacker, cdefender, dsattacker, DerivedStats.DEFAULT_CREATURE_STATS);
 		}
 
 		// Prepare:
 		final int harm = damage;
 		
 		// Not on my watch:
-		if(event.getDamage() > ldefender.getHealth()) event.setDamage(ldefender.getHealth() - 1);
+		event.setDamage(0);
 		
 		// Queue damage:
 		Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {

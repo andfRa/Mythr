@@ -588,6 +588,7 @@ public abstract class DerivedStats {
 			
 		case RANGED_WEAPON:
 			attackRating+= attacker.rangedAR;
+			System.out.println("dmgmod=" + attacker.rangedDmgMod);
 			damage+= attacker.rangedDmgMod;
 			break;
 			
@@ -616,7 +617,7 @@ public abstract class DerivedStats {
 		
 		// Half armour on hit:
 		if(hit){
-			armour = armour / 2;
+			armour = armour + 0.70 * (1 - armour);
 		}else{
 			// Apply perks:
 		}
@@ -636,6 +637,56 @@ public abstract class DerivedStats {
 	 */
 	public static int random(int min, int max) {
 		return min + (int)(RANDOM.nextDouble() * ((max - min) + 1));
+	}
+	
+	
+	// OTHER:
+	/* 
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public DerivedStats clone()
+	 {
+		DerivedStats dstats = new DerivedStats() {
+			
+			@Override
+			protected int getRawSkillScore(String skillName) {
+				return 0;
+			}
+			
+			@Override
+			protected int getRawAttribScore(String attribName) {
+				return 0;
+			}
+		};
+		
+		dstats.minBaseDmg = minBaseDmg;
+		dstats.maxBaseDmg = maxBaseDmg;
+		
+		dstats.meleeDmgMod = meleeDmgMod;
+		dstats.rangedDmgMod = rangedDmgMod;
+		dstats.magicDmgMod = magicDmgMod;
+		dstats.curseDmgMod = curseDmgMod;
+		dstats.blessingDmgMod = blessingDmgMod;
+
+		dstats.meleeAR = meleeAR;
+		dstats.rangedAR = rangedAR;
+		dstats.magicAR = magicAR;
+		dstats.curseAR = curseAR;
+		dstats.blessingAR = blessingAR;
+
+		dstats.armour = armour;
+
+		dstats.lightDR = lightDR;
+		dstats.heavyDR = heavyDR;
+		dstats.exoticDR = exoticDR;
+
+		dstats.attributes = attributes;
+		dstats.skills = skills;
+		
+		return dstats;
 	}
 	
 }
