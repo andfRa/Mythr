@@ -86,7 +86,7 @@ public class EntityListener implements Listener {
 			return;
 		}
 		
-		int damage = event.getDamage();
+		double damage = event.getDamage();
 		
 		// Response reaction:
 		Response reaction = null;
@@ -122,7 +122,7 @@ public class EntityListener implements Listener {
 		}
 
 		// Prepare:
-		final int harm = damage;
+		final double harm = damage;
 		
 		// Not on my watch:
 		event.setDamage(0);

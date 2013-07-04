@@ -1,19 +1,10 @@
 package org.andfRa.mythr.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
-import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.Attribute;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.andfRa.mythr.player.Skill;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.sk89q.Command;
 import org.sk89q.CommandContext;
 import org.sk89q.CommandPermissions;
