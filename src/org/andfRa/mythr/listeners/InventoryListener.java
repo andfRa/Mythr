@@ -26,14 +26,14 @@ public class InventoryListener  implements Listener {
 		// Armour:
 		if(event.getSlotType()  == SlotType.ARMOR){
 			
-			// Update player armour:
+			// Update derived stats:
 			final MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(event.getWhoClicked().getName());
 			if(mplayer == null) return;
 		
 			Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 				@Override
 				public void run() {
-					mplayer.updateWeapon();
+					mplayer.updateDerived();
 				}
 			});
 			
@@ -46,7 +46,7 @@ public class InventoryListener  implements Listener {
 			int heldSlot = VanillaConfiguration.QUICkBAR_FIRST_SLOT + event.getWhoClicked().getInventory().getHeldItemSlot();
 			int numberSlot = VanillaConfiguration.QUICkBAR_FIRST_SLOT + event.getHotbarButton();
 			int clickSlot = event.getRawSlot();
-			// Update player weapon:
+			// Update derived stats:
 			if(clickSlot == heldSlot || ((event.getHotbarButton() != -1)  && numberSlot == heldSlot)) {
 				
 				final MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(event.getWhoClicked().getName());
@@ -55,7 +55,7 @@ public class InventoryListener  implements Listener {
 				Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 					@Override
 					public void run() {
-						mplayer.updateWeapon();
+						mplayer.updateDerived();
 					}
 				});
 				
@@ -81,7 +81,7 @@ public class InventoryListener  implements Listener {
 		Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 			@Override
 			public void run() {
-				mplayer.updateWeapon();
+				mplayer.updateDerived();
 			}
 		});
 	 }

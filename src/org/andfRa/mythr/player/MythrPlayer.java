@@ -2,6 +2,8 @@ package org.andfRa.mythr.player;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.andfRa.mythr.MythrLogger;
@@ -38,7 +40,7 @@ public class MythrPlayer {
 	private HashMap<String, Integer> skills;
 
 	/** Perks. */
-	private HashMap<String, Integer> perks;
+	private HashMap<Integer, ArrayList<String>> perks;
 	
 	
 	// INITIALISE:
@@ -58,16 +60,10 @@ public class MythrPlayer {
 		this.level = 0;
 		this.attribs = new HashMap<String, Integer>();
 		this.skills = new HashMap<String, Integer>();
-		this.perks = new HashMap<String, Integer>();
+		this.perks = new HashMap<Integer, ArrayList<String>>();
 		
 		// Transient:
-		derived = new DerivedStats() {
-			@Override
-			protected int getRawSkillScore(String skillName) { return getSkill(skillName); }
-			
-			@Override
-			protected int getRawAttribScore(String attribName) { return getAttribute(attribName); }
-		};
+		derived = new DerivedStats();
 	 }
 	
 	/** Fixes all missing fields. */
@@ -83,15 +79,10 @@ public class MythrPlayer {
 		// Fields:
 		if(attribs == null) attribs = new HashMap<String, Integer>();
 		if(skills == null) attribs = new HashMap<String, Integer>();
+		if(perks == null) perks = new HashMap<Integer, ArrayList<String>>();
 		
 		// Transient:
-		derived = new DerivedStats() {
-			@Override
-			protected int getRawSkillScore(String skillName) { return getSkill(skillName); }
-			
-			@Override
-			protected int getRawAttribScore(String attribName) { return getAttribute(attribName); }
-		};
+		derived = new DerivedStats();
 	 }
 	
 	
@@ -104,11 +95,7 @@ public class MythrPlayer {
 	public void wrapPlayer(Player player)
 	 {
 		this.player = player;
-
-		updateAttribs();
-		updateSkills();
-		updateWeapon();
-		updateArmour();
+		updateDerived();
 	 }
 	
 	/**
@@ -158,7 +145,7 @@ public class MythrPlayer {
 	public void setAttribute(String name, Integer value)
 	 {
 		attribs.put(name, value);
-		updateAttribs();
+		updateDerived();
 	 }
 	
 	/**
@@ -238,7 +225,7 @@ public class MythrPlayer {
 	public void setSkill(String name, Integer value)
 	 {
 		skills.put(name, value);
-		updateSkills();
+		updateDerived();
 	 }
 	
 	
@@ -280,35 +267,32 @@ public class MythrPlayer {
 	
 	
 	// PERKS:
-	// TODO: Add perks.
+	/**
+	 * Collects all perks the player has.
+	 * 
+	 * @return all perks
+	 */
+	public ArrayList<String> collectAllPerks()
+	 {
+		ArrayList<String> allPerks = new ArrayList<String>();
+		Collection<ArrayList<String>> values = perks.values();
+		for (ArrayList<String> value : values) {
+			allPerks.addAll(value);
+		}
+		
+		return allPerks;
+	 }
 	
 	
 	// DERIVED STATS:
-	/** Updates derived statistics weapon. */
-	public void updateWeapon()
+	/**
+	 * Updates derived stats.
+	 * 
+	 */
+	public void updateDerived()
 	 {
-		derived.updateWeapon(player);
+		derived.update(attribs, skills, collectAllPerks(), player.getEquipment());
 	 }
-	
-	/** Updates derived statistics armour. */
-	public void updateArmour()
-	 {
-		derived.updateArmour(player);
-	 }
-
-	
-	/** Updates derived statistics attributes. */
-	public void updateAttribs()
-	 {
-		derived.updateAttribs(player);
-	 }
-
-	/** Updates derived statistics skills. */
-	public void updateSkills()
-	 {
-		derived.updateSkills(player);
-	 }
-	
 	
 	/**
 	 * Gets the derived stats.

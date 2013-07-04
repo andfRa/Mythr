@@ -147,6 +147,19 @@ public class Response {
 	
 	// TRIGGERS:
 	/**
+	 * Triggers the passive modifications.
+	 * 
+	 * @param mplayer Mythr player
+	 * @param dsstats derived stats
+	 * @return true if successful
+	 */
+	public boolean passiveTrigger(DerivedStats dsstats)
+	 {
+		if(effect != null) return effect.passiveTrigger(this, dsstats);
+		return false;
+	 }
+	
+	/**
 	 * Triggers the response effect.
 	 * 
 	 * @param mplayer Mythr player

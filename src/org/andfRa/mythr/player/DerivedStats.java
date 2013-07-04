@@ -1,38 +1,29 @@
 package org.andfRa.mythr.player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.andfRa.mythr.config.AttributeConfiguration;
-import org.andfRa.mythr.config.CreatureConfiguration;
+import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.ItemType;
 import org.andfRa.mythr.items.MythrItem;
+import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 
-public abstract class DerivedStats {
+public class DerivedStats {
 
 
 	/** Random number generator. */
 	public static Random RANDOM = new Random();
 	
 	/** Derived stats for default creatures. */
-	public static DerivedStats DEFAULT_CREATURE_STATS = new DerivedStats() {
-		
-		@Override
-		protected int getRawAttribScore(String attribName) {
-			return CreatureConfiguration.getDefaultAttribScore();
-		}
-
-		@Override
-		protected int getRawSkillScore(String skillName) {
-			return CreatureConfiguration.getDefaultSkillScore();
-		}
-		
-	};
+	public static DerivedStats DEFAULT_CREATURE_STATS = new DerivedStats();
 	
 	
 	/** Minimum base damage. */
@@ -78,14 +69,8 @@ public abstract class DerivedStats {
 	private double armour = 1.0;
 
 	
-	/** Light armour defence rating. */
-	private int lightDR = 0;
-
-	/** Heavy armour defence rating. */
-	private int heavyDR = 0;
-
-	/** Exotic armour defence rating. */
-	private int exoticDR = 0;
+	/** Armour defence rating. */
+	private int armourDR = 0;
 
 
 	/** Players raw attributes. */
@@ -106,49 +91,173 @@ public abstract class DerivedStats {
 	}
 
 	/**
+	 * Updates derived stats.
+	 * 
+	 * @param attribScores attribute scores
+	 * @param skillScores skill scores
+	 * @param perks perks
+	 * @param equipment equipment
+	 */
+	public void update(Map<String, Integer> attribScores, Map<String, Integer> skillScores, List<String> perks, EntityEquipment equipment)
+	 {
+		// Reset:
+		reset();
+		
+		// Equipment:
+		MythrItem mweapon = null;
+		MythrItem mhelmet = null;
+		MythrItem mchestplate = null;
+		MythrItem mleggings = null;
+		MythrItem mboots = null;
+		
+		if(equipment.getItemInHand() != null) mweapon = MythrItem.fromBukkitItem(equipment.getItemInHand());
+		if(equipment.getHelmet() != null) mhelmet = MythrItem.fromBukkitItem(equipment.getHelmet());
+		if(equipment.getChestplate() != null) mchestplate = MythrItem.fromBukkitItem(equipment.getChestplate());
+		if(equipment.getLeggings() != null) mleggings = MythrItem.fromBukkitItem(equipment.getLeggings());
+		if(equipment.getBoots() != null) mboots = MythrItem.fromBukkitItem(equipment.getLeggings());
+		
+		// Update:
+		updateStats(attribScores, skillScores, mweapon, mhelmet, mchestplate, mleggings, mboots);
+		updateReponses(perks, mweapon, mhelmet, mchestplate, mleggings, mboots);
+		updateWeapon(mweapon);
+		updateArmour(mhelmet, mchestplate, mleggings, mboots);
+	 }
+	
+	/**
+	 * Resets derived stats.
+	 * 
+	 */
+	private void reset()
+	 {
+		// Stats:
+		attributes = new int[AttributeConfiguration.getAttribCount()];
+		skills = new int[SkillConfiguration.getSkillCount()];
+		
+		// Passives:
+		
+		
+		// Weapon:
+		minBaseDmg = 0;
+		maxBaseDmg = 0;
+		
+		meleeAR = 1;
+		rangedAR = 1;
+		magicAR = 1;
+		curseAR = 1;
+		blessingAR = 1;
+		
+		// Armour:
+		armour = 1.0;
+		armourDR = 0;
+		
+	 }
+	
+	
+	/**
+	 * Updates player reponses.
+	 * 
+	 * @param perks perks
+	 * @param mweapon weapon Mythr item
+	 * @param mhelmet helmet Mythr item, null if none
+	 * @param mchestplate chestplate Mythr item, null if none
+	 * @param mleggings leggings Mythr item, null if none
+	 * @param mboots boots Mythr item, null if none
+	 */
+	private void updateReponses(List<String> perks, MythrItem mweapon, MythrItem mhelmet, MythrItem mchestplate, MythrItem mleggings, MythrItem mboots)
+	 {
+		
+		// Gather responses:
+		ArrayList<String> responses = new ArrayList<String>();
+		for (String perk : perks) {
+			responses.add(perk);
+		}
+		if(mweapon != null) responses.addAll(mweapon.getResponses());
+		if(mhelmet != null) responses.addAll(mhelmet.getResponses());
+		if(mchestplate != null) responses.addAll(mchestplate.getResponses());
+		if(mleggings != null) responses.addAll(mleggings.getResponses());
+		if(mboots != null) responses.addAll(mboots.getResponses());
+		
+		// Trigger passives:
+		Response response = null;
+		for (String respName : responses) {
+			response = ResponseConfiguration.getResponse(respName);
+			if(response == null) continue;
+			response.passiveTrigger(this);
+		}
+		
+	 }
+
+	/**
+	 * Updates player stats.
+	 * 
+	 * @param attribScores attribute scores
+	 * @param skillScores skill scores
+	 * @param mweapon weapon Mythr item
+	 * @param mhelmet helmet Mythr item, null if none
+	 * @param mchestplate chestplate Mythr item, null if none
+	 * @param mleggings leggings Mythr item, null if none
+	 * @param mboots boots Mythr item, null if none
+	 */
+	private void updateStats(Map<String, Integer> attribScores, Map<String, Integer> skillScores, MythrItem mweapon, MythrItem mhelmet, MythrItem mchestplate, MythrItem mleggings, MythrItem mboots)
+	 {
+		
+		// Attributes:
+		String[] attribNames = AttributeConfiguration.getAttrNames();
+		for (int i = 0; i < attribNames.length; i++) {
+			Integer score = attribScores.get(attribNames[i]);
+			if(score == null) continue;
+			attributes[i] = score;
+		}
+
+		// Skills:
+		String[] skillNames = SkillConfiguration.getSkillNames();
+		for (int i = 0; i < skillNames.length; i++) {
+			Integer score = skillScores.get(skillNames[i]);
+			if(score == null) continue;
+			skills[i] = score;
+		}
+		
+		
+		// TODO: Skill bonus from responses.
+	 }
+	
+	/**
 	 * Update all weapon stats.
 	 * 
-	 * @param living attacker living entity
+	 * @param mweapon weapon Mythr item, null if none
 	 */
-	public void updateWeapon(LivingEntity living)
+	private void updateWeapon(MythrItem mweapon)
 	 {
-		resetWeapon();
-		
-		MythrItem mitem = null;
-		EntityEquipment inventory = living.getEquipment();
-		
 		// Weapon item:
-		if(inventory.getItemInHand() != null){
+		if(mweapon != null){
 			
-			mitem = MythrItem.fromBukkitItem(inventory.getItemInHand());
-			
-			switch (mitem.getType()) {
+			switch (mweapon.getType()) {
 			case MELEE_WEAPON:
-				meleeAR+= mitem.getAttackRating();
+				meleeAR+= mweapon.getAttackRating();
 				break;
 			
 			case RANGED_WEAPON:
-				rangedAR+= mitem.getAttackRating();
+				rangedAR+= mweapon.getAttackRating();
 				break;
 			
 			case ARCANE_SPELL:
-				magicAR+= mitem.getAttackRating();
+				magicAR+= mweapon.getAttackRating();
 				break;
 			
 			case CURSE_SPELL:
-				curseAR+= mitem.getAttackRating();
+				curseAR+= mweapon.getAttackRating();
 				break;
 				
 			case BLESSING_SPELL:
-				blessingAR+= mitem.getAttackRating();
+				blessingAR+= mweapon.getAttackRating();
 				break;
 
 			default:
 				break;
 			}
 			
-			minBaseDmg = mitem.getDamageMin();
-			maxBaseDmg = mitem.getDamageMax();
+			minBaseDmg = mweapon.getDamageMin();
+			maxBaseDmg = mweapon.getDamageMax();
 		}
 		// No weapon item:
 		else{
@@ -181,54 +290,43 @@ public abstract class DerivedStats {
 		}
 	 }
 
-	/** Resets weapon stats. */
-	private void resetWeapon()
-	 {
-		minBaseDmg = 0;
-		maxBaseDmg = 0;
-		
-		meleeAR = 1;
-		rangedAR = 1;
-		magicAR = 1;
-		curseAR = 1;
-		blessingAR = 1;
-	 }
-
 	/**
 	 * Updates all armour stats.
 	 * 
-	 * @param living living entity
+	 * @param mhelmet helmet Mythr item, null if none
+	 * @param mchestplate chestplate Mythr item, null if none
+	 * @param mleggings leggings Mythr item, null if none
+	 * @param mboots boots Mythr item, null if none
 	 */
-	public void updateArmour(LivingEntity living)
+	private void updateArmour(MythrItem mhelmet, MythrItem mchestplate, MythrItem mleggings, MythrItem mboots)
 	 {
-		resetArmour();
-
 		Material material;
-		MythrItem mitem;
-		EntityEquipment inventory = living.getEquipment();
+		
+		int lightDR = 0;
+		int heavyDR = 0;
+		int exoticDR = 0;
 		
 		double light = 0.0;
 		double heavy = 0.0;
 		double exotic = 0.0;
 		
 		// Helmet:
-		if(inventory.getHelmet() != null){
-			mitem = MythrItem.fromBukkitItem(inventory.getHelmet());
-			material = mitem.getMaterial();
+		if(mhelmet != null){
+			material = mhelmet.getMaterial();
 			
-			switch (mitem.getType()) {
+			switch (mhelmet.getType()) {
 			case LIGHT_ARMOUR:
-				lightDR+= mitem.getDefenceRating();
+				lightDR+= mhelmet.getDefenceRating();
 				light+= VanillaConfiguration.HELMET_RATIO;
 				break;
 			
 			case HEAVY_ARMOUR:
-				heavyDR+= mitem.getDefenceRating();
+				heavyDR+= mhelmet.getDefenceRating();
 				heavy+= VanillaConfiguration.HELMET_RATIO;
 				break;
 
 			case EXOTIC_ARMOUR:
-				exoticDR+= mitem.getDefenceRating();
+				exoticDR+= mhelmet.getDefenceRating();
 				exotic+= VanillaConfiguration.HELMET_RATIO;
 				break;
 				
@@ -263,23 +361,22 @@ public abstract class DerivedStats {
 		}
 		
 		// Chestplate:
-		if(inventory.getChestplate() != null){
-			mitem = MythrItem.fromBukkitItem(inventory.getChestplate());
-			material = mitem.getMaterial();
+		if(mchestplate != null){
+			material = mchestplate.getMaterial();
 
-			switch (mitem.getType()) {
+			switch (mchestplate.getType()) {
 			case LIGHT_ARMOUR:
-				lightDR+= mitem.getDefenceRating();
+				lightDR+= mchestplate.getDefenceRating();
 				light+= VanillaConfiguration.HELMET_RATIO;
 				break;
 			
 			case HEAVY_ARMOUR:
-				heavyDR+= mitem.getDefenceRating();
+				heavyDR+= mchestplate.getDefenceRating();
 				heavy+= VanillaConfiguration.HELMET_RATIO;
 				break;
 
 			case EXOTIC_ARMOUR:
-				exoticDR+= mitem.getDefenceRating();
+				exoticDR+= mchestplate.getDefenceRating();
 				exotic+= VanillaConfiguration.HELMET_RATIO;
 				break;
 				
@@ -317,23 +414,22 @@ public abstract class DerivedStats {
 		}
 		
 		// Leggings:
-		if(inventory.getLeggings() != null){
-			mitem = MythrItem.fromBukkitItem(inventory.getLeggings());
-			material = mitem.getMaterial();
+		if(mleggings != null){
+			material = mleggings.getMaterial();
 
-			switch (mitem.getType()) {
+			switch (mleggings.getType()) {
 			case LIGHT_ARMOUR:
-				lightDR+= mitem.getDefenceRating();
+				lightDR+= mleggings.getDefenceRating();
 				light+= VanillaConfiguration.HELMET_RATIO;
 				break;
 			
 			case HEAVY_ARMOUR:
-				heavyDR+= mitem.getDefenceRating();
+				heavyDR+= mleggings.getDefenceRating();
 				heavy+= VanillaConfiguration.HELMET_RATIO;
 				break;
 
 			case EXOTIC_ARMOUR:
-				exoticDR+= mitem.getDefenceRating();
+				exoticDR+= mleggings.getDefenceRating();
 				exotic+= VanillaConfiguration.HELMET_RATIO;
 				break;
 				
@@ -371,23 +467,22 @@ public abstract class DerivedStats {
 		}
 		
 		// Boots:
-		if(inventory.getBoots() != null){
-			mitem = MythrItem.fromBukkitItem(inventory.getBoots());
-			material = mitem.getMaterial();
+		if(mboots != null){
+			material = mboots.getMaterial();
 
-			switch (mitem.getType()) {
+			switch (mboots.getType()) {
 			case LIGHT_ARMOUR:
-				lightDR+= mitem.getDefenceRating();
+				lightDR+= mboots.getDefenceRating();
 				light+= VanillaConfiguration.HELMET_RATIO;
 				break;
 			
 			case HEAVY_ARMOUR:
-				heavyDR+= mitem.getDefenceRating();
+				heavyDR+= mboots.getDefenceRating();
 				heavy+= VanillaConfiguration.HELMET_RATIO;
 				break;
 
 			case EXOTIC_ARMOUR:
-				exoticDR+= mitem.getDefenceRating();
+				exoticDR+= mboots.getDefenceRating();
 				exotic+= VanillaConfiguration.HELMET_RATIO;
 				break;
 				
@@ -442,73 +537,14 @@ public abstract class DerivedStats {
 			if(heavy > 0.0) heavyDR+= heavy * skills[i].getSpecifier(Specifier.HEAVY_ARMOUR_DEFENCE_RATING_MODIFIER, score);
 			if(exotic > 0.0) exoticDR+= exotic * skills[i].getSpecifier(Specifier.EXOTIC_ARMOUR_DEFENCE_RATING_MODIFIER, score);
 		}
-	 }
-
-	/** Resets armour stats. */
-	private void resetArmour()
-	 {
-		armour = 1.0;
-
-		lightDR = 0;
-		heavyDR = 0;
-		exoticDR = 0;
-	 }
-	
-	
-	/**
-	 * Updates player attributes.
-	 * 
-	 * @param lentity living entity
-	 */
-	public void updateAttribs(LivingEntity lentity)
-	 {
-		attributes = new int[AttributeConfiguration.getAttribCount()];
 		
-		String[] attribNames = AttributeConfiguration.getAttrNames();
+		// Armour defence rating:
+		armourDR = lightDR + heavyDR + exoticDR;
 		
-		for (int i = 0; i < attribNames.length; i++) {
-			attributes[i] = getRawAttribScore(attribNames[i]);
-		}
-		
-		// TODO: Skill bonus from responses.
-	 }
-
-	/**
-	 * Updates player skills.
-	 * 
-	 * @param lentity living entity
-	 */
-	public void updateSkills(LivingEntity lentity)
-	 {
-		skills = new int[SkillConfiguration.getSkillCount()];
-		
-		String[] skillNames = SkillConfiguration.getSkillNames();
-		
-		for (int i = 0; i < skillNames.length; i++) {
-			skills[i] = getRawSkillScore(skillNames[i]);
-		}
-		
-		// TODO: Skill bonus from responses.
 	 }
 	
 	
 	// SCORES:
-	/**
-	 * Gets the raw skill score.
-	 * 
-	 * @param skillName skill name
-	 * @return score
-	 */
-	abstract protected int getRawSkillScore(String skillName);
-
-	/**
-	 * Gets the raw attribute score.
-	 * 
-	 * @param attribName attribute name
-	 * @return score
-	 */
-	abstract protected int getRawAttribScore(String attribName);
-
 	/**
 	 * Gets the skill score.
 	 * 
@@ -574,7 +610,7 @@ public abstract class DerivedStats {
 	 {
 		// Damage and defence:
 		int damage = random(attacker.minBaseDmg, attacker.maxBaseDmg);
-		double defenceRating = lightDR + heavyDR + exoticDR;
+		double armourDR = this.armourDR;
 		double armour = this.armour;
 		
 		// Attack:
@@ -612,7 +648,7 @@ public abstract class DerivedStats {
 		}
 		
 		// Hit chance:
-		double tohit = attackRating / (attackRating + defenceRating);
+		double tohit = attackRating / (attackRating + armourDR);
 		boolean hit = tohit >= RANDOM.nextDouble();
 		
 		// Half armour on hit:
@@ -649,18 +685,7 @@ public abstract class DerivedStats {
 	@Override
 	public DerivedStats clone()
 	 {
-		DerivedStats dstats = new DerivedStats() {
-			
-			@Override
-			protected int getRawSkillScore(String skillName) {
-				return 0;
-			}
-			
-			@Override
-			protected int getRawAttribScore(String attribName) {
-				return 0;
-			}
-		};
+		DerivedStats dstats = new DerivedStats();
 		
 		dstats.minBaseDmg = minBaseDmg;
 		dstats.maxBaseDmg = maxBaseDmg;
@@ -678,10 +703,7 @@ public abstract class DerivedStats {
 		dstats.blessingAR = blessingAR;
 
 		dstats.armour = armour;
-
-		dstats.lightDR = lightDR;
-		dstats.heavyDR = heavyDR;
-		dstats.exoticDR = exoticDR;
+		dstats.armourDR = armourDR;
 
 		dstats.attributes = attributes;
 		dstats.skills = skills;

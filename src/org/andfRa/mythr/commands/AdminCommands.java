@@ -185,10 +185,6 @@ public class AdminCommands {
 		// Set score:
 		mtarget.setAttribute(attribute, score);
 		
-		// Update:
-		mtarget.updateWeapon();
-		mtarget.updateArmour();
-		
 		// Report:
 		if(mplayer == mtarget){
 			mtarget.positive(LocalisationConfiguration.getString(LocalisationConfiguration.ATTRIBUTE_SET, attribute, argScore));
@@ -277,10 +273,6 @@ public class AdminCommands {
 		// Set score:
 		mtarget.setSkill(skill, score);
 
-		// Update:
-		mtarget.updateWeapon();
-		mtarget.updateArmour();
-		
 		// Report:
 		if(mplayer == mtarget){
 			mtarget.positive(LocalisationConfiguration.getString(LocalisationConfiguration.SKILL_SET, skill, argScore));

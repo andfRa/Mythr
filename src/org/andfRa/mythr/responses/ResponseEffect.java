@@ -25,6 +25,17 @@ public abstract class ResponseEffect {
 	 */
 	public abstract String key();
 	
+
+	/**
+	 * Triggers the passive modifications.
+	 * 
+	 * @param response response
+	 * @param mplayer Mythr player
+	 * @param dsstats derived stats
+	 * @return true if successful
+	 */
+	public boolean passiveTrigger(Response response, DerivedStats dsstats)
+	 { return false; }
 	
 	/**
 	 * Triggers the response effect.
