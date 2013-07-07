@@ -114,7 +114,7 @@ public class DerivedStats {
 		if(equipment.getHelmet() != null) mhelmet = MythrItem.fromBukkitItem(equipment.getHelmet());
 		if(equipment.getChestplate() != null) mchestplate = MythrItem.fromBukkitItem(equipment.getChestplate());
 		if(equipment.getLeggings() != null) mleggings = MythrItem.fromBukkitItem(equipment.getLeggings());
-		if(equipment.getBoots() != null) mboots = MythrItem.fromBukkitItem(equipment.getLeggings());
+		if(equipment.getBoots() != null) mboots = MythrItem.fromBukkitItem(equipment.getBoots());
 		
 		// Update:
 		updateStats(attribScores, skillScores, mweapon, mhelmet, mchestplate, mleggings, mboots);
@@ -216,9 +216,6 @@ public class DerivedStats {
 			if(score == null) continue;
 			skills[i] = score;
 		}
-		
-		
-		// TODO: Skill bonus from responses.
 	 }
 	
 	/**
@@ -408,9 +405,6 @@ public class DerivedStats {
 			default:
 				break;
 			}
-
-			// TODO: Helmet attribute bonus.
-			// TODO: Helmet skill bonus.
 		}
 		
 		// Leggings:
@@ -461,9 +455,6 @@ public class DerivedStats {
 			default:
 				break;
 			}
-		
-			// TODO: Leggings attribute bonus.
-			// TODO: Leggings skill bonus.
 		}
 		
 		// Boots:
@@ -514,10 +505,6 @@ public class DerivedStats {
 			default:
 				break;
 			}
-			
-
-			// TODO: Boots attribute bonus.
-			// TODO: Boots skill bonus.
 		}
 
 		// Attributes:
@@ -546,6 +533,58 @@ public class DerivedStats {
 	
 	// SCORES:
 	/**
+	 * Gets the attribute score.
+	 * 
+	 * @param index attribute index
+	 * @return attribute score
+	 * @throws IndexOutOfBoundsException when the index is out of bounds
+	 */
+	public int getAttribScore(int index)
+	 {
+		return attributes[index];
+	 }
+	
+	/**
+	 * Gets the attribute score.
+	 * 
+	 * @param attributeName attribute name
+	 * @return attribute score
+	 */
+	public int getAttribScore(String atribName)
+	 {
+		int i = AttributeConfiguration.getAttribIndex(atribName);
+		if(i == -1) return 0;
+		
+		return getAttribScore(i);
+	 }
+	
+	/**
+	 * Modifies attribute score.
+	 * 
+	 * @param atribName attribute name
+	 * @param amount amount
+	 */
+	public void modAttribScore(String atribName, int amount)
+	 {
+		int i = AttributeConfiguration.getAttribIndex(atribName);
+		if(i == -1) return;
+		
+		attributes[i]+= amount;
+	 }
+	
+	/**
+	 * Gets the skill score.
+	 * 
+	 * @param index skill index
+	 * @return skill score
+	 * @throws IndexOutOfBoundsException when the index is out of bounds
+	 */
+	public int getSkillScore(int index)
+	 {
+		return skills[index];
+	 }
+	
+	/**
 	 * Gets the skill score.
 	 * 
 	 * @param skillName skill name
@@ -560,41 +599,17 @@ public class DerivedStats {
 	 }
 
 	/**
-	 * Gets the attribute score.
+	 * Modifies skill score.
 	 * 
-	 * @param attributeName attribute name
-	 * @return attribute score
+	 * @param skillName skill name
+	 * @param amount amount
 	 */
-	public int getAttribScore(String atribName)
+	public void modSkillScore(String skillName, int amount)
 	 {
-		int i = AttributeConfiguration.getAttribIndex(atribName);
-		if(i == -1) return 0;
+		int i = SkillConfiguration.getSkillIndex(skillName);
+		if(i == -1) return;
 		
-		return getAttribScore(i);
-	 }
-
-	/**
-	 * Gets the attribute score.
-	 * 
-	 * @param index attribute index
-	 * @return attribute score
-	 * @throws IndexOutOfBoundsException when the index is out of bounds
-	 */
-	public int getAttribScore(int index)
-	 {
-		return attributes[index];
-	 }
-
-	/**
-	 * Gets the skill score.
-	 * 
-	 * @param index skill index
-	 * @return skill score
-	 * @throws IndexOutOfBoundsException when the index is out of bounds
-	 */
-	public int getSkillScore(int index)
-	 {
-		return skills[index];
+		skills[i]+= amount;
 	 }
 	
 	
@@ -624,7 +639,6 @@ public class DerivedStats {
 			
 		case RANGED_WEAPON:
 			attackRating+= attacker.rangedAR;
-			System.out.println("dmgmod=" + attacker.rangedDmgMod);
 			damage+= attacker.rangedDmgMod;
 			break;
 			

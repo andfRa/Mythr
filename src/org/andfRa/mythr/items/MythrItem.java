@@ -229,11 +229,7 @@ public class MythrItem {
 			// Responses:
 			case RESPONSE_INDICATOR:
 
-				pattern = Pattern.compile("(?<=" + RESPONSE_INDICATOR +").+");
-				matcher = pattern.matcher(line);
-				if(matcher.find()) mitem.responses.add(matcher.group());
-				else mitem.error = true;
-				
+				if(line.length() >= 4) mitem.responses.add(line.substring(4));
 				break;
 					
 			// Attributes:

@@ -21,31 +21,63 @@
 	# ATTRIBUTE SCROLLS #
 	{
 	 "name":"+1 STR",
-	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "effectKey":"PERMANENT_MODIFY_ATTRIBUTE_EFFECT",
 	 "parameters":{"ATTRIBUTE":"strength", "AMOUNT":1}
 	},
 	
 	{
 	 "name":"+1 PRE",
-	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "effectKey":"PERMANENT_MODIFY_ATTRIBUTE_EFFECT",
 	 "parameters":{"ATTRIBUTE":"precision", "AMOUNT":1}
 	},
 	
 	{
 	 "name":"+1 WIL",
-	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "effectKey":"PERMANENT_MODIFY_ATTRIBUTE_EFFECT",
 	 "parameters":{"ATTRIBUTE":"willpower", "AMOUNT":1}
 	},
 	
 	{
 	 "name":"+1 DIV",
-	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "effectKey":"PERMANENT_MODIFY_ATTRIBUTE_EFFECT",
 	 "parameters":{"ATTRIBUTE":"divinity", "AMOUNT":1}
 	},
 	
 	{
 	 "name":"+1 CON",
-	 "effectKey":"MODIFY_ATTRIBUTE_EFFECT",
+	 "effectKey":"PERMANENT_MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"constitution", "AMOUNT":1}
+	},
+	
+	
+	# ITEM PASSIVE ATTRIBUTE MODIFIERS #
+	{
+	 "name":"+1 STR bonus",
+	 "effectKey":"PASSIVE_MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"strength", "AMOUNT":1}
+	},
+	
+	{
+	 "name":"+1 PRE bonus",
+	 "effectKey":"PASSIVE_MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"precision", "AMOUNT":1}
+	},
+	
+	{
+	 "name":"+1 WIL bonus",
+	 "effectKey":"PASSIVE_MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"willpower", "AMOUNT":1}
+	},
+	
+	{
+	 "name":"+1 DIV bonus",
+	 "effectKey":"PASSIVE_MODIFY_ATTRIBUTE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"divinity", "AMOUNT":1}
+	},
+	
+	{
+	 "name":"+1 CON bonus",
+	 "effectKey":"PASSIVE_MODIFY_ATTRIBUTE_EFFECT",
 	 "parameters":{"ATTRIBUTE":"constitution", "AMOUNT":1}
 	}
 	

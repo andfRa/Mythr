@@ -7,6 +7,7 @@ import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
 import org.andfRa.mythr.responses.ModAttributeEffect;
+import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.responses.ResponseEffect;
 import org.andfRa.mythr.responses.ShootFireballEffect;
@@ -74,6 +75,10 @@ public class ResponseConfiguration {
 
 		// Modify attribute:
 		effect = new ModAttributeEffect();
+		effects.put(effect.key(), effect);
+		
+		// Passive modify attribute:
+		effect = new PassiveModAttributeEffect();
 		effects.put(effect.key(), effect);
 		
 	}

@@ -18,7 +18,7 @@ public class ModAttributeEffect extends ResponseEffect {
 	
 	@Override
 	public String key()
-	 { return "MODIFY_ATTRIBUTE_EFFECT"; }
+	 { return "PERMANENT_MODIFY_ATTRIBUTE_EFFECT"; }
 	
 	@Override
 	public boolean interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)

@@ -82,7 +82,6 @@ public class EntityListener implements Listener {
 		}
 		// Other:
 		else{
-			System.out.println("OTHER");
 			return;
 		}
 		

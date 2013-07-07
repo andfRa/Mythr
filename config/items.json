@@ -18,7 +18,7 @@
  #  useableBy     - (Optional) Additional requirements for item equipping.
 "items":
  [
-	# MELEE WEAPONS #
+	# REGULAR MELEE WEAPONS #
 	{
 	 "name":"Shortsword",
 	 "material":"IRON_SWORD",
@@ -70,7 +70,7 @@
 	},
 	
 	
-	# RANGED WEAPONS #
+	# REGULAR RANGED WEAPONS #
 	{
 	 "name":"Shortbow",
 	 "material":"BOW",
@@ -122,7 +122,7 @@
 	},
 	
 	
-	# HEAVY ARMOUR #
+	# REGULAR HEAVY ARMOUR #
 	{
 	 "name":"Scale Helmet",
 	 "material":"IRON_HELMET",
@@ -237,6 +237,17 @@
 	 "defenceRating":4,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":18}
+	},
+	
+	
+	# RARE HEAVY ARMOUR #
+	{
+	 "name":"Boots of Minor Strength",
+	 "material":"IRON_BOOTS",
+	 "defenceRating":1,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":8},
+	 "responses":["+1 STR bonus"]
 	},
 	
 	
