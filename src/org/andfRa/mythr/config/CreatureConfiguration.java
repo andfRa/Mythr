@@ -80,7 +80,7 @@ public class CreatureConfiguration {
 			
 		} catch (IOException e) {
 			
-			MythrLogger.severe(CreatureConfiguration.class, "Failed to read configuration." + e.getClass().getSimpleName());
+			MythrLogger.severe(CreatureConfiguration.class, "Failed to read configuration.");
 			MythrLogger.severe(" " + e.getClass().getSimpleName() + ":" + e.getMessage());
 			config = new CreatureConfiguration();
 			

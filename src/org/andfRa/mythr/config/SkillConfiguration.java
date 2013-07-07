@@ -142,7 +142,7 @@ public class SkillConfiguration {
 			
 		} catch (IOException e) {
 			
-			MythrLogger.severe(SkillConfiguration.class, "Failed to read configuration." + e.getClass().getSimpleName());
+			MythrLogger.severe(SkillConfiguration.class, "Failed to read configuration.");
 			MythrLogger.severe(" " + e.getClass().getSimpleName() + ":" + e.getMessage());
 			config = new SkillConfiguration();
 			

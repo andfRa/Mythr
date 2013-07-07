@@ -14,7 +14,7 @@ import org.fusesource.jansi.Ansi.Attribute;
 public class MythrLogger{
 
 	
-	private static MythrLogger instance = null;
+	private static MythrLogger logger = null;
 	
 	private final ConsoleReader reader;
 	
@@ -24,7 +24,7 @@ public class MythrLogger{
     
     private final ChatColor[] colors = ChatColor.values();
     
-    private Logger logger = Logger.getLogger("Saga");
+    private Logger mlogger = Logger.getLogger("Mythr");
     
     
 	/**
@@ -68,9 +68,8 @@ public class MythrLogger{
 	 * @param message message
 	 * @return formated message
 	 */
-	public String format(String message) {
-       
-		
+	public String format(String message)
+	 {
 		if(terminal.isAnsiSupported()) {
                 
 			String result = message;
@@ -88,164 +87,113 @@ public class MythrLogger{
             return result + Ansi.ansi().reset().toString();
                 
         } else {
-        	
         	return ChatColor.stripColor(message);
-        	
         }
-		
-		
-    }
+     }
 	
 	/**
 	 * Severe message.
 	 * 
 	 * @param msg message
 	 */
-	public static void severe(String msg) {
-		instance.logger.severe(instance.format(ChatColor.RED + msg));
-	}
+	public static void severe(String msg)
+	 {
+		logger.mlogger.severe(logger.format(ChatColor.RED + msg));
+	 }
 	
 	/**
 	 * Warning message.
 	 * 
 	 * @param msg message
 	 */
-	public static void warning(String msg) {
-		instance.logger.warning(instance.format(ChatColor.YELLOW + msg));
-	}
+	public static void warning(String msg)
+	 {
+		logger.mlogger.warning(logger.format(ChatColor.YELLOW + msg));
+	 }
 	
 	/**
 	 * Info message.
 	 * 
 	 * @param msg message
 	 */
-	public static void info(String msg) {
-		instance.logger.info(instance.format(msg));
-		
-	}
+	public static void info(String msg)
+	 {
+		logger.mlogger.info(logger.format(msg));
+	 }
 
 	/**
 	 * Message.
 	 * 
 	 * @param msg message
 	 */
-	public static void message(String msg) {
-		instance.logger.info(instance.format(msg));
-	}
-
+	public static void message(String msg)
+	 {
+		logger.mlogger.info(logger.format(msg));
+	 }
 
 
     /**
      * Info message.
      * 
-     * @param instance instance
+     * @param clazz class
      * @param message message
      */
-	public static void info(Object instance, String message) {
-		info(instance.getClass().getSimpleName() + "{" + instance + "} " + message + ".");
-    }
-    
-    /**
-     * Info message.
-     * 
-     * @param tClass class
-     * @param message message
-     */
-    public static void info(Class<?> tClass, String message) {
-    	info(tClass.getSimpleName() + ": " + message + ".");
-    }
-    
-	
-    /**
-     * Severe message.
-     * 
-     * @param instance instance
-     * @param message message
-     */
-	public static void severe(Object instance, String message) {
-        severe(instance.getClass().getSimpleName() + "{" + instance + "} " + message + ".");
-    }
+    public static void info(Class<?> clazz, String message)
+     {
+    	info("{" + clazz.getSimpleName() + "} " + message);
+     }
     
     /**
      * Severe message.
      * 
-     * @param tClass class
+     * @param clazz class
      * @param message message
      */
-    public static void severe(Class<?> tClass, String message) {
-    	severe(tClass.getSimpleName() + ": " + message + ".");
-    }
-    
-
-    /**
-     * Warning message.
-     * 
-     * @param instance instance
-     * @param message message
-     */
-    public static void warning(Object instance, String message) {
-    	warning(instance.getClass().getSimpleName() + "{" + instance + "} " + message + ".");
-    }
+	public static void severe(Class<?> clazz, String message)
+	 {
+    	severe("{" + clazz.getSimpleName() + "} " + message);
+     }
     
     /**
      * Warning message.
      * 
-     * @param tClass class
+     * @param clazz class
      * @param message message
      */
-    public static void warning(Class<?> tClass, String message) {
-    	warning(tClass.getSimpleName() + ": " + message + ".");
-    }
+    public static void warning(Class<?> clazz, String message)
+     {
+    	warning("{" + clazz.getSimpleName() + "} " + message);
+     }
     
-    /**
-     * Warning message.
-     * 
-     * @param category warning category, e.g. "item parse failure"
-     * @param specification specification, e.g. "maximum damage missing"
-     */
-    public static void warning(String category, String specification) {
-    	warning(category + ": " + specification + ".");
-    }
-
-    /**
-     * Null field message.
-     * 
-     * @param instance instance
-     * @param field field
-     */
-	public static void nullField(Object instance, String field) {
-        severe(instance.getClass().getSimpleName() + "{" + instance + "} " + field + " field failed to initialise.");
-    }
-	
 	/**
      * Null field message.
      * 
-     * @param classs class
-     * @param field field
+     * @param clazz class
+     * @param field field name
      */
-	public static void nullField(Class<?> classs, String field) {
-        severe(classs.getSimpleName() + ": field " + field + " failed to initialise.");
-    }
+	public static void nullField(Class<?> clazz, String field)
+	 {
+        severe("{" + clazz.getSimpleName() + "} " + "Field " + field + " failed to initialise.");
+     }
     
+	
 	/**
 	 * Loads the logger.
 	 * 
 	 */
-	public static void load() {
-		
-		instance = new MythrLogger();
-		
-	}
+	public static void load()
+	 {
+		logger = new MythrLogger();
+	 }
 	
 	/**
 	 * Unloads the logger.
 	 * 
 	 */
-	public static void unload() {
-		
-		instance = null;
-		
-	}
+	public static void unload()
+	 {
+		logger = null;
+	 }
 	
 	
 }

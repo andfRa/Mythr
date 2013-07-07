@@ -240,7 +240,7 @@ public class AttributeConfiguration {
 			
 		} catch (IOException e) {
 			
-			MythrLogger.severe(AttributeConfiguration.class, "Failed to read configuration." + e.getClass().getSimpleName());
+			MythrLogger.severe(AttributeConfiguration.class, "Failed to read configuration.");
 			MythrLogger.severe(" " + e.getClass().getSimpleName() + ":" + e.getMessage());
 			config = new AttributeConfiguration();
 			

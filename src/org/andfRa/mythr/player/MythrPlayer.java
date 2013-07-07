@@ -420,7 +420,7 @@ public class MythrPlayer {
         try {
             FileIO.writeData(Directory.PLAYER_DATA, name.toLowerCase(), this);
         } catch (Throwable e) {
-            MythrLogger.severe(this, "Player data save failure for " + name + ".");
+            MythrLogger.severe(MythrPlayer.class, "Player data save failure for " + name + ".");
             MythrLogger.severe(MythrPlayer.class, " " + e.getClass().getSimpleName() + ":" + e.getMessage());
         }
 	 }
