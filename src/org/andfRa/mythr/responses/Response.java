@@ -53,7 +53,9 @@ public class Response {
 	 */
 	public void assign(HashMap<String, ResponseEffect> effects)
 	 {
-		effect = effects.get(effectKey);
+		ResponseEffect eff = effects.get(effectKey);
+		if(eff == null) MythrLogger.warning(getClass(), "Failed to assign response effect for " + effectKey + " key.");
+		effect = eff;
 	 }
 	
 	
