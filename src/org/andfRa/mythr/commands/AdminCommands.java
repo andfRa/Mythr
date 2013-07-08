@@ -1,16 +1,20 @@
 package org.andfRa.mythr.commands;
 
+import java.util.ArrayList;
+
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.ItemConfiguration;
 import org.andfRa.mythr.config.LocalisationConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
-import org.andfRa.mythr.dependencies.EffectDependancy;
-import org.andfRa.mythr.dependencies.particles.ParticleEffect;
 import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
-import org.bukkit.Sound;
+import org.andfRa.mythr.util.TargetUtil;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.sk89q.Command;
 import org.sk89q.CommandContext;
@@ -31,9 +35,19 @@ public class AdminCommands {
 	@CommandPermissions({"mythr.admin.test"})
 	public static void test(CommandContext args, MythrPlayer mythrPlayer) {
 
-		Player player = mythrPlayer.getPlayer();
-		player.playSound(player.getLocation(), Sound.ENDERMAN_TELEPORT, 1f, 0.25f);
-		EffectDependancy.playParticle(ParticleEffect.FIREWORKS_SPARK, player.getLocation(), 2f, 0.1f, 4);
+		Location loc = mythrPlayer.getPlayer().getLocation();
+		Location p = loc.add(10, 0, 0);
+		
+		TargetUtil.checkBeam(loc, 4, p);
+		ArrayList<Entity> caught = TargetUtil.findBeamCollisions(mythrPlayer.getPlayer(), 2, 20);
+		for (Entity entity : caught) {
+			if(entity instanceof LivingEntity){
+				((LivingEntity) entity).damage(1.0);
+				p.getWorld().playEffect(entity.getLocation(), Effect.POTION_BREAK, 1);
+				System.out.println("caught " + entity.getType());
+			}
+		}
+		
 		
 	}
 	
