@@ -144,6 +144,12 @@ public class DerivedStats {
 		minBaseDmg = 0;
 		maxBaseDmg = 0;
 		
+		meleeDmgMod = 0;
+		rangedDmgMod = 0;
+		magicDmgMod = 0;
+		curseDmgMod = 0;
+		blessingDmgMod = 0;
+		
 		meleeAR = 1;
 		rangedAR = 1;
 		magicAR = 1;
