@@ -21,12 +21,24 @@
 	{
 	 "name":"shoot ender beam",
 	 "effectKey":"BEAM_SHAPE_EFFECT",
-	 "parameters":{"CAST_TICKS":25, "BEAM_RADIUS":1, "BEAM_LENGTH":10, "APPLIED_RESPONSE":"ender beam damage", "SOUND":"ENDERMAN_TELEPORT", "PARTICLES":"WITCH_MAGIC"}
+	 "parameters":{"CAST_TICKS":25, "BEAM_RADIUS":1, "BEAM_LENGTH":10, "APPLIED_RESPONSE":"ender beam damage", "PENETRATES":"true", "SOUND":"ENDERMAN_TELEPORT", "PARTICLES":"WITCH_MAGIC"}
 	},
 	{
 	 "name":"ender beam damage",
 	 "effectKey":"DAMAGE_EFFECT",
-	 "parameters":{"ATTRIBUTE":"willpower", "MODIFIER":-6, "DAMAGE_TYPE":"ARCANE_SPELL", "BONUS_DAMAGE_MULTIPLIER":1.25}
+	 "parameters":{"ATTRIBUTE":"willpower", "MODIFIER":-6, "DAMAGE_TYPE":"ARCANE", "BONUS_DAMAGE_MULTIPLIER":1.25}
+	},
+	
+	# BLESSING SPELLS #
+	{
+	 "name":"minor heal",
+	 "effectKey":"BEAM_SHAPE_EFFECT",
+	 "parameters":{"CAST_TICKS":25, "BEAM_RADIUS":1, "BEAM_LENGTH":10, "APPLIED_RESPONSE":"minor heal target", "PENETRATES":"false", "SOUND":"ORB_PICKUP"}
+	},
+	{
+	 "name":"minor heal target",
+	 "effectKey":"HEAL_EFFECT",
+	 "parameters":{"ATTRIBUTE":"willpower", "MODIFIER":-6, "DAMAGE_TYPE":"BLESSING", "BONUS_DAMAGE_MULTIPLIER":1.25}
 	},
 	
 	

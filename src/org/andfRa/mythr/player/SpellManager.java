@@ -139,7 +139,7 @@ public class SpellManager implements Runnable {
 		Player player = Bukkit.getServer().getPlayer(name);
 		if(player == null) return;
 		
-		EffectDependancy.playArcane(player.getLocation(), progress);
+		EffectDependancy.playCast(player.getLocation(), progress);
 	 }
 	
 	/**

@@ -8,6 +8,7 @@ import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
 import org.andfRa.mythr.responses.BeamShapeEffect;
 import org.andfRa.mythr.responses.DamageEffect;
+import org.andfRa.mythr.responses.HealEffect;
 import org.andfRa.mythr.responses.ModAttributeEffect;
 import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
@@ -91,6 +92,11 @@ public class ResponseConfiguration {
 		// Damage effect:
 		effect = new DamageEffect();
 		effects.put(effect.key(), effect);
+
+		// Heal effect:
+		effect = new HealEffect();
+		effects.put(effect.key(), effect);
+		
 	 }
 	
 	

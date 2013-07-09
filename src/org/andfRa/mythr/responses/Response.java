@@ -100,7 +100,7 @@ public class Response {
 			MythrLogger.warning(getClass(), "Response " + name + " received request for an undefined key " + key + ".");
 			val = "false";
 		}
-		return key.equalsIgnoreCase("true");
+		return val.equalsIgnoreCase("true");
 	 }
 	
 	/**

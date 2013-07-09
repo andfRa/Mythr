@@ -251,7 +251,7 @@
 	},
 	
 	
-	# SPELLS #
+	# ARCANE SPELLS #
 	{
 	 "name":"Fireball Spell",
 	 "material":"BOOK",
@@ -274,6 +274,17 @@
 	 "attrReq":{"WIL":12}
 	},
 
+	# BLESSING SPELLS #
+	{
+	 "name":"Minor Heal Spell",
+	 "material":"BOOK",
+	 "damageMin":5,
+	 "damageMax":10,
+	 "attackRating":6,
+	 "type":"BLESSING_SPELL",
+	 "effect":"minor heal",
+	 "attrReq":{"WIL":12}
+	},
 	
 	# ATTRIBUTE SCROLLS #
 	{

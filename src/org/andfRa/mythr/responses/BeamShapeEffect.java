@@ -28,6 +28,9 @@ public class BeamShapeEffect extends ResponseEffect {
 	/** Key for applied response. */
 	public static String APPLIED_RESPONSE_KEY = "APPLIED_RESPONSE";
 
+	/** Key for penetrate. */
+	public static String PENETRATES_KEY = "PENETRATES";
+	
 	/** Key for sound name. */
 	public static String SOUND_KEY = "SOUND";
 
@@ -78,12 +81,37 @@ public class BeamShapeEffect extends ResponseEffect {
 		// Find all caught in the beam:
 		ArrayList<Entity> caught = TargetUtil.findBeamCollisions(player, R, l);
 		
-		// Apply response:
-		DerivedStats dsdefender = null;
-		for (Entity entity : caught) {
-			if(!(entity instanceof LivingEntity)) continue;
-			dsdefender = DerivedStats.findDerived((LivingEntity)entity);
-			applied.attackTrigger(player, (LivingEntity)entity, dsattacker, dsdefender);
+		// Apply to all:
+		if(response.getBoolean(PENETRATES_KEY)){
+
+			DerivedStats dsdefender = null;
+			
+			for (Entity entity : caught) {
+				if(!(entity instanceof LivingEntity)) continue;
+				dsdefender = DerivedStats.findDerived((LivingEntity)entity);
+				applied.attackTrigger(player, (LivingEntity)entity, dsattacker, dsdefender);
+			}
+		}
+		
+		// Apply to closest:
+		else{
+			double distance2 = -1;
+			
+			DerivedStats dsclosest = null;
+			LivingEntity closest = null;
+			double distclosest2 = Double.MAX_VALUE;
+			
+			for (Entity entity : caught) {
+				if(!(entity instanceof LivingEntity)) continue;
+				distance2 = entity.getLocation().distanceSquared(player.getLocation());
+				if(distance2 < distclosest2){
+					closest = (LivingEntity) entity;
+					distclosest2 = distance2;
+					dsclosest = DerivedStats.findDerived((LivingEntity)entity);
+				}
+			}
+			
+			if(closest != null) applied.attackTrigger(player, closest, dsattacker, dsclosest);
 		}
 		
 		// Sound effect:

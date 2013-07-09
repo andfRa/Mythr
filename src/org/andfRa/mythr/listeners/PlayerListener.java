@@ -106,6 +106,7 @@ public class PlayerListener implements Listener {
 				switch (mitem.getType()) {
 				case ARCANE_SPELL:
 				case CURSE_SPELL:
+				case BLESSING_SPELL:
 					String respName = mitem.getEffect();
 					if(respName == null) break;
 					Response response = ResponseConfiguration.getResponse(respName);

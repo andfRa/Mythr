@@ -1,13 +1,9 @@
 package org.andfRa.mythr.responses;
 
-import org.andfRa.mythr.MythrLogger;
-import org.andfRa.mythr.items.ItemType;
+import org.andfRa.mythr.dependencies.EffectDependancy;
 import org.andfRa.mythr.player.DamageType;
 import org.andfRa.mythr.player.DerivedStats;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 public class HealEffect extends ResponseEffect {
 
@@ -30,7 +26,7 @@ public class HealEffect extends ResponseEffect {
 	 { return "HEAL_EFFECT"; }
 	
 	@Override
-	public boolean attackTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean attackTrigger(Response response, LivingEntity lcaster, LivingEntity ltarget, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
 		// Check for bonus:
 		boolean bonus = findAttribScoreSuccess(response, dsattacker, dsdefender);
@@ -39,40 +35,21 @@ public class HealEffect extends ResponseEffect {
 		DamageType type = DamageType.match(response.getString(DAMAGE_TYPE_KEY));
 		if(type == null) return false;
 		
-		// Calculate damage:
-		double damage = dsdefender.defend(type, dsattacker);
-		if(bonus) damage*= response.getDouble(BONUS_DAMAGE_MULTIPLIER_KEY);
+		// Calculate health:
+		double heal = dsdefender.defend(type, dsattacker);
+		if(bonus) heal*= response.getDouble(BONUS_DAMAGE_MULTIPLIER_KEY);
 		
-		// Send event:
-		EntityDamageByEntityEvent bevent = new EntityDamageByEntityEvent(ldefender, lattacker, DamageCause.ENTITY_ATTACK, damage);
-		Bukkit.getServer().getPluginManager().callEvent(bevent);
-		if(bevent.isCancelled()) return false;
+		double health = ltarget.getHealth() + heal;
+		if(health > ltarget.getMaxHealth()) health = ltarget.getHealth();
 		
-		// Apply damage:
-		ldefender.setLastDamageCause(bevent);
-		ldefender.damage(damage);
+		// Apply heal:
+		ltarget.setHealth(health);
+		
+		// Effect:
+		EffectDependancy.playHeal(ltarget.getLocation());
 		
 		return true;
 	 }
 
-
-	// UTILITY:
-	/**
-	 * Matches a item type.
-	 * 
-	 * @param name item type name
-	 * @return matched particle effect
-	 */
-	public static ItemType matchItemType(String name)
-	 {
-		try {
-			return ItemType.valueOf(name.toUpperCase().replace(' ', '_'));
-		}
-		catch (IllegalArgumentException e) {
-			MythrLogger.warning(BeamShapeEffect.class, "Failed to find item type for " + name + ".");
-			return null;
-		}
-	 }
-	
 	
 }

@@ -31,12 +31,12 @@ public class EffectDependancy {
 	 }
 	
 	/**
-	 * Plays arcane spell effect.
+	 * Plays spell effect.
 	 * 
 	 * @param loc location
 	 * @param progress spell progress
 	 */
-	public static void playArcane(Location loc, double progress)
+	public static void playCast(Location loc, double progress)
 	 {
 		final double r = 0.5;
 		final double totPhi = 6.2831853;
@@ -115,7 +115,48 @@ public class EffectDependancy {
 			dz = dx2*Math.sin(beta) + dz2*Math.cos(beta);
 			
 			Location p = lshooter.clone().add(dx, dy, dz);
-			playParticle(particles, p, 0.1f, 1.0f, 5);
+			playParticle(particles, p, 0.0f, 1.0f, 5);
+			
+		}
+	 }
+	
+	
+	/**
+	 * Plays heal.
+	 * 
+	 * @param ltarget shooter location, includes direction
+	 * @param radius beam radius
+	 * @param length beam length
+	 * @param particles beam particles
+	 */
+	public static void playHeal(Location ltarget)
+	 {
+		double radius = 0.5;
+		double length = 2.0;
+		ParticleEffect particles = ParticleEffect.CRIT;
+		
+		double phi = 0;
+		double theta = 0;
+		
+		double alpha = Math.PI / 2.0 - theta;
+		double beta = phi;
+		
+		for (double i = 0; i <= length; i+=0.25) {
+			
+			double dx = i;
+			double dy = radius*Math.cos(3*i);
+			double dz = radius*Math.sin(3*i);
+			
+			double dx2 = dx*Math.cos(alpha) - dy*Math.sin(alpha);
+			double dy2 = dx*Math.sin(alpha) + dy*Math.cos(alpha);
+			double dz2 = dz;
+			
+			dx = dx2*Math.cos(beta) - dz2*Math.sin(beta);
+			dy = dy2;
+			dz = dx2*Math.sin(beta) + dz2*Math.cos(beta);
+			
+			Location p = ltarget.clone().add(dx, dy, dz);
+			playParticle(particles, p, 0.5f, 0.1f, 5);
 			
 		}
 	 }
