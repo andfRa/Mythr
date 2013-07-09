@@ -4,6 +4,7 @@ package org.andfRa.mythr.listeners;
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.ItemType;
+import org.andfRa.mythr.player.DamageType;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.util.MetadataUtil;
@@ -90,7 +91,7 @@ public class EntityListener implements Listener {
 		if(reaction != null) reaction.attackTrigger(lattacker, ldefender, dsattacker, dsdefender);
 
 		// Prepare:
-		damage = dsdefender.defend(type, dsattacker);
+		damage = dsdefender.defend(DamageType.match(type), dsattacker);
 		final double harm = damage;
 		
 		// Not on my watch:

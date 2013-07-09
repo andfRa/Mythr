@@ -11,7 +11,6 @@ import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
-import org.andfRa.mythr.items.ItemType;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.util.LinearFunction;
@@ -625,16 +624,16 @@ public class DerivedStats {
 	
 	// DAMAGE:
 	/**
+	 * Calculates damage.
 	 * 
-	 * 
-	 * @param type
-	 * @param attacker
-	 * @return
+	 * @param type damage type
+	 * @param dsattacker attacker derived stats
+	 * @return damage damage
 	 */
-	public int defend(ItemType type, DerivedStats attacker)
+	public int defend(DamageType type, DerivedStats dsattacker)
 	 {
 		// Damage and defence:
-		int damage = random(attacker.minBaseDmg, attacker.maxBaseDmg);
+		int damage = random(dsattacker.minBaseDmg, dsattacker.maxBaseDmg);
 		double armourDR = this.armourDR;
 		double armour = this.armour;
 		
@@ -642,29 +641,29 @@ public class DerivedStats {
 		double attackRating = 0;
 		
 		switch (type) {
-		case MELEE_WEAPON:
-			attackRating+= attacker.meleeAR;
-			damage+= attacker.meleeDmgMod;
+		case MELEE:
+			attackRating+= dsattacker.meleeAR;
+			damage+= dsattacker.meleeDmgMod;
 			break;
 			
-		case RANGED_WEAPON:
-			attackRating+= attacker.rangedAR;
-			damage+= attacker.rangedDmgMod;
+		case RANGED:
+			attackRating+= dsattacker.rangedAR;
+			damage+= dsattacker.rangedDmgMod;
 			break;
 			
-		case ARCANE_SPELL:
-			attackRating+= attacker.magicAR;
-			damage+= attacker.magicDmgMod;
+		case ARCANE:
+			attackRating+= dsattacker.magicAR;
+			damage+= dsattacker.magicDmgMod;
 			break;
 
-		case CURSE_SPELL:
-			attackRating+= attacker.curseAR;
-			damage+= attacker.curseDmgMod;
+		case CURSE:
+			attackRating+= dsattacker.curseAR;
+			damage+= dsattacker.curseDmgMod;
 			break;
 
-		case BLESSING_SPELL:
-			attackRating+= attacker.blessingAR;
-			damage+= attacker.blessingDmgMod;
+		case BLESSING:
+			attackRating+= dsattacker.blessingAR;
+			damage+= dsattacker.blessingDmgMod;
 			break;
 			
 		default:

@@ -1,5 +1,7 @@
 package org.andfRa.mythr.responses;
 
+import org.andfRa.mythr.MythrLogger;
+import org.andfRa.mythr.items.ItemType;
 import org.andfRa.mythr.player.DamageType;
 import org.andfRa.mythr.player.DerivedStats;
 import org.bukkit.Bukkit;
@@ -7,7 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
-public class DamageEffect extends ResponseEffect {
+public class HealEffect extends ResponseEffect {
 
 	/** Attribute used for checks key. */
 	final public static String ATTRIBUTE_KEY = ResponseEffect.ATTRIBUTE_KEY;
@@ -25,7 +27,7 @@ public class DamageEffect extends ResponseEffect {
 	
 	@Override
 	public String key()
-	 { return "DAMAGE_EFFECT"; }
+	 { return "HEAL_EFFECT"; }
 	
 	@Override
 	public boolean attackTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
@@ -52,5 +54,25 @@ public class DamageEffect extends ResponseEffect {
 		
 		return true;
 	 }
+
+
+	// UTILITY:
+	/**
+	 * Matches a item type.
+	 * 
+	 * @param name item type name
+	 * @return matched particle effect
+	 */
+	public static ItemType matchItemType(String name)
+	 {
+		try {
+			return ItemType.valueOf(name.toUpperCase().replace(' ', '_'));
+		}
+		catch (IllegalArgumentException e) {
+			MythrLogger.warning(BeamShapeEffect.class, "Failed to find item type for " + name + ".");
+			return null;
+		}
+	 }
+	
 	
 }
