@@ -12,6 +12,7 @@ import org.andfRa.mythr.player.SpellManager;
 import org.andfRa.mythr.util.TargetUtil;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -64,9 +65,17 @@ public class BeamShapeEffect extends ResponseEffect {
 			return false;
 		}
 		
-		// Find all caught in the beam:
+		// Determine beam paramaters:
 		double R = response.getDouble(BEAM_RADIUS_KEY);
 		double l = response.getDouble(BEAM_LENGTH_KEY);
+
+		Block target = TargetUtil.getTargetBlock(player, (int)l);
+		if(target != null){
+			double d2 = target.getLocation().distanceSquared(player.getLocation());
+			if(d2 < l*l) l = Math.sqrt(d2) + 0.75;
+		}
+		
+		// Find all caught in the beam:
 		ArrayList<Entity> caught = TargetUtil.findBeamCollisions(player, R, l);
 		
 		// Apply response:
@@ -85,7 +94,7 @@ public class BeamShapeEffect extends ResponseEffect {
 		// Particle effect:
 		if(response.hasParameter(PARTICLES_KEY)){
 			ParticleEffect particles = matchParticles(response.getString(PARTICLES_KEY));
-			if(particles != null) EffectDependancy.playBeam(player.getEyeLocation(), R, l, particles);
+			if(particles != null) EffectDependancy.playSpiralBeam(player.getEyeLocation(), R, l, particles);
 		}
 		
 		return true;

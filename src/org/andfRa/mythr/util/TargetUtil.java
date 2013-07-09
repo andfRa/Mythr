@@ -1,15 +1,30 @@
 package org.andfRa.mythr.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
 public class TargetUtil {
 
+	/** All transparent blocks. */
+	@SuppressWarnings("serial")
+	final private static HashSet<Byte> TRANSPERENT_BLOCKS = new HashSet<Byte>(){
+		{
+			Material[] materials = Material.values();
+			for (int i = 0; i < materials.length; i++) {
+				if(materials[i].isTransparent()) add((byte) materials[i].getId());
+			}
+		}
+	};
+
+	
 	/**
 	 * Calculates the angle between the x-axis and the vector.
 	 * 
@@ -48,6 +63,18 @@ public class TargetUtil {
 		return Math.acos(v_1.dot(v_2) / (l_1 * l_2));
 	 }
 	
+	
+	/**
+	 * Gets the target block.
+	 * 
+	 * @param lentity living entity
+	 * @param maxDinstance maximum distance
+	 * @return target block, null if none
+	 */
+	public static Block getTargetBlock(LivingEntity lentity, int maxDinstance)
+	 {
+		return lentity.getTargetBlock(TRANSPERENT_BLOCKS, maxDinstance); // TODO: Add transperent.
+	 }
 	
 	/**
 	 * Checks if the point is located in the beam.
@@ -96,19 +123,21 @@ public class TargetUtil {
 	/**
 	 * Finds all entities caught in the beam.
 	 * 
-	 * @param lentity living entity
+	 * @param lshooter living entity
 	 * @param R beam radius
 	 * @param l beam length
 	 * @return all entities caught in the beam
 	 */
-	public static ArrayList<Entity> findBeamCollisions(LivingEntity lentity, double R, double l)
+	public static ArrayList<Entity> findBeamCollisions(LivingEntity lshooter, double R, double l)
 	 {
 		ArrayList<Entity> caught = new ArrayList<Entity>();
-		
-		List<Entity> nearby = lentity.getNearbyEntities(l, l, l);
+
+		List<Entity> nearby = lshooter.getNearbyEntities(l, l, l);
 		for (Entity entity : nearby) {
-			if(checkBeam(lentity.getEyeLocation(), R, entity.getLocation())) caught.add(entity);
-			else if(entity instanceof LivingEntity && checkBeam(lentity.getEyeLocation(), R, ((LivingEntity) entity).getEyeLocation())) caught.add(entity);
+			if(entity.getLocation().distanceSquared(lshooter.getLocation()) > l*l) continue;
+			
+			if(checkBeam(lshooter.getEyeLocation(), R, entity.getLocation())) caught.add(entity);
+			else if(entity instanceof LivingEntity && checkBeam(lshooter.getEyeLocation(), R, ((LivingEntity) entity).getEyeLocation())) caught.add(entity);
 		}
 		
 		return caught;

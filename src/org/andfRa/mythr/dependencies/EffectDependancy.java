@@ -3,6 +3,7 @@ package org.andfRa.mythr.dependencies;
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.dependencies.particles.ParticleEffect;
 import org.andfRa.mythr.dependencies.particles.ParticleEffectSender;
+import org.andfRa.mythr.util.TargetUtil;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -78,6 +79,44 @@ public class EffectDependancy {
 		for (double i = 0; i <= length; i+=0.25) {
 			plocation.add(direction);
 			playParticle(particles, plocation, 0.1f, 1.0f, 5);
+		}
+	 }
+
+	/**
+	 * Plays spiral beam.
+	 * 
+	 * @param lshooter shooter location, includes direction
+	 * @param radius beam radius
+	 * @param length beam length
+	 * @param particles beam particles
+	 */
+	public static void playSpiralBeam(Location lshooter, double radius, double length, ParticleEffect particles)
+	 {
+		Vector direction = lshooter.getDirection().clone();
+		
+		double phi = TargetUtil.calcPhi(direction);
+		double theta = TargetUtil.calcTheta(direction);
+		
+		double alpha = Math.PI / 2.0 - theta;
+		double beta = phi;
+		
+		for (double i = 0; i <= length; i+=0.25) {
+			
+			double dx = i;
+			double dy = radius*Math.cos(i);
+			double dz = radius*Math.sin(i);
+			
+			double dx2 = dx*Math.cos(alpha) - dy*Math.sin(alpha);
+			double dy2 = dx*Math.sin(alpha) + dy*Math.cos(alpha);
+			double dz2 = dz;
+			
+			dx = dx2*Math.cos(beta) - dz2*Math.sin(beta);
+			dy = dy2;
+			dz = dx2*Math.sin(beta) + dz2*Math.cos(beta);
+			
+			Location p = lshooter.clone().add(dx, dy, dz);
+			playParticle(particles, p, 0.1f, 1.0f, 5);
+			
 		}
 	 }
 	
