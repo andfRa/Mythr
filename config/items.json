@@ -263,6 +263,17 @@
 	 "attrReq":{"WIL":6}
 	},
 
+	{
+	 "name":"Ender Beam Spell",
+	 "material":"BOOK",
+	 "damageMin":12,
+	 "damageMax":18,
+	 "attackRating":6,
+	 "type":"ARCANE_SPELL",
+	 "effect":"shoot ender beam",
+	 "attrReq":{"WIL":12}
+	},
+
 	
 	# ATTRIBUTE SCROLLS #
 	{

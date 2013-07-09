@@ -108,6 +108,7 @@ public class TargetUtil {
 		List<Entity> nearby = lentity.getNearbyEntities(l, l, l);
 		for (Entity entity : nearby) {
 			if(checkBeam(lentity.getEyeLocation(), R, entity.getLocation())) caught.add(entity);
+			else if(entity instanceof LivingEntity && checkBeam(lentity.getEyeLocation(), R, ((LivingEntity) entity).getEyeLocation())) caught.add(entity);
 		}
 		
 		return caught;

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
-import org.bukkit.entity.Creature;
+import org.bukkit.entity.LivingEntity;
 
 public abstract class ResponseEffect {
 
@@ -60,55 +60,16 @@ public abstract class ResponseEffect {
 	 { return false; }
 
 	/**
-	 * Called on PvP.
+	 * Called on attack.
 	 * 
 	 * @param response response
-	 * @param mattacker Mythrl player attacker
-	 * @param mdefender Mythrl player defender
+	 * @param mattacker living attacker
+	 * @param mdefender living defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
 	 * @return true if successful
 	 */
-	public boolean attackTrigger(Response response, MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 { return false; }
-
-	/**
-	 * Called on PvC.
-	 * 
-	 * @param response response
-	 * @param mattacker Mythrl player attacker
-	 * @param mdefender creature defender
-	 * @param dsattacker attackers derived stats
-	 * @param dsdefender defenders derived stats
-	 * @return true if successful
-	 */
-	public boolean attackTrigger(Response response, MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 { return false; }
-
-	/**
-	 * Called on CvP.
-	 * 
-	 * @param response response
-	 * @param cattacker creature attacker
-	 * @param mdefender Mythr player defender
-	 * @param dsattacker attackers derived stats
-	 * @param dsdefender defenders derived stats
-	 * @return true if successful
-	 */
-	public boolean attackTrigger(Response response, Creature cattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 { return false; }
-
-	/**
-	 * Called on CvC.
-	 * 
-	 * @param response response
-	 * @param cattacker creature attacker
-	 * @param mdefender Creature defender
-	 * @param dsattacker attackers derived stats
-	 * @param dsdefender defenders derived stats
-	 * @return true if successful
-	 */
-	public boolean attackTrigger(Response response, Creature cattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean attackTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 { return false; }
 
 	

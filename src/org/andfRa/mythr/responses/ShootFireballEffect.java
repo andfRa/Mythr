@@ -6,7 +6,6 @@ import org.andfRa.mythr.player.SpellManager;
 import org.andfRa.mythr.util.MetadataUtil;
 import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.entity.Creature;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -14,8 +13,15 @@ import org.bukkit.util.Vector;
 
 public class ShootFireballEffect extends ResponseEffect {
 
+	/** Attribute used for checks key. */
+	final public static String ATTRIBUTE_KEY = ResponseEffect.ATTRIBUTE_KEY;
+
+	/** Attack score modifier key. */
+	final public static String ATTACK_SCORE_MODIFIER_KEY = ResponseEffect.ATTACK_SCORE_MODIFIER_KEY;
+	
 	/** Key for burn duration ticks key. */
-	public static String BURN_DURATION_TICKS_KEY = "BURN_TICKS";
+	final public static String BURN_DURATION_TICKS_KEY = "BURN_TICKS";
+	
 	
 	@Override
 	public String key()
@@ -66,24 +72,14 @@ public class ShootFireballEffect extends ResponseEffect {
 		return true;
 	 }
 	
+	/* 
+	 * (non-Javadoc)
+	 * 
+	 * @see org.andfRa.mythr.responses.ResponseEffect#attackTrigger(org.andfRa.mythr.responses.Response, org.bukkit.entity.LivingEntity, org.bukkit.entity.LivingEntity, org.andfRa.mythr.player.DerivedStats, org.andfRa.mythr.player.DerivedStats)
+	 */
 	@Override
-	public boolean attackTrigger(Response response, MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender) {
-		return handleIgnite(response, mattacker.getPlayer(), mdefender.getPlayer(), dsattacker, dsdefender);
-	}
-	
-	@Override
-	public boolean attackTrigger(Response response, MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender) {
-		return handleIgnite(response, mattacker.getPlayer(), cdefender, dsattacker, dsdefender);
-	}
-	
-	@Override
-	public boolean attackTrigger(Response response, Creature cattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender) {
-		return handleIgnite(response, cattacker, mdefender.getPlayer(), dsattacker, dsdefender);
-	}
-	
-	@Override
-	public boolean attackTrigger(Response response, Creature cattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender) {
-		return handleIgnite(response, cdefender, cdefender, dsattacker, dsdefender);
+	public boolean attackTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender) {
+		return handleIgnite(response, lattacker, ldefender, dsattacker, dsdefender);
 	}
 	
 	/**

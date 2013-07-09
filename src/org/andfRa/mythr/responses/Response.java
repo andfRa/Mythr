@@ -6,7 +6,7 @@ import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.andfRa.mythr.util.LinearFunction;
-import org.bukkit.entity.Creature;
+import org.bukkit.entity.LivingEntity;
 
 public class Response {
 
@@ -75,6 +75,33 @@ public class Response {
 	 */
 	public String getEffectKey()
 	 { return effectKey; }
+	
+	/**
+	 * Checks if the response has a parameter with the given key.
+	 * 
+	 * @param key parameter key
+	 * @return true if has parameter
+	 */
+	public boolean hasParameter(String key)
+	 {
+		return parameters.containsKey(key);
+	 }
+	
+	/**
+	 * Returns the boolean value for the requested key.
+	 * 
+	 * @param key key
+	 * @return boolean value
+	 */
+	public boolean getBoolean(String key)
+	 {
+		String val = parameters.get(key);
+		if(val == null){
+			MythrLogger.warning(getClass(), "Response " + name + " received request for an undefined key " + key + ".");
+			val = "false";
+		}
+		return key.equalsIgnoreCase("true");
+	 }
 	
 	/**
 	 * Returns the integer value for the requested key.
@@ -188,63 +215,18 @@ public class Response {
 	 }
 
 	/**
-	 * Called on PvP.
+	 * Called on attack.
 	 * 
-	 * @param mattacker Mythrl player attacker
-	 * @param mdefender Mythrl player defender
+	 * @param mattacker living attacker
+	 * @param mdefender living defender
 	 * @param dsattacker attackers derived stats
 	 * @param dsdefender defenders derived stats
 	 * @return true if successful
 	 */
-	public boolean attackTrigger(MythrPlayer mattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	public boolean attackTrigger(LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
-		if(effect != null) return effect.attackTrigger(this, mattacker, mdefender, dsattacker, dsdefender);
+		if(effect != null) return effect.attackTrigger(this, lattacker, ldefender, dsattacker, dsdefender);
 		return false;
 	 }
 
-	/**
-	 * Called on PvC.
-	 * 
-	 * @param mattacker Mythrl player attacker
-	 * @param mdefender creature defender
-	 * @param dsattacker attackers derived stats
-	 * @param dsdefender defenders derived stats
-	 * @return true if successful
-	 */
-	public boolean attackTrigger(MythrPlayer mattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 {
-		if(effect != null) return effect.attackTrigger(this, mattacker, cdefender, dsattacker, dsdefender);
-		return false;
-	 }
-
-	/**
-	 * Called on CvP.
-	 * 
-	 * @param cattacker creature attacker
-	 * @param mdefender Mythr player defender
-	 * @param dsattacker attackers derived stats
-	 * @param dsdefender defenders derived stats
-	 * @return true if successful
-	 */
-	public boolean attackTrigger(Creature cattacker, MythrPlayer mdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 {
-		if(effect != null) return effect.attackTrigger(this, cattacker, mdefender, dsattacker, dsdefender);
-		return false;
-	 }
-
-	/**
-	 * Called on CvC.
-	 * 
-	 * @param cattacker creature attacker
-	 * @param mdefender Creature defender
-	 * @param dsattacker attackers derived stats
-	 * @param dsdefender defenders derived stats
-	 * @return true if successful
-	 */
-	public boolean attackTrigger(Creature cattacker, Creature cdefender, DerivedStats dsattacker, DerivedStats dsdefender)
-	 {
-		if(effect != null) return effect.attackTrigger(this, cattacker, cdefender, dsattacker, dsdefender);
-		return false;
-	 }
-	
 }

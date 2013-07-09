@@ -6,6 +6,8 @@ import java.util.HashMap;
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
+import org.andfRa.mythr.responses.BeamShapeEffect;
+import org.andfRa.mythr.responses.DamageEffect;
 import org.andfRa.mythr.responses.ModAttributeEffect;
 import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
@@ -64,7 +66,8 @@ public class ResponseConfiguration {
 	 }
 	
 	/** Initiates effects. */
-	private void initEffects() {
+	private void initEffects()
+	 {
 
 		effects = new HashMap<String, ResponseEffect>();
 		ResponseEffect effect;
@@ -76,12 +79,20 @@ public class ResponseConfiguration {
 		// Modify attribute:
 		effect = new ModAttributeEffect();
 		effects.put(effect.key(), effect);
-		
+
 		// Passive modify attribute:
 		effect = new PassiveModAttributeEffect();
 		effects.put(effect.key(), effect);
-		
-	}
+
+		// Beam shape:
+		effect = new BeamShapeEffect();
+		effects.put(effect.key(), effect);
+
+		// Damage effect:
+		effect = new DamageEffect();
+		effects.put(effect.key(), effect);
+	 }
+	
 	
 	// VALUES:
 	/**

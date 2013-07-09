@@ -18,6 +18,18 @@
 	 "parameters":{"CAST_TICKS":25, "BURN_TICKS":100, "ATTRIBUTE":"willpower", "MODIFIER":-4}
 	},
 	
+	{
+	 "name":"shoot ender beam",
+	 "effectKey":"BEAM_SHAPE_EFFECT",
+	 "parameters":{"CAST_TICKS":25, "BEAM_RADIUS":1, "BEAM_LENGTH":10, "APPLIED_RESPONSE":"ender beam damage", "SOUND":"ENDERMAN_TELEPORT", "PARTICLES":"WITCH_MAGIC"}
+	},
+	{
+	 "name":"ender beam damage",
+	 "effectKey":"DAMAGE_EFFECT",
+	 "parameters":{"ATTRIBUTE":"willpower", "MODIFIER":-6, "DAMAGE_TYPE":"ARCANE_SPELL", "BONUS_DAMAGE_MULTIPLIER":1.25}
+	},
+	
+	
 	# ATTRIBUTE SCROLLS #
 	{
 	 "name":"+1 STR",

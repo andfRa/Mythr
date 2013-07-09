@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.andfRa.mythr.Mythr;
+import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
@@ -14,6 +16,8 @@ import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 
 public class DerivedStats {
@@ -23,7 +27,7 @@ public class DerivedStats {
 	public static Random RANDOM = new Random();
 	
 	/** Derived stats for default creatures. */
-	public static DerivedStats DEFAULT_CREATURE_STATS = new DerivedStats();
+	public static DerivedStats DEFAULT_CREATURE_STATS = new DerivedStats(); // TODO: This must be private.
 	
 	
 	/** Minimum base damage. */
@@ -724,5 +728,33 @@ public class DerivedStats {
 		
 		return dstats;
 	}
+	
+	/**
+	 * Finds living entity derived stats.
+	 * 
+	 * @param lentity living entity
+	 * @return derived stats
+	 */
+	public static DerivedStats findDerived(LivingEntity lentity)
+	 {
+		
+		// Player:
+		if(lentity instanceof Player){
+			MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(((Player) lentity).getName());
+			if(mplayer == null){
+				MythrLogger.severe(DerivedStats.class, "Failed to retrieve Mythr player for " + ((Player) lentity).getName() + ".");
+				return DEFAULT_CREATURE_STATS;
+			}
+			
+			return mplayer.getDerived();
+		}
+		
+		// Creature:
+		else{
+			// TODO: Creature derived stats.
+			return DEFAULT_CREATURE_STATS;
+		}
+		
+	 }
 	
 }

@@ -61,6 +61,27 @@ public class EffectDependancy {
 		player.playSound(player.getLocation(), Sound.NOTE_BASS_GUITAR, 1.0f, 0.80f);
 	 }
 	
+
+	/**
+	 * Plays beam.
+	 * 
+	 * @param lshooter shooter location, includes direction
+	 * @param radius beam radius
+	 * @param length beam length
+	 * @param particles beam particles
+	 */
+	public static void playBeam(Location lshooter, double radius, double length, ParticleEffect particles)
+	 {
+		Vector direction = lshooter.getDirection().clone();
+		
+		Location plocation = lshooter.clone();
+		for (double i = 0; i <= length; i+=0.25) {
+			plocation.add(direction);
+			playParticle(particles, plocation, 0.1f, 1.0f, 5);
+		}
+	 }
+	
+	
 	
 	// ENABLE DISABLE:
 	/** Enables the dependency manager. */
