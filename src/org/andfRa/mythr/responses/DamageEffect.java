@@ -42,7 +42,7 @@ public class DamageEffect extends ResponseEffect {
 		if(bonus) damage*= response.getDouble(BONUS_DAMAGE_MULTIPLIER_KEY);
 		
 		// Send event:
-		EntityDamageByEntityEvent bevent = new EntityDamageByEntityEvent(ldefender, lattacker, DamageCause.ENTITY_ATTACK, damage);
+		EntityDamageByEntityEvent bevent = new EntityDamageByEntityEvent(lattacker, ldefender, DamageCause.ENTITY_ATTACK, damage);
 		Bukkit.getServer().getPluginManager().callEvent(bevent);
 		if(bevent.isCancelled()) return false;
 		
