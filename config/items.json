@@ -20,53 +20,43 @@
  [
 	# REGULAR MELEE WEAPONS #
 	{
-	 "name":"Shortsword",
+	 "name":"Longsword",
 	 "material":"IRON_SWORD",
 	 "damageMin":6,
 	 "damageMax":8,
-	 "attackRating":2,
+	 "attackRating":1,
 	 "type":"MELEE_WEAPON",
 	 "attrReq":{"STR":6}
 	},
 	
 	{
-	 "name":"Broadsword",
+	 "name":"Longsword +1",
 	 "material":"IRON_SWORD",
-	 "damageMin":8,
-	 "damageMax":10,
-	 "attackRating":4,
+	 "damageMin":7,
+	 "damageMax":9,
+	 "attackRating":2,
 	 "type":"MELEE_WEAPON",
 	 "attrReq":{"STR":8}
 	},
 	
 	{
-	 "name":"Longsword",
+	 "name":"Longsword +2",
 	 "material":"IRON_SWORD",
-	 "damageMin":10,
-	 "damageMax":13,
-	 "attackRating":6,
+	 "damageMin":8,
+	 "damageMax":10,
+	 "attackRating":3,
 	 "type":"MELEE_WEAPON",
-	 "attrReq":{"STR":11}
+	 "attrReq":{"STR":10}
 	},
 	
 	{
-	 "name":"Bastard Sword",
+	 "name":"Longsword +3",
 	 "material":"IRON_SWORD",
-	 "damageMin":12,
-	 "damageMax":15,
-	 "attackRating":8,
+	 "damageMin":9,
+	 "damageMax":11,
+	 "attackRating":4,
 	 "type":"MELEE_WEAPON",
-	 "attrReq":{"STR":13}
-	},
-	
-	{
-	 "name":"Greatsword",
-	 "material":"IRON_SWORD",
-	 "damageMin":14,
-	 "damageMax":18,
-	 "attackRating":10,
-	 "type":"MELEE_WEAPON",
-	 "attrReq":{"STR":16}
+	 "attrReq":{"STR":12}
 	},
 	
 	
@@ -76,76 +66,66 @@
 	 "material":"BOW",
 	 "damageMin":8,
 	 "damageMax":10,
-	 "attackRating":2,
+	 "attackRating":1,
 	 "type":"RANGED_WEAPON",
 	 "attrReq":{"PRE":6}
 	},
 	
 	{
-	 "name":"Longbow",
+	 "name":"Shortbow +1",
 	 "material":"BOW",
 	 "damageMin":9,
-	 "damageMax":14,
-	 "attackRating":4,
+	 "damageMax":11,
+	 "attackRating":2,
 	 "type":"RANGED_WEAPON",
-	 "attrReq":{"PRE":6}
+	 "attrReq":{"PRE":8}
 	},
 	
 	{
-	 "name":"Reflex Bow",
+	 "name":"Shortbow +2",
 	 "material":"BOW",
-	 "damageMin":12,
-	 "damageMax":17,
-	 "attackRating":6,
+	 "damageMin":11,
+	 "damageMax":12,
+	 "attackRating":3,
 	 "type":"RANGED_WEAPON",
 	 "attrReq":{"PRE":10}
 	},
 	
 	{
-	 "name":"Recurve Bow",
+	 "name":"Shortbow +3",
 	 "material":"BOW",
-	 "damageMin":15,
-	 "damageMax":21,
-	 "attackRating":8,
+	 "damageMin":12,
+	 "damageMax":13,
+	 "attackRating":4,
 	 "type":"RANGED_WEAPON",
-	 "attrReq":{"PRE":14}
-	},
-	
-	{
-	 "name":"Composite Bow",
-	 "material":"BOW",
-	 "damageMin":17,
-	 "damageMax":24,
-	 "attackRating":10,
-	 "type":"RANGED_WEAPON",
-	 "attrReq":{"PRE":16}
+	 "attrReq":{"PRE":6}
 	},
 	
 	
 	# REGULAR HEAVY ARMOUR #
 	{
-	 "name":"Scale Helmet",
+	 "name":"Plate Helmet",
 	 "material":"IRON_HELMET",
-	 "defenceRating":2,
+	 "defenceRating":1,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":8}
 	},
 	{
-	 "name":"Scale Chestplate",
+	 "name":"Plate Chestplate",
 	 "material":"IRON_CHESTPLATE",
-	 "defenceRating":3,
-	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":8}
-	},
-	{
-	 "name":"Scale Leggings",
-	 "material":"IRON_LEGGINGS",
 	 "defenceRating":2,
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":8}
 	},
 	{
-	 "name":"Scale Boots",
+	 "name":"Plate Leggings",
+	 "material":"IRON_LEGGINGS",
+	 "defenceRating":1,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":8}
+	},
+	{
+	 "name":"Plate Boots",
 	 "material":"IRON_BOOTS",
 	 "defenceRating":1,
 	 "type":"HEAVY_ARMOUR",
@@ -153,90 +133,90 @@
 	},
 	
 	{
-	 "name":"Splint Mail Helmet",
+	 "name":"Plate Helmet +1",
 	 "material":"IRON_HELMET",
-	 "defenceRating":4,
+	 "defenceRating":3,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":12}
+	 "attrReq":{"STR":10}
 	},
 	{
-	 "name":"Splint Mail Chestplate",
+	 "name":"Plate Chestplate +1",
 	 "material":"IRON_CHESTPLATE",
-	 "defenceRating":6,
+	 "defenceRating":3,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":12}
+	 "attrReq":{"STR":10}
 	},
 	{
-	 "name":"Splint Mail Leggings",
+	 "name":"Plate Leggings +1",
 	 "material":"IRON_LEGGINGS",
-	 "defenceRating":4,
+	 "defenceRating":2,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":12}
+	 "attrReq":{"STR":10}
 	},
 	{
-	 "name":"Splint Mail Boots",
+	 "name":"Plate Boots +1",
 	 "material":"IRON_BOOTS",
 	 "defenceRating":2,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":12}
+	 "attrReq":{"STR":10}
 	},
 	
 	{
-	 "name":"Plate Mail Helmet",
+	 "name":"Plate Helmet +2",
 	 "material":"IRON_HELMET",
-	 "defenceRating":6,
+	 "defenceRating":4,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":16}
+	 "attrReq":{"STR":8}
 	},
 	{
-	 "name":"Plate Mail Chestplate",
+	 "name":"Plate Chestplate +2",
 	 "material":"IRON_CHESTPLATE",
-	 "defenceRating":9,
+	 "defenceRating":5,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":16}
+	 "attrReq":{"STR":10}
 	},
 	{
-	 "name":"Plate Mail Leggings",
+	 "name":"Plate Leggings +2",
 	 "material":"IRON_LEGGINGS",
-	 "defenceRating":6,
+	 "defenceRating":3,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":16}
+	 "attrReq":{"STR":10}
 	},
 	{
-	 "name":"Plate Mail Boots",
+	 "name":"Plate Boots +2",
 	 "material":"IRON_BOOTS",
 	 "defenceRating":3,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":16}
+	 "attrReq":{"STR":10}
 	},
 	
 	{
-	 "name":"Full Plate Helmet",
+	 "name":"Plate Helmet +3",
 	 "material":"IRON_HELMET",
-	 "defenceRating":8,
+	 "defenceRating":5,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":18}
+	 "attrReq":{"STR":12}
 	},
 	{
-	 "name":"Full Plate Chestplate",
+	 "name":"Plate Chestplate +3",
 	 "material":"IRON_CHESTPLATE",
-	 "defenceRating":12,
+	 "defenceRating":6,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":18}
+	 "attrReq":{"STR":12}
 	},
 	{
-	 "name":"Full Plate Leggings",
+	 "name":"Plate Leggings +3",
 	 "material":"IRON_LEGGINGS",
-	 "defenceRating":8,
+	 "defenceRating":5,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":18}
+	 "attrReq":{"STR":12}
 	},
 	{
-	 "name":"Full Plate Boots",
+	 "name":"Plate Boots +3",
 	 "material":"IRON_BOOTS",
 	 "defenceRating":4,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":18}
+	 "attrReq":{"STR":12}
 	},
 	
 	
@@ -255,9 +235,9 @@
 	{
 	 "name":"Fireball Spell",
 	 "material":"BOOK",
-	 "damageMin":11,
-	 "damageMax":14,
-	 "attackRating":5,
+	 "damageMin":8,
+	 "damageMax":12,
+	 "attackRating":2,
 	 "type":"ARCANE_SPELL",
 	 "effect":"shoot fireball",
 	 "attrReq":{"WIL":6}
@@ -266,13 +246,14 @@
 	{
 	 "name":"Ender Beam Spell",
 	 "material":"BOOK",
-	 "damageMin":12,
-	 "damageMax":18,
+	 "damageMin":10,
+	 "damageMax":15,
 	 "attackRating":6,
 	 "type":"ARCANE_SPELL",
 	 "effect":"shoot ender beam",
 	 "attrReq":{"WIL":12}
 	},
+	
 
 	# BLESSING SPELLS #
 	{
