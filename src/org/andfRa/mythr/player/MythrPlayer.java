@@ -292,6 +292,7 @@ public class MythrPlayer {
 	public void updateDerived()
 	 {
 		derived.update(attribs, skills, collectAllPerks(), player.getEquipment());
+		derived.assignHealth(player);
 	 }
 	
 	/**

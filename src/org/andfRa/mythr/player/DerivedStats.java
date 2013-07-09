@@ -75,6 +75,9 @@ public class DerivedStats {
 	/** Armour defence rating. */
 	private int armourDR = 0;
 
+	
+	/** Health. */
+	private double health = VanillaConfiguration.BASE_HEALTH;
 
 	/** Players raw attributes. */
 	private int[] attributes = new int[AttributeConfiguration.getAttribCount()];
@@ -124,6 +127,7 @@ public class DerivedStats {
 		updateReponses(perks, mweapon, mhelmet, mchestplate, mleggings, mboots);
 		updateWeapon(mweapon);
 		updateArmour(mhelmet, mchestplate, mleggings, mboots);
+		updateHealth();
 	 }
 	
 	/**
@@ -159,8 +163,41 @@ public class DerivedStats {
 		armour = 1.0;
 		armourDR = 0;
 		
+		// Health:
+		health = VanillaConfiguration.BASE_HEALTH;
 	 }
 	
+
+	/**
+	 * Updates player stats.
+	 * 
+	 * @param attribScores attribute scores
+	 * @param skillScores skill scores
+	 * @param mweapon weapon Mythr item
+	 * @param mhelmet helmet Mythr item, null if none
+	 * @param mchestplate chestplate Mythr item, null if none
+	 * @param mleggings leggings Mythr item, null if none
+	 * @param mboots boots Mythr item, null if none
+	 */
+	private void updateStats(Map<String, Integer> attribScores, Map<String, Integer> skillScores, MythrItem mweapon, MythrItem mhelmet, MythrItem mchestplate, MythrItem mleggings, MythrItem mboots)
+	 {
+		
+		// Attributes:
+		String[] attribNames = AttributeConfiguration.getAttrNames();
+		for (int i = 0; i < attribNames.length; i++) {
+			Integer score = attribScores.get(attribNames[i]);
+			if(score == null) continue;
+			attributes[i] = score;
+		}
+
+		// Skills:
+		String[] skillNames = SkillConfiguration.getSkillNames();
+		for (int i = 0; i < skillNames.length; i++) {
+			Integer score = skillScores.get(skillNames[i]);
+			if(score == null) continue;
+			skills[i] = score;
+		}
+	 }
 	
 	/**
 	 * Updates player reponses.
@@ -196,37 +233,6 @@ public class DerivedStats {
 		
 	 }
 
-	/**
-	 * Updates player stats.
-	 * 
-	 * @param attribScores attribute scores
-	 * @param skillScores skill scores
-	 * @param mweapon weapon Mythr item
-	 * @param mhelmet helmet Mythr item, null if none
-	 * @param mchestplate chestplate Mythr item, null if none
-	 * @param mleggings leggings Mythr item, null if none
-	 * @param mboots boots Mythr item, null if none
-	 */
-	private void updateStats(Map<String, Integer> attribScores, Map<String, Integer> skillScores, MythrItem mweapon, MythrItem mhelmet, MythrItem mchestplate, MythrItem mleggings, MythrItem mboots)
-	 {
-		
-		// Attributes:
-		String[] attribNames = AttributeConfiguration.getAttrNames();
-		for (int i = 0; i < attribNames.length; i++) {
-			Integer score = attribScores.get(attribNames[i]);
-			if(score == null) continue;
-			attributes[i] = score;
-		}
-
-		// Skills:
-		String[] skillNames = SkillConfiguration.getSkillNames();
-		for (int i = 0; i < skillNames.length; i++) {
-			Integer score = skillScores.get(skillNames[i]);
-			if(score == null) continue;
-			skills[i] = score;
-		}
-	 }
-	
 	/**
 	 * Update all weapon stats.
 	 * 
@@ -538,6 +544,20 @@ public class DerivedStats {
 		armourDR = lightDR + heavyDR + exoticDR;
 		
 	 }
+
+	/**
+	 * Updates health.
+	 * 
+	 */
+	private void updateHealth()
+	 {
+		// Attributes:
+		Attribute[] attributes = AttributeConfiguration.getAttributes();
+		for (int i = 0; i < attributes.length; i++) {
+			int score = getAttribScore(i);
+			health+= attributes[i].getSpecifier(Specifier.HEALTH_MODIFIER, score);
+		}
+	 }
 	
 	
 	// SCORES:
@@ -619,6 +639,18 @@ public class DerivedStats {
 		if(i == -1) return;
 		
 		skills[i]+= amount;
+	 }
+	
+	
+	// Health:
+	/**
+	 * Assigns health to the living entity.
+	 * 
+	 * @param lentity living entity
+	 */
+	public void assignHealth(LivingEntity lentity)
+	 {
+		lentity.setMaxHealth(health);
 	 }
 	
 	

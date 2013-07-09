@@ -48,6 +48,8 @@ public class AdminCommands {
 			}
 		}
 		
+		Player player = mythrPlayer.getPlayer();
+		player.setMaxHealth(120);
 		
 	}
 	

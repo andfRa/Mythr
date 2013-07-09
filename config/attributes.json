@@ -56,7 +56,7 @@
 	{
 	 "name":"constitution",
 	 "abbrev":"CON",
-	 "specifiers":{ HEALTH_MODIFIER:{"m":10,"b":0} }
+	 "specifiers":{ HEALTH_MODIFIER:{"m":3.5,"b":0} }
 	}
  ]
 

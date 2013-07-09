@@ -96,10 +96,12 @@ public class VanillaConfiguration {
 	public static final double DIAMOND_BOOTS_MULTIPLIER = -0.12;
 
 	
+	// QUICKBAR:
 	/** First quickbar slot. */
 	public static final int QUICkBAR_FIRST_SLOT = 36;
 	
 	
+	// DAMAGE:
 	/** Default damage. */
 	public static Integer DEFAULT_DAMAGE = 1;
 	
@@ -163,7 +165,6 @@ public class VanillaConfiguration {
 		return false;
 	 }
 	
-	
 	/**
 	 * Gets the base damage the item does.
 	 * 
@@ -177,7 +178,6 @@ public class VanillaConfiguration {
 		if(damage == null) return DEFAULT_DAMAGE;
 		return damage.intValue();
 	 }
-	
 
 	/**
 	 * Checks is the given the entity will not get damaged.
@@ -189,5 +189,10 @@ public class VanillaConfiguration {
 	{
 		return lentity.getNoDamageTicks() > lentity.getMaximumNoDamageTicks()/2F;
 	 }
+	
+	
+	// HEALTH:
+	/** Base health. */
+	public static final double BASE_HEALTH = 20.0;
 	
 }
