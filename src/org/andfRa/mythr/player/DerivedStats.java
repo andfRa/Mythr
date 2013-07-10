@@ -17,7 +17,7 @@ import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
 
 public class DerivedStats {
 
@@ -102,9 +102,13 @@ public class DerivedStats {
 	 * @param attribScores attribute scores
 	 * @param skillScores skill scores
 	 * @param perks perks
-	 * @param equipment equipment
+	 * @param weapon weapon, null if none
+	 * @param helmet helmet, null if none
+	 * @param chestplate chestplate, null if none
+	 * @param leggings leggings, null if none
+	 * @param boots boots, null if none
 	 */
-	public void update(Map<String, Integer> attribScores, Map<String, Integer> skillScores, List<String> perks, EntityEquipment equipment)
+	public void update(Map<String, Integer> attribScores, Map<String, Integer> skillScores, List<String> perks, ItemStack weapon, ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots)
 	 {
 		// Reset:
 		reset();
@@ -116,11 +120,11 @@ public class DerivedStats {
 		MythrItem mleggings = null;
 		MythrItem mboots = null;
 		
-		if(equipment.getItemInHand() != null) mweapon = MythrItem.fromBukkitItem(equipment.getItemInHand());
-		if(equipment.getHelmet() != null) mhelmet = MythrItem.fromBukkitItem(equipment.getHelmet());
-		if(equipment.getChestplate() != null) mchestplate = MythrItem.fromBukkitItem(equipment.getChestplate());
-		if(equipment.getLeggings() != null) mleggings = MythrItem.fromBukkitItem(equipment.getLeggings());
-		if(equipment.getBoots() != null) mboots = MythrItem.fromBukkitItem(equipment.getBoots());
+		if(weapon != null) mweapon = MythrItem.fromBukkitItem(weapon);
+		if(helmet != null) mhelmet = MythrItem.fromBukkitItem(helmet);
+		if(chestplate != null) mchestplate = MythrItem.fromBukkitItem(chestplate);
+		if(leggings != null) mleggings = MythrItem.fromBukkitItem(leggings);
+		if(boots != null) mboots = MythrItem.fromBukkitItem(boots);
 		
 		// Update:
 		updateStats(attribScores, skillScores, mweapon, mhelmet, mchestplate, mleggings, mboots);
@@ -128,6 +132,10 @@ public class DerivedStats {
 		updateWeapon(mweapon);
 		updateArmour(mhelmet, mchestplate, mleggings, mboots);
 		updateHealth();
+		
+		if(mweapon != null) System.out.println("WEAPON = " + mweapon.getMaterial());
+		if(mchestplate != null) System.out.println("CHEST = " + mchestplate.getMaterial());
+		
 	 }
 	
 	/**
@@ -139,9 +147,6 @@ public class DerivedStats {
 		// Stats:
 		attributes = new int[AttributeConfiguration.getAttribCount()];
 		skills = new int[SkillConfiguration.getSkillCount()];
-		
-		// Passives:
-		
 		
 		// Weapon:
 		minBaseDmg = 0;
@@ -277,7 +282,7 @@ public class DerivedStats {
 			maxBaseDmg = VanillaConfiguration.DEFAULT_DAMAGE;
 		}
 
-		// Attributes:
+		// Attributes bonus:
 		Attribute[] attributes = AttributeConfiguration.getAttributes();
 		for (int i = 0; i < attributes.length; i++) {
 			int score = getAttribScore(i);
@@ -289,7 +294,7 @@ public class DerivedStats {
 			blessingDmgMod+= attributes[i].getSpecifier(Specifier.BLESSING_ATTACK_DAMAGE_MODIFIER, score);
 		}
 		
-		// Skills:
+		// Skill bonus:
 		Skill[] skills = SkillConfiguration.getSkills();
 		for (int i = 0; i < skills.length; i++) {
 			int score = getSkillScore(i);

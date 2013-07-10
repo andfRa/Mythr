@@ -98,7 +98,10 @@ public class VanillaConfiguration {
 	
 	// QUICKBAR:
 	/** First quickbar slot. */
-	public static final int QUICkBAR_FIRST_SLOT = 36;
+	public static final int QUICKBAR_FIRST_SLOT = 36;
+
+	/** Quickbar slot count. */
+	public static final int QUICKBAR_SLOT_COUNT = 9;
 	
 	
 	// DAMAGE:

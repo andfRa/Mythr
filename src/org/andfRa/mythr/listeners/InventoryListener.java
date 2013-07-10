@@ -33,18 +33,17 @@ public class InventoryListener  implements Listener {
 			Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 				@Override
 				public void run() {
-					mplayer.updateDerived();
+					mplayer.updateAll();
 				}
 			});
-			
 			
 		}
 		
 		// Quickbar:
 		else if(event.getSlotType() == SlotType.QUICKBAR){
 
-			int heldSlot = VanillaConfiguration.QUICkBAR_FIRST_SLOT + event.getWhoClicked().getInventory().getHeldItemSlot();
-			int numberSlot = VanillaConfiguration.QUICkBAR_FIRST_SLOT + event.getHotbarButton();
+			int heldSlot = VanillaConfiguration.QUICKBAR_FIRST_SLOT + event.getWhoClicked().getInventory().getHeldItemSlot();
+			int numberSlot = VanillaConfiguration.QUICKBAR_FIRST_SLOT + event.getHotbarButton();
 			int clickSlot = event.getRawSlot();
 			// Update derived stats:
 			if(clickSlot == heldSlot || ((event.getHotbarButton() != -1)  && numberSlot == heldSlot)) {
@@ -55,7 +54,7 @@ public class InventoryListener  implements Listener {
 				Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
 					@Override
 					public void run() {
-						mplayer.updateDerived();
+						mplayer.updateHeld();
 					}
 				});
 				
@@ -67,9 +66,7 @@ public class InventoryListener  implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onHeld(PlayerItemHeldEvent event)
 	 {
-		// Update player weapon:
-		final MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(event.getPlayer().getName());
-		if(mplayer == null) return;
+		MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(event.getPlayer().getName());
 		
 		// Update journal:
 		ItemStack item = event.getPlayer().getInventory().getItem(event.getNewSlot());
@@ -77,13 +74,6 @@ public class InventoryListener  implements Listener {
 			MythrItem mitem = MythrItem.fromBukkitItem(item);
 			if(mitem.getType() == ItemType.JOURNAL) DisplayStatsEffect.update(item, mplayer);
 		}
-		
-		Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {
-			@Override
-			public void run() {
-				mplayer.updateDerived();
-			}
-		});
 	 }
 	
 }

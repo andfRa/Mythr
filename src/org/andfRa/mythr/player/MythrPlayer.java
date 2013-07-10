@@ -9,11 +9,13 @@ import java.util.HashMap;
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
+import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.PlayerInventory;
 
 public class MythrPlayer {
 
@@ -21,7 +23,7 @@ public class MythrPlayer {
 	transient private Player player = null;
 
 	/** Derived stats. */
-	transient private DerivedStats derived;
+	transient private DerivedStats[] derived;
 
 	/** True if player information can be saved. */
 	transient private boolean save = true;
@@ -63,7 +65,8 @@ public class MythrPlayer {
 		this.perks = new HashMap<Integer, ArrayList<String>>();
 		
 		// Transient:
-		derived = new DerivedStats();
+		derived = new DerivedStats[VanillaConfiguration.QUICKBAR_SLOT_COUNT];
+		for (int i = 0; i < derived.length; i++) derived[i] = new DerivedStats();
 	 }
 	
 	/** Fixes all missing fields. */
@@ -82,7 +85,8 @@ public class MythrPlayer {
 		if(perks == null) perks = new HashMap<Integer, ArrayList<String>>();
 		
 		// Transient:
-		derived = new DerivedStats();
+		derived = new DerivedStats[VanillaConfiguration.QUICKBAR_SLOT_COUNT];
+		for (int i = 0; i < derived.length; i++) derived[i] = new DerivedStats();
 	 }
 	
 	
@@ -95,7 +99,7 @@ public class MythrPlayer {
 	public void wrapPlayer(Player player)
 	 {
 		this.player = player;
-		updateDerived();
+		updateAll();
 	 }
 	
 	/**
@@ -145,7 +149,7 @@ public class MythrPlayer {
 	public void setAttribute(String name, Integer value)
 	 {
 		attribs.put(name, value);
-		updateDerived();
+		updateAll();
 	 }
 	
 	/**
@@ -225,7 +229,7 @@ public class MythrPlayer {
 	public void setSkill(String name, Integer value)
 	 {
 		skills.put(name, value);
-		updateDerived();
+		updateAll();
 	 }
 	
 	
@@ -286,13 +290,33 @@ public class MythrPlayer {
 	
 	// DERIVED STATS:
 	/**
-	 * Updates derived stats.
+	 * Updates derived stats for held item.
 	 * 
 	 */
-	public void updateDerived()
+	public void updateHeld()
 	 {
-		derived.update(attribs, skills, collectAllPerks(), player.getEquipment());
-		derived.assignHealth(player);
+		System.out.println("UPDATE HELD");
+		
+		int slot = player.getInventory().getHeldItemSlot();
+		PlayerInventory inventory = player.getInventory();
+		derived[slot].update(attribs, skills, collectAllPerks(), inventory.getItemInHand(), inventory.getHelmet(), inventory.getChestplate(), inventory.getLeggings(), inventory.getBoots());
+		derived[slot].assignHealth(player);
+	 }
+	
+	/**
+	 * Updates all derived stats.
+	 * 
+	 */
+	public void updateAll()
+	 {
+		System.out.println("UPDATE ALL");
+		
+		PlayerInventory inventory = player.getInventory();
+		for (int i = 0; i < VanillaConfiguration.QUICKBAR_SLOT_COUNT; i++) {
+			int slot = i;
+			derived[slot].update(attribs, skills, collectAllPerks(), inventory.getItem(slot), inventory.getHelmet(), inventory.getChestplate(), inventory.getLeggings(), inventory.getBoots());
+		}
+		derived[inventory.getHeldItemSlot()].assignHealth(player);
 	 }
 	
 	/**
@@ -301,7 +325,10 @@ public class MythrPlayer {
 	 * @return derived stats
 	 */
 	public DerivedStats getDerived()
-	 { return derived; }
+	 {
+		int slot = player.getInventory().getHeldItemSlot();
+		return derived[slot];
+	 }
 	
 
 	// MESSAGES:
