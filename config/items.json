@@ -305,9 +305,10 @@
 	
 	# OTHER #
 	{
-	 "name":"Journal",
+	 "name":"Stats",
 	 "material":"BOOK",
-	 "type":"JOURNAL"
+	 "type":"JOURNAL",
+	 "effect":"display stats"
 	}
 	
  ]

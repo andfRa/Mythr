@@ -14,6 +14,7 @@ import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.responses.ResponseEffect;
 import org.andfRa.mythr.responses.ShootFireballEffect;
+import org.andfRa.mythr.responses.DisplayStatsEffect;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
 
 public class ResponseConfiguration {
@@ -95,6 +96,10 @@ public class ResponseConfiguration {
 
 		// Heal effect:
 		effect = new HealEffect();
+		effects.put(effect.key(), effect);
+
+		// Update journal effect:
+		effect = new DisplayStatsEffect();
 		effects.put(effect.key(), effect);
 		
 	 }

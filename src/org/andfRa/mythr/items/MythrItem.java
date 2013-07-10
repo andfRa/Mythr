@@ -70,7 +70,7 @@ public class MythrItem {
 	private ItemType type = ItemType.OTHER;
 
 	
-	/** Response effect. */
+	/** Response applied on right click. */
 	private String effect = null;
 
 	/** Responses. */
@@ -84,11 +84,12 @@ public class MythrItem {
 	private int damageMax = 0;
 
 	/** Attack rating. */
-	private int attackRating = 1;
+	private int attackRating = 0;
 
 	/** Defence rating. */
 	private int defenceRating = 0;
 
+	
 	/** Attribute requirements. */
 	private HashMap<String, Integer> attrReq = new HashMap<String, Integer>();
 
@@ -384,6 +385,10 @@ public class MythrItem {
 
 			// Type:
 			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getCapitString("type") + ": " + LocalisationConfiguration.getString(type.text()));
+
+			// Effect:
+			if(effect != null)
+			 lore.add("" + ChatColor.COLOR_CHAR + EFFECT_RESPONSE_INDICATOR + statsCol + LocalisationConfiguration.getCapitString("effect") + ": " + effect);
 			
 			break;
 

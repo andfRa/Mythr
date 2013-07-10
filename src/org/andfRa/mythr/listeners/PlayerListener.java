@@ -3,7 +3,6 @@ package org.andfRa.mythr.listeners;
 
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.ResponseConfiguration;
-import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.items.ScrollManager;
 import org.andfRa.mythr.player.MythrPlayer;
@@ -84,7 +83,6 @@ public class PlayerListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	 {
@@ -102,11 +100,12 @@ public class PlayerListener implements Listener {
 				
 				mitem = MythrItem.fromBukkitItem(item);
 				
-				// SPELLS:
-				switch (mitem.getType()) {
-				case ARCANE_SPELL:
-				case CURSE_SPELL:
-				case BLESSING_SPELL:
+				// Right click:
+				switch (event.getAction()) {
+				case RIGHT_CLICK_AIR:
+				case RIGHT_CLICK_BLOCK:
+					
+					// Effect:
 					String respName = mitem.getEffect();
 					if(respName == null) break;
 					Response response = ResponseConfiguration.getResponse(respName);
@@ -114,11 +113,11 @@ public class PlayerListener implements Listener {
 					response.interactTrigger(mplayer, mplayer.getDerived());
 					
 					break;
-				
-				// JOURNAL:	
-				case JOURNAL:
-					player.setItemInHand(JournalSpawner.claim(mplayer));
-					player.updateInventory();
+					
+				case LEFT_CLICK_AIR:
+				case LEFT_CLICK_BLOCK:
+					
+					// Recharge?
 					
 					break;
 

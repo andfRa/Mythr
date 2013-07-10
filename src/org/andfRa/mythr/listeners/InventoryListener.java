@@ -3,9 +3,9 @@ package org.andfRa.mythr.listeners;
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.ItemType;
-import org.andfRa.mythr.items.JournalSpawner;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
+import org.andfRa.mythr.responses.DisplayStatsEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -71,11 +71,11 @@ public class InventoryListener  implements Listener {
 		final MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(event.getPlayer().getName());
 		if(mplayer == null) return;
 		
-		// Upate journal:
+		// Update journal:
 		ItemStack item = event.getPlayer().getInventory().getItem(event.getNewSlot());
 		if(item != null && item.getType() == Material.WRITTEN_BOOK){
 			MythrItem mitem = MythrItem.fromBukkitItem(item);
-			if(mitem.getType() == ItemType.JOURNAL) JournalSpawner.update(item, mplayer);
+			if(mitem.getType() == ItemType.JOURNAL) DisplayStatsEffect.update(item, mplayer);
 		}
 		
 		Bukkit.getServer().getScheduler().runTask(Mythr.plugin(), new Runnable() {

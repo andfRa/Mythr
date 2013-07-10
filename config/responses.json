@@ -42,7 +42,7 @@
 	},
 	
 	
-	# ATTRIBUTE SCROLLS #
+	# PERMANENT ATTRIBUTE INCREASE SCROLLS #
 	{
 	 "name":"+1 STR",
 	 "effectKey":"PERMANENT_MODIFY_ATTRIBUTE_EFFECT",
@@ -103,6 +103,14 @@
 	 "name":"+1 CON bonus",
 	 "effectKey":"PASSIVE_MODIFY_ATTRIBUTE_EFFECT",
 	 "parameters":{"ATTRIBUTE":"constitution", "AMOUNT":1}
+	},
+	
+	
+	# JOURNAL #
+	{
+	 "name":"display stats",
+	 "effectKey":"DISPLAY_STATS_EFFECT",
+	 "parameters":{}
 	}
 	
  ]
