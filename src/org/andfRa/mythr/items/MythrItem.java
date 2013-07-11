@@ -61,7 +61,7 @@ public class MythrItem {
 	
 
 	/** Item name. */
-	private String name = null;
+	private String name;
 	
 	/** Items description. */
 	private ArrayList<String> description = new ArrayList<String>();
@@ -117,23 +117,47 @@ public class MythrItem {
 	/** Fixes all missing fields. */
 	public void complete()
 	 {
-		if(name == null){
-			MythrLogger.nullField(getClass(), "name");
-			name = "????";
-		}
-
+		error = false;
+		
 		if(material == null){
 			MythrLogger.nullField(getClass(), "material");
 			material = Material.AIR;
 		}
-
+		
+		// data is primitive
+		
+		
+		if(name == null){
+			MythrLogger.nullField(getClass(), "name");
+			name = "????";
+		}
+		
+		if(description == null) description = new ArrayList<String>();
+		
 		if(type == null){
 			MythrLogger.nullField(getClass(), "type");
 			type = ItemType.OTHER;
 		}
+		
+		// effect can be null
 
+		if(responses == null) responses = new ArrayList<String>();
 		
 		
+		// damageMin is primitive
+		
+		// damageMax is primitive
+		
+		// attackRating is primitive
+		
+		// defenceRating is primitive
+		
+		
+		if(attrReq == null) attrReq = new HashMap<String, Integer>();
+		
+		// levelReq is primitive
+		
+		if(useableBy == null) useableBy = new String[0];
 	 }
 	
 	
@@ -610,7 +634,7 @@ public class MythrItem {
 	/**
 	 * Sets the effect response.
 	 * 
-	 * @param effect the effect of the item
+	 * @param effect the effect of the item, null if none
 	 */
 	public void setEffect(String effect) {
 		this.effect = effect;
@@ -694,6 +718,34 @@ public class MythrItem {
 
 	
 	// OTHER:
+	@Override
+	protected MythrItem clone()
+	 {
+		MythrItem mitem = new MythrItem(material);
+		
+		mitem.error = error;
+		mitem.material = material;
+		mitem.data = data;
+
+		mitem.name = name;
+		mitem.description = new ArrayList<String>(description);
+		mitem.type = type;
+		
+		mitem.effect = effect;
+		mitem.responses = new ArrayList<String>(responses);
+		
+		mitem.damageMin = damageMin;
+		mitem.damageMax = damageMax;
+		mitem.attackRating = attackRating;
+		mitem.defenceRating = defenceRating;
+
+		mitem.attrReq = new HashMap<String, Integer>(attrReq);
+		mitem.levelReq = levelReq;
+		mitem.useableBy = useableBy.clone();
+		
+		return mitem;
+	 }
+	
 	/* 
 	 * Prints all values.
 	 * 

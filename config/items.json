@@ -6,8 +6,8 @@
  #  name          - Item name. Must be unique.
  #  description   - (Optional) Item description.
  #  type          - Item type. See https://github.com/andfRa/Mythr/blob/master/src/org/andfRa/mythr/items/ItemType.java
- #  effect        - (Optional) Main response (effect).
- #  responses     - (Optional) Bonus responses.
+ #  effect        - (Optional) Response triggered on right click.
+ #  responses     - (Optional) Other responses.
  #  damageMin     - (Optional) Damage minimum value.
  #  damageMax     - (Optional) Damage maximum value.
  #  piercing      - (Optional) Armour penetration percent.
@@ -16,9 +16,12 @@
  #  attrReq       - (Optional) Attribute required to equip the item.
  #  levelReq      - (Optional) Level required to equip the item.
  #  useableBy     - (Optional) Additional requirements for item equipping.
+ #  randoms       - (Optional) Random responses added to the item when spawned.
+ #                  For example [{"response1":0.5, "response2":0.5}, {"response3":0.3, "response4":0.7}]
+ #                  will generate response1 (50%) or response2 (50%) and response3 (30%) or response4 (70%)
 "items":
  [
-	# REGULAR MELEE WEAPONS #
+	# LONWGSWORDS #
 	{
 	 "name":"Longsword",
 	 "material":"IRON_SWORD",
@@ -60,7 +63,7 @@
 	},
 	
 	
-	# REGULAR RANGED WEAPONS #
+	# SHORTBOWS #
 	{
 	 "name":"Shortbow",
 	 "material":"BOW",
@@ -102,7 +105,7 @@
 	},
 	
 	
-	# REGULAR HEAVY ARMOUR #
+	# HEAVY ARMOUR #
 	{
 	 "name":"Plate Helmet",
 	 "material":"IRON_HELMET",
@@ -132,6 +135,8 @@
 	 "attrReq":{"STR":8}
 	},
 	
+	
+	# HEAVY ARMOUR +1 #
 	{
 	 "name":"Plate Helmet +1",
 	 "material":"IRON_HELMET",
@@ -161,6 +166,8 @@
 	 "attrReq":{"STR":10}
 	},
 	
+	
+	# HEAVY ARMOUR +2 #
 	{
 	 "name":"Plate Helmet +2",
 	 "material":"IRON_HELMET",
@@ -189,7 +196,9 @@
 	 "type":"HEAVY_ARMOUR",
 	 "attrReq":{"STR":10}
 	},
-	
+
+
+	# HEAVY ARMOUR +3#
 	{
 	 "name":"Plate Helmet +3",
 	 "material":"IRON_HELMET",
@@ -220,16 +229,40 @@
 	},
 	
 	
-	# RARE HEAVY ARMOUR #
+	# WARRIORS SET #
 	{
-	 "name":"Boots of Minor Strength",
-	 "material":"IRON_BOOTS",
-	 "defenceRating":1,
+	 "name":"Warriors Helmet",
+	 "material":"IRON_HELMET",
+	 "defenceRating":3,
 	 "type":"HEAVY_ARMOUR",
-	 "attrReq":{"STR":8},
-	 "responses":["+1 STR bonus"]
+	 "attrReq":{"STR":10},
+	 "randoms":[ {"+1 STR bonus":1, "+1 CON bonus":1} ]
 	},
-	
+	{
+	 "name":"Warriors Chestplate",
+	 "material":"IRON_CHESTPLATE",
+	 "defenceRating":3,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":10},
+	 "randoms":[ {"+1 STR bonus":3, "+1 PRE bonus":1, "+3 CON bonus":1} ]
+	},
+	{
+	 "name":"Warriors Leggings",
+	 "material":"IRON_LEGGINGS",
+	 "defenceRating":2,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":10},
+	 "randoms":[ {"+1 STR bonus":3, "+1 PRE bonus":1, "+3 CON bonus":1} ]
+	},
+	{
+	 "name":"Warriors Boots",
+	 "material":"IRON_BOOTS",
+	 "defenceRating":2,
+	 "type":"HEAVY_ARMOUR",
+	 "attrReq":{"STR":10},
+	 "randoms":[ {"+1 STR bonus":3, "+1 PRE bonus":1, "+3 CON bonus":1} ]
+	},
+
 	
 	# ARCANE SPELLS #
 	{

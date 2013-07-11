@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
+import org.andfRa.mythr.items.MythrDrop;
 import org.andfRa.mythr.items.MythrItem;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
@@ -17,10 +18,10 @@ public class ItemConfiguration {
 	
 	
 	/** Item map for quick access. */
-	transient private HashMap<String, MythrItem> itemMap;
+	transient private HashMap<String, MythrDrop> itemMap;
 	
 	/** All defined items. */
-	private MythrItem[] items;
+	private MythrDrop[] items;
 
 	// CONSTRUCTION:
 	/** Fixes all missing fields. */
@@ -28,14 +29,14 @@ public class ItemConfiguration {
 	 {
 		if(items == null){
 			MythrLogger.nullField(getClass(), "items");
-			items = new MythrItem[0];
+			items = new MythrDrop[0];
 		}
 		for (int i = 0; i < items.length; i++) {
 			items[i].complete();
 		}
 		
 		// Transient:
-		itemMap = new HashMap<String, MythrItem>();
+		itemMap = new HashMap<String, MythrDrop>();
 		for (int i = 0; i < items.length; i++) {
 			if(itemMap.put(items[i].getName(), items[i]) != null) MythrLogger.warning(getClass(), "Found item " + items[i] + " with a duplicate name.");
 		}
@@ -48,11 +49,14 @@ public class ItemConfiguration {
 	 * Gets an item with the given name.
 	 * 
 	 * @param name item name
-	 * @return Mythr item
+	 * @return Mythr item, null if none
 	 */
-	public static MythrItem getItem(String name) {
-		return config.itemMap.get(name);
-	}
+	public static MythrItem getItem(String name)
+	 {
+		MythrDrop mdrop = config.itemMap.get(name);
+		if(mdrop == null) return null;
+		return mdrop.generate();
+	 }
 	
 	/**
 	 * Matches and item.
@@ -64,12 +68,12 @@ public class ItemConfiguration {
 	 {
 		// Full match:
 		for (int i = 0; i < config.items.length; i++) {
-			if(config.items[i].getName().equalsIgnoreCase(name)) return config.items[i];
+			if(config.items[i].getName().equalsIgnoreCase(name)) return config.items[i].generate();
 		}
 
 		// Starts with match:
 		for (int i = 0; i < config.items.length; i++) {
-			if(config.items[i].getName().toLowerCase().startsWith(name.toLowerCase())) return config.items[i];
+			if(config.items[i].getName().toLowerCase().startsWith(name.toLowerCase())) return config.items[i].generate();
 		}
 		
 		return null;
