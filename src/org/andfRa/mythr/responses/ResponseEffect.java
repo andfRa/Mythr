@@ -91,8 +91,8 @@ public abstract class ResponseEffect {
 		int defndScore = dsdefender.getAttribScore(attribName);
 		
 		double check = 0.5;
-		if(attckScore + defndScore == 0) check = -1.0;
-		if(attckScore != 0 || defndScore != 0) check = attckScore / (attckScore + defndScore);
+		if(attckScore + defndScore != 0) check = attckScore / (attckScore + defndScore);
+		else if(attckScore != 0) check = 1.0;
 		
 		return check >= new Random().nextDouble();
 	 }
