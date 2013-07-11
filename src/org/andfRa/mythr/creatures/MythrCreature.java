@@ -16,6 +16,7 @@ import org.andfRa.mythr.player.Skill;
 import org.andfRa.mythr.util.MetadataUtil;
 import org.andfRa.mythr.util.RandomSelectionUtil;
 import org.bukkit.Location;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -149,37 +150,52 @@ public class MythrCreature {
 	
 	// DERIVED STATS:
 	/**
-	 * Calculates derived stats.
+	 * Creates the derived stats for the given creature.
 	 * 
-	 * @return derived stats for the creature
+	 * @param creature creature
+	 * @return calculated derived stats
 	 */
-	public DerivedStats calcDerived(EntityEquipment equipment)
+	public static DerivedStats createDerived(Creature creature)
 	 {
-		DerivedStats derived = new DerivedStats();
-		derived.update(attribs, skills, collectAllPerks(), equipment.getItemInHand(), equipment.getHelmet(), equipment.getChestplate(), equipment.getLeggings(), equipment.getBoots());
-		return derived;
-	 }
-	
-	/**
-	 * Calculates default derived stats.
-	 * 
-	 * @param equipment creature equipment
-	 * @return creatures derived stats
-	 */
-	public static DerivedStats calcDefaultDerived(EntityEquipment equipment)
-	 {
-		DerivedStats dscreature = new DerivedStats();
+		DerivedStats dstats = null;
+		HashMap<String, Integer> attribs = null;
+		HashMap<String, Integer> skills = null;
+		ArrayList<String> perks = null;
 		
-		HashMap<String, Integer> attribScores = new HashMap<String, Integer>();
-		 Attribute[] attributes = AttributeConfiguration.getAttributes();
-		 for (int i = 0; i < attributes.length; i++) attribScores.put(attributes[i].getName(), CreatureConfiguration.getDefaultAttribScore());
+		String name = creature.getCustomName();
+		MythrCreature mcreature = CreatureConfiguration.getCreature(name);
+		
+		// Default creature:
+		if(mcreature == null){
+			dstats = new DerivedStats();
 
-		HashMap<String, Integer> skillScores = new HashMap<String, Integer>();
-		Skill[] skills = SkillConfiguration.getSkills();
-		for (int i = 0; i < skills.length; i++) skillScores.put(skills[i].getName(), CreatureConfiguration.getDefaultSkillScore());
+			attribs = new HashMap<String, Integer>();
+			 Attribute[] allAttribs = AttributeConfiguration.getAttributes();
+			 for (int i = 0; i < allAttribs.length; i++) attribs.put(allAttribs[i].getName(), CreatureConfiguration.getDefaultAttribScore());
+
+			skills = new HashMap<String, Integer>();
+			 Skill[] allSkills = SkillConfiguration.getSkills();
+			 for (int i = 0; i < allSkills.length; i++) skills.put(allSkills[i].getName(), CreatureConfiguration.getDefaultSkillScore());
+			 
+			perks = new ArrayList<String>();
+		}
 		
-		dscreature.update(attribScores, skillScores, new ArrayList<String>(), equipment.getItemInHand(), equipment.getHelmet(), equipment.getChestplate(), equipment.getLeggings(), equipment.getBoots());
-		return dscreature;
+		// Custom creature:
+		else{
+			dstats = new DerivedStats();
+			attribs = mcreature.attribs;
+			skills = mcreature.skills;
+			perks = mcreature.collectAllPerks();
+		}
+		
+		// Update:
+		EntityEquipment equipment = creature.getEquipment();
+		dstats.update(attribs, skills, perks, equipment.getItemInHand(), equipment.getHelmet(), equipment.getChestplate(), equipment.getLeggings(), equipment.getBoots());
+		
+		// Assign:
+		dstats.assign(creature);
+		
+		return dstats;
 	 }
 	
 	

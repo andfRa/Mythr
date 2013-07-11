@@ -8,10 +8,10 @@ import java.util.Random;
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.config.AttributeConfiguration;
-import org.andfRa.mythr.config.CreatureConfiguration;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
+import org.andfRa.mythr.creatures.MythrCreature;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.util.LinearFunction;
@@ -828,7 +828,7 @@ public class DerivedStats {
 		// Creature:
 		else if(lentity instanceof Creature){
 			
-			dstats = CreatureConfiguration.calcDerived((Creature) lentity);
+			dstats = MythrCreature.createDerived((Creature) lentity);
 			MetadataUtil.attachDerivedStats(lentity, dstats);
 			dstats.assign(lentity);
 			return dstats;

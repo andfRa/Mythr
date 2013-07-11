@@ -7,9 +7,7 @@ import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.creatures.MythrCreature;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
-import org.andfRa.mythr.player.DerivedStats;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
-import org.bukkit.entity.Creature;
 
 public class CreatureConfiguration {
 	
@@ -79,26 +77,14 @@ public class CreatureConfiguration {
 	public static int getDefaultSkillScore()
 	 { return config.defaultSkillScore; }
 	
-	
 	/**
-	 * Gets derived stats for the creature.
+	 * Gets a Mythr creature with the given name.
 	 * 
-	 * @param creature creature
-	 * @return derived stats, default stats if none
+	 * @param name creature name
+	 * @return Mythr creature, null if none
 	 */
-	public static DerivedStats calcDerived(Creature creature)
-	 {
-		String name = creature.getCustomName();
-		MythrCreature mcreature = config.creatureMap.get(name);
-		
-		// Default creature:
-		if(mcreature == null){
-			return MythrCreature.calcDefaultDerived(creature.getEquipment());
-		}
-		
-		// Custom creature:
-		return mcreature.calcDerived(creature.getEquipment());
-	 }
+	public static MythrCreature getCreature(String name)
+	 { return config.creatureMap.get(name); }
 	
 	/**
 	 * Matches a creatures.
