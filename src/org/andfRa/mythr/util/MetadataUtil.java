@@ -6,6 +6,7 @@ import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.responses.Response;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -75,5 +76,34 @@ public class MetadataUtil {
 		}
 		return null;
 	 }
+
+	/**
+	 * Attaches derived stats to the living entity.
+	 * 
+	 * @param lentity living entity
+	 * @param dstats derived stats
+	 */
+	public static void attachDerivedStats(LivingEntity lentity, DerivedStats dstats)
+	 {
+		lentity.setMetadata(DERIVED_STATS_METADATA_KEY, new FixedMetadataValue(Mythr.plugin(), dstats));
+	 }
+	
+	/**
+	 * Gets derived stats attached to the living entity.
+	 * 
+	 * @param lentity living entity
+	 * @return derived stats, null if none
+	 */
+	public static DerivedStats retrieveDerivedStats(LivingEntity lentity)
+	 {
+		List<MetadataValue> values = lentity.getMetadata(DERIVED_STATS_METADATA_KEY);
+		for(MetadataValue value : values){
+			if(value.getOwningPlugin().getDescription().getName().equals(Mythr.plugin().getDescription().getName())){
+				if(value.value() instanceof DerivedStats) return (DerivedStats) value.value();
+			}
+		}
+		return null;
+	 }
+	
 	
 }

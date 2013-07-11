@@ -52,7 +52,7 @@ public class LocalisationConfiguration {
 	public final static String JOURNAL_SPAWNED_OTHER = "Spawned journal for player " + VALUE_INDICATOR + ".";
 	
 	
-	//ITEMS:
+	// ITEMS:
 	/** Command message. */
 	public final static String ITEM_DOESNT_EXIST = "Item " + VALUE_INDICATOR + " doesn't exist.";
 
@@ -61,6 +61,14 @@ public class LocalisationConfiguration {
 
 	/** Command message. */
 	public final static String ITEM_SPAWNED_OTHER = "Spawned item " + VALUE_INDICATOR + " for player " + VALUE_INDICATOR + ".";
+
+	
+	// CREATURES:
+	/** Command message. */
+	public final static String CREATURE_DOESNT_EXIST = "Creature " + VALUE_INDICATOR + " doesn't exist.";
+
+	/** Command message. */
+	public final static String CREATURE_SPAWNED = "Creature " + VALUE_INDICATOR + " spawned.";
 
 	
 	public static String getString(String message)

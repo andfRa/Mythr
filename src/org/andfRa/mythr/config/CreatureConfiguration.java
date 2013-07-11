@@ -1,11 +1,15 @@
 package org.andfRa.mythr.config;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.andfRa.mythr.MythrLogger;
+import org.andfRa.mythr.creatures.MythrCreature;
 import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
+import org.andfRa.mythr.player.DerivedStats;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
+import org.bukkit.entity.Creature;
 
 public class CreatureConfiguration {
 	
@@ -20,6 +24,13 @@ public class CreatureConfiguration {
 	private Integer defaultSkillScore;
 	
 
+	/** Creature map for quick access. */
+	transient private HashMap<String, MythrCreature> creatureMap;
+	
+	/** All defined creatures. */
+	private MythrCreature[] creatures;
+	
+	
 	// CONSTRUCTION:
 	/** Fixes all missing fields. */
 	public void complete()
@@ -33,6 +44,21 @@ public class CreatureConfiguration {
 			MythrLogger.nullField(getClass(), "defaultSkillScore");
 			defaultSkillScore = 0;
 		}
+		
+		if(creatures == null){
+			MythrLogger.nullField(getClass(), "creatures");
+			creatures = new MythrCreature[0];
+		}
+		for (int i = 0; i < creatures.length; i++) {
+			creatures[i].complete();
+		}
+		
+		// Transient:
+		creatureMap = new HashMap<String, MythrCreature>();
+		for (int i = 0; i < creatures.length; i++) {
+			if(creatureMap.put(creatures[i].getName(), creatures[i]) != null) MythrLogger.warning(getClass(), "Found creature " + creatures[i] + " with a duplicate name.");
+		}
+		
 	 }
 	
 	
@@ -52,6 +78,48 @@ public class CreatureConfiguration {
 	 */
 	public static int getDefaultSkillScore()
 	 { return config.defaultSkillScore; }
+	
+	
+	/**
+	 * Gets derived stats for the creature.
+	 * 
+	 * @param creature creature
+	 * @return derived stats, default stats if none
+	 */
+	public static DerivedStats calcDerived(Creature creature)
+	 {
+		String name = creature.getCustomName();
+		MythrCreature mcreature = config.creatureMap.get(name);
+		
+		// Default creature:
+		if(mcreature == null){
+			return MythrCreature.calcDefaultDerived(creature.getEquipment());
+		}
+		
+		// Custom creature:
+		return mcreature.calcDerived(creature.getEquipment());
+	 }
+	
+	/**
+	 * Matches a creatures.
+	 * 
+	 * @param name name to match to
+	 * @return Mythrl creature, null if none
+	 */
+	public static MythrCreature matchCreature(String name)
+	 {
+		// Full match:
+		for (int i = 0; i < config.creatures.length; i++) {
+			if(config.creatures[i].getName().equalsIgnoreCase(name)) return config.creatures[i];
+		}
+
+		// Starts with match:
+		for (int i = 0; i < config.creatures.length; i++) {
+			if(config.creatures[i].getName().toLowerCase().startsWith(name.toLowerCase())) return config.creatures[i];
+		}
+		
+		return null;
+	 }
 	
 	
 	// LOAD UNLOAD:

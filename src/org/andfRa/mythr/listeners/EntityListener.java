@@ -25,6 +25,7 @@ public class EntityListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
 	 {
+		if(event.isCancelled()) return;
 		
 		Entity attacker = event.getDamager();
 		Entity defender = event.getEntity();

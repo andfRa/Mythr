@@ -209,9 +209,9 @@ public class MythrPlayer {
 	
 	// SKILLS:
 	/**
-	 * Gets the attribute score.
+	 * Gets the skill score.
 	 * 
-	 * @param name attribute name
+	 * @param name skill name
 	 */
 	public Integer getSkill(String name)
 	 {

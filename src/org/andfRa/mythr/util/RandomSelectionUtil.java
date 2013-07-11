@@ -19,8 +19,6 @@ public class RandomSelectionUtil {
 	 */
 	public static String selectRandom(HashMap<String, Double> map)
 	 {
-		System.out.println("RANDOM OF " + map);
-		
 		double total = 0.0d;
 		Set<Entry<String, Double>> entries = map.entrySet();
 		
@@ -31,9 +29,7 @@ public class RandomSelectionUtil {
 		double random = RANDOM.nextDouble() * total;
 		for (Entry<String, Double> entry : entries) {
 			random -= entry.getValue();
-			System.out.println("random=" + random);
 			if (random <= 0.0) {
-				System.out.println("RETURNING " + entry.getKey());
 				return entry.getKey();
 			}
 		}

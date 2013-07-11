@@ -8,13 +8,16 @@ import java.util.Random;
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.CreatureConfiguration;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.util.LinearFunction;
+import org.andfRa.mythr.util.MetadataUtil;
 import org.bukkit.Material;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -96,6 +99,7 @@ public class DerivedStats {
 		
 	}
 
+
 	/**
 	 * Updates derived stats.
 	 * 
@@ -110,9 +114,7 @@ public class DerivedStats {
 	 */
 	public void update(Map<String, Integer> attribScores, Map<String, Integer> skillScores, List<String> perks, ItemStack weapon, ItemStack helmet, ItemStack chestplate, ItemStack leggings, ItemStack boots)
 	 {
-		// Reset:
-		reset();
-		
+
 		// Equipment:
 		MythrItem mweapon = null;
 		MythrItem mhelmet = null;
@@ -125,6 +127,27 @@ public class DerivedStats {
 		if(chestplate != null) mchestplate = MythrItem.fromBukkitItem(chestplate);
 		if(leggings != null) mleggings = MythrItem.fromBukkitItem(leggings);
 		if(boots != null) mboots = MythrItem.fromBukkitItem(boots);
+		
+		// Update:
+		update(attribScores, skillScores, perks, mweapon, mhelmet, mchestplate, mleggings, mboots);
+	 }
+	
+	/**
+	 * Updates derived stats.
+	 * 
+	 * @param attribScores attribute scores
+	 * @param skillScores skill scores
+	 * @param perks perks
+	 * @param mweapon Mythr weapon, null if none
+	 * @param mhelmet Mythr helmet, null if none
+	 * @param mchestplate Mythr chestplate, null if none
+	 * @param mleggings Mythr leggings, null if none
+	 * @param mboots Mythr boots, null if none
+	 */
+	public void update(Map<String, Integer> attribScores, Map<String, Integer> skillScores, List<String> perks, MythrItem mweapon, MythrItem mhelmet, MythrItem mchestplate, MythrItem mleggings, MythrItem mboots)
+	 {
+		// Reset:
+		reset();
 		
 		// Update:
 		updateStats(attribScores, skillScores, mweapon, mhelmet, mchestplate, mleggings, mboots);
@@ -559,7 +582,7 @@ public class DerivedStats {
 			health+= attributes[i].getSpecifier(Specifier.HEALTH_MODIFIER, score);
 		}
 	 }
-	
+
 	
 	// SCORES:
 	/**
@@ -643,7 +666,17 @@ public class DerivedStats {
 	 }
 	
 	
-	// Health:
+	// Assignment:
+	/**
+	 * Assigns stats to the living entity.
+	 * 
+	 * @param lentity living entity
+	 */
+	public void assign(LivingEntity lentity)
+	 {
+		assignHealth(lentity);
+	 }
+	
 	/**
 	 * Assigns health to the living entity.
 	 * 
@@ -775,9 +808,13 @@ public class DerivedStats {
 	 */
 	public static DerivedStats findDerived(LivingEntity lentity)
 	 {
+		// Attached:
+		DerivedStats dstats = MetadataUtil.retrieveDerivedStats(lentity);
+		if(dstats != null) return dstats;
 		
 		// Player:
 		if(lentity instanceof Player){
+			
 			MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(((Player) lentity).getName());
 			if(mplayer == null){
 				MythrLogger.severe(DerivedStats.class, "Failed to retrieve Mythr player for " + ((Player) lentity).getName() + ".");
@@ -785,14 +822,22 @@ public class DerivedStats {
 			}
 			
 			return mplayer.getDerived();
+			
 		}
 		
 		// Creature:
-		else{
-			// TODO: Creature derived stats.
-			return DEFAULT_CREATURE_STATS;
+		else if(lentity instanceof Creature){
+			
+			dstats = CreatureConfiguration.calcDerived((Creature) lentity);
+			MetadataUtil.attachDerivedStats(lentity, dstats);
+			dstats.assign(lentity);
+			return dstats;
+			
 		}
 		
+		// Strange living entity:
+		MythrLogger.severe(DerivedStats.class, "LivingEntity " + lentity + " not a player nor a creature.");
+		return DEFAULT_CREATURE_STATS;
 	 }
 	
 }

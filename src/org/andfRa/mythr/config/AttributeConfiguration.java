@@ -109,6 +109,26 @@ public class AttributeConfiguration {
 	 }
 
 	/**
+	 * Calculates attribute score.
+	 * 
+	 * @param points points to spend
+	 * @return attribute score
+	 */
+	public static int calcScore(int points)
+	 {
+		int score = 0;
+		
+		while(points > 0){
+			int cost = calcCost(score);
+			if(cost > points) break;
+			points-= cost;
+			score+= 1;
+		}
+		
+		return score;
+	 }
+	
+	/**
 	 * Gets attributes.
 	 * 
 	 * @return attributes

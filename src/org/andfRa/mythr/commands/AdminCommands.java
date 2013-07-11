@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.CreatureConfiguration;
 import org.andfRa.mythr.config.ItemConfiguration;
 import org.andfRa.mythr.config.LocalisationConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
+import org.andfRa.mythr.creatures.MythrCreature;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.andfRa.mythr.util.TargetUtil;
@@ -298,6 +300,45 @@ public class AdminCommands {
 		
 		// Save target:
 		mtarget.save();
+	 }
+	
+	@Command(
+	 aliases = {"aspawncreature","acreature"},
+	 usage = "<creature_name>",
+	 flags = "",
+	 desc = "Spawn a creature.",
+	 min = 1,
+	 max = 1
+	)
+	@CommandPermissions({"mythr.admin.creatures.spawn"})
+	public static void spawnCreature(CommandContext args, MythrPlayer mplayer)
+	 {
+		String argcreature;
+		
+		MythrCreature mcreature;
+
+		switch (args.argsLength()) {
+		default:
+
+			// Creature:
+			argcreature = LocalisationConfiguration.handleArg(args.getString(0));
+			mcreature = CreatureConfiguration.matchCreature(argcreature);
+			if(mcreature == null){
+				mplayer.negative(LocalisationConfiguration.getString(LocalisationConfiguration.CREATURE_DOESNT_EXIST, argcreature));
+				return;
+			}
+			
+			break;
+		}
+
+		// Name:
+		String creatureName = mcreature.getName();
+		
+		// Spawn creature:
+		mcreature.spawn(mplayer.getPlayer().getLocation());
+		
+		// Report:
+		mplayer.positive(LocalisationConfiguration.getString(LocalisationConfiguration.CREATURE_SPAWNED, creatureName));
 	 }
 	
 }

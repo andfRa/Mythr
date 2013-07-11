@@ -1,6 +1,41 @@
 {
 
 "defaultAttribScore":4,
-"defaultSkillScore":25
-     
+"defaultSkillScore":25,
+
+"creatures":
+ [
+	# REGULAR BOSSES #
+	{
+		"name":"Zombie Conscript",
+		"type":ZOMBIE,
+		"attribs":{"strength":8, "precision":4, "willpower":2, "divinity":2, "constitution":6},
+		"skills":{"swordsmanship":1},
+		"weapons":{"Longsword":1.0},
+		"helmets":{"Plate Helmet":1.0},
+		"chestplates":{"Plate Chestplate":1.0},
+		"leggings":{"Plate Leggings":1.0},
+		"boots":{"Plate Boots":1.0}
+	},
+	
+	{
+		"name":"Skeleton Conscript",
+		"type":SKELETON,
+		"attribs":{"strength":8, "precision":4, "willpower":2, "divinity":2, "constitution":6},
+		"skills":{"swordsmanship":1},
+		"weapons":{"Longsword":1.0},
+		"helmets":{"Plate Helmet":1.0},
+		"chestplates":{"Plate Chestplate":1.0},
+		"leggings":{"Plate Leggings":1.0},
+		"boots":{"Plate Boots":1.0}
+	},
+	
+	
+	# WEIRD #
+	{
+		"name":"Mega Space Ultra Chicken",
+		"type":CHICKEN
+	}
+ ]
+
 }
