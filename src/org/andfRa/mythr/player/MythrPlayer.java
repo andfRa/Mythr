@@ -295,8 +295,6 @@ public class MythrPlayer {
 	 */
 	public void updateHeld()
 	 {
-		System.out.println("UPDATE HELD");
-		
 		int slot = player.getInventory().getHeldItemSlot();
 		PlayerInventory inventory = player.getInventory();
 		derived[slot].update(attribs, skills, collectAllPerks(), inventory.getItemInHand(), inventory.getHelmet(), inventory.getChestplate(), inventory.getLeggings(), inventory.getBoots());
@@ -309,8 +307,6 @@ public class MythrPlayer {
 	 */
 	public void updateAll()
 	 {
-		System.out.println("UPDATE ALL");
-		
 		PlayerInventory inventory = player.getInventory();
 		for (int i = 0; i < VanillaConfiguration.QUICKBAR_SLOT_COUNT; i++) {
 			int slot = i;

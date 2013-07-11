@@ -132,10 +132,6 @@ public class DerivedStats {
 		updateWeapon(mweapon);
 		updateArmour(mhelmet, mchestplate, mleggings, mboots);
 		updateHealth();
-		
-		if(mweapon != null) System.out.println("WEAPON = " + mweapon.getMaterial());
-		if(mchestplate != null) System.out.println("CHEST = " + mchestplate.getMaterial());
-		
 	 }
 	
 	/**
