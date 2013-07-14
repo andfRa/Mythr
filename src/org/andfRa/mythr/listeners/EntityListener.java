@@ -1,9 +1,14 @@
 package org.andfRa.mythr.listeners;
 
 
+import java.util.List;
+
 import org.andfRa.mythr.Mythr;
+import org.andfRa.mythr.config.CreatureConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
+import org.andfRa.mythr.creatures.MythrCreature;
 import org.andfRa.mythr.items.ItemType;
+import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.DamageType;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.responses.Response;
@@ -17,6 +22,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class EntityListener implements Listener {
@@ -108,5 +115,29 @@ public class EntityListener implements Listener {
 		
 	 }
 
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void onDeath(EntityDeathEvent event)
+	 {
+		if(event instanceof PlayerDeathEvent) return;
+		
+		// Find Mythr creature:
+		String name = event.getEntity().getCustomName();
+		if(name == null) return;
+		MythrCreature mcreature = CreatureConfiguration.getCreature(name);
+		if(mcreature == null) return;
+		
+		// Add drops:
+		List<ItemStack> drops = event.getDrops();
+		List<MythrItem> selected = mcreature.selectDrops();
+		if(!mcreature.getAddDrops()) drops.clear();
+		for (MythrItem mitem : selected) {
+			drops.add(mitem.toBukkitItem());
+		}
+		
+		// Set exp:
+		if(mcreature.getAddExp()) event.setDroppedExp(event.getDroppedExp() + mcreature.getExp());
+		else event.setDroppedExp(mcreature.getExp());
+	 }
+	
 	
 }

@@ -16,6 +16,9 @@ public class ItemConfiguration {
 	/** Instance of the configuration. */
 	private static ItemConfiguration config;
 	
+	/** No item. */
+	public final static String NO_ITEM = "NONE";
+	
 	
 	/** Item map for quick access. */
 	transient private HashMap<String, MythrDrop> itemMap;
@@ -23,6 +26,7 @@ public class ItemConfiguration {
 	/** All defined items. */
 	private MythrDrop[] items;
 
+	
 	// CONSTRUCTION:
 	/** Fixes all missing fields. */
 	public void complete()

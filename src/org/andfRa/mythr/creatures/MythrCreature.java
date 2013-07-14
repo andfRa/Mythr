@@ -57,6 +57,35 @@ public class MythrCreature {
 	private HashMap<String, Double> boots;
 	
 	
+	/** All drops. */
+	private ArrayList<HashMap<String, Double>> drops;
+
+	/** True if drops should be added, instead of overwriting. */
+	public Boolean addDrops;
+	
+	/** Dropped experience. */
+	private Integer exp;
+
+	/** True if exp should be added, instead of overwriting. */
+	public Boolean addExp;
+	
+
+	/** Weapon drop chance. */
+	private Double weaponChance;
+
+	/** Helmet drop chance. */
+	private Double helmetChance;
+
+	/** Chestplaye drop chance. */
+	private Double chestplateChance;
+
+	/** Leggings drop chance. */
+	private Double leggingsChance;
+
+	/** Boots drop chance. */
+	private Double bootsChance;
+	
+	
 	// INITIALISE:
 	/** Restrict access to no arguments constructor. */
 	@SuppressWarnings("unused")
@@ -79,6 +108,9 @@ public class MythrCreature {
 		this.chestplates = new HashMap<String, Double>();
 		this.leggings = new HashMap<String, Double>();
 		this.boots = new HashMap<String, Double>();
+		
+		this.drops = new ArrayList<HashMap<String,Double>>();
+		this.exp = 0;
 	 }
 	
 	/** Fixes all missing fields. */
@@ -103,6 +135,17 @@ public class MythrCreature {
 		if(chestplates == null) chestplates = new HashMap<String, Double>();
 		if(leggings == null) leggings = new HashMap<String, Double>();
 		if(boots == null) boots = new HashMap<String, Double>();
+		
+		if(drops == null) drops = new ArrayList<HashMap<String,Double>>();
+		if(addDrops == null) addDrops = false;
+		if(exp == null) exp = 0;
+		if(addExp == null) addExp = false;
+		
+		if(weaponChance == null) weaponChance = 0.0;
+		if(helmetChance == null) helmetChance = 0.0;
+		if(chestplateChance == null) chestplateChance = 0.0;
+		if(leggingsChance == null) leggingsChance = 0.0;
+		if(bootsChance == null) bootsChance = 0.0;
 	 }
 
 
@@ -147,6 +190,94 @@ public class MythrCreature {
 		return allPerks;
 	 }
 	
+	
+	// DROPS:
+	/**
+	 * Selects drops.
+	 * 
+	 * @return drops
+	 */
+	public ArrayList<MythrItem> selectDrops()
+	 {
+		ArrayList<MythrItem> mdrops = new ArrayList<MythrItem>();
+		for (HashMap<String, Double> drop : drops) {
+			String strdrop = RandomSelectionUtil.selectRandom(drop);
+			if(strdrop.equals(ItemConfiguration.NO_ITEM)) continue;
+			mdrops.add(ItemConfiguration.getItem(strdrop));
+		}
+		return mdrops;
+	 }
+	
+	/**
+	 * True if drops should be added, instead of overwriting.
+	 * 
+	 * @return true if add
+	 */
+	public Boolean getAddDrops()
+	 { return addDrops; }
+	
+	/**
+	 * Gets dropped experience.
+	 * 
+	 * @return dropped experience
+	 */
+	public Integer getExp()
+	 { return exp; }
+
+	/**
+	 * True if exp should be added, instead of overwriting.
+	 * 
+	 * @return true if add
+	 */
+	public Boolean getAddExp()
+	 { return addExp; }
+	
+	
+	/**
+	 * Gets the weaponChance.
+	 * 
+	 * @return the weaponChance
+	 */
+	public Double getWeaponChance() {
+		return weaponChance;
+	}
+
+	/**
+	 * Gets the helmetChance.
+	 * 
+	 * @return the helmetChance
+	 */
+	public Double getHelmetChance() {
+		return helmetChance;
+	}
+
+	/**
+	 * Gets the chestplateChance.
+	 * 
+	 * @return the chestplateChance
+	 */
+	public Double getChestplateChance() {
+		return chestplateChance;
+	}
+
+	/**
+	 * Gets the leggingsChance.
+	 * 
+	 * @return the leggingsChance
+	 */
+	public Double getLeggingsChance() {
+		return leggingsChance;
+	}
+
+	/**
+	 * Gets the bootsChance.
+	 * 
+	 * @return the bootsChance
+	 */
+	public Double getBootsChance() {
+		return bootsChance;
+	}
+
 	
 	// DERIVED STATS:
 	/**
@@ -245,6 +376,13 @@ public class MythrCreature {
 			if(mchestplate != null) lentity.getEquipment().setChestplate(mchestplate.toBukkitItem());
 			if(mleggings != null) lentity.getEquipment().setLeggings(mleggings.toBukkitItem());
 			if(mboots != null) lentity.getEquipment().setBoots(mboots.toBukkitItem());
+
+			// Set drop chances:
+			lentity.getEquipment().setItemInHandDropChance(weaponChance.floatValue());
+			lentity.getEquipment().setHelmetDropChance(helmetChance.floatValue());
+			lentity.getEquipment().setChestplateDropChance(chestplateChance.floatValue());
+			lentity.getEquipment().setLeggingsDropChance(leggingsChance.floatValue());
+			lentity.getEquipment().setBootsDropChance(bootsChance.floatValue());
 			
 			// Set name:
 			lentity.setCustomName(name);
@@ -255,7 +393,6 @@ public class MythrCreature {
 			
 			// Attach derived stats:
 			MetadataUtil.attachDerivedStats(lentity, dstats);
-			
 		}
 		
 		

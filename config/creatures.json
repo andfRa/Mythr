@@ -15,7 +15,11 @@
 		"helmets":{"Plate Helmet":1.0},
 		"chestplates":{"Plate Chestplate":1.0},
 		"leggings":{"Plate Leggings":1.0},
-		"boots":{"Plate Boots":1.0}
+		"boots":{"Plate Boots":1.0},
+		"drops":
+		 [
+			{"NONE":0.95, "Strength Scroll":0.01, "Precision Scroll":0.01, "Willpower Scroll":0.01, "Divinity Scroll":0.01, "Constitution Scroll":0.01} 
+		 ]
 	},
 	
 	{
@@ -27,7 +31,11 @@
 		"helmets":{"Plate Helmet":1.0},
 		"chestplates":{"Plate Chestplate":1.0},
 		"leggings":{"Plate Leggings":1.0},
-		"boots":{"Plate Boots":1.0}
+		"boots":{"Plate Boots":1.0},
+		"drops":
+		 [
+			{"NONE":0.95, "Strength Scroll":0.01, "Precision Scroll":0.01, "Willpower Scroll":0.01, "Divinity Scroll":0.01, "Constitution Scroll":0.01} 
+		 ]
 	},
 	
 	
