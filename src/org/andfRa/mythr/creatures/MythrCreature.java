@@ -335,8 +335,9 @@ public class MythrCreature {
 	 * Spawns the creature.
 	 * 
 	 * @param location location
+	 * @return spawned entity
 	 */
-	public void spawn(Location location) {
+	public Entity spawn(Location location) {
 
 		DerivedStats dstats = new DerivedStats();
 		
@@ -395,7 +396,7 @@ public class MythrCreature {
 			MetadataUtil.attachDerivedStats(lentity, dstats);
 		}
 		
-		
+		return entity;
 	}
 	
 	
