@@ -44,7 +44,7 @@ public class BeamShapeEffect extends ResponseEffect {
 	 { return "BEAM_SHAPE_EFFECT"; }
 
 	@Override
-	public boolean interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean effectTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
 	 {
 		Location loc = mplayer.getPlayer().getLocation();
 		Sound sound = matchSound(response.getString(SOUND_KEY));

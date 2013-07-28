@@ -3,6 +3,7 @@ package org.andfRa.mythr.responses;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class ResponseEffect {
 
@@ -47,14 +48,26 @@ public abstract class ResponseEffect {
 	 { return false; }
 	
 	/**
-	 * Called on interact.
+	 * Called on effect.
 	 * 
 	 * @param response response
 	 * @param mplayer Mythr player
 	 * @param dsstats derived stats
 	 * @return true if successful
 	 */
-	public boolean interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean effectTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	 { return false; }
+
+	/**
+	 * Called on item focus.
+	 * 
+	 * @param response response
+	 * @param mplayer Mythr player
+	 * @param item item that gained focus
+	 * @param dsstats derived stats
+	 * @return true if successful
+	 */
+	public boolean focusTrigger(Response response, MythrPlayer mplayer, ItemStack item, DerivedStats dsstats)
 	 { return false; }
 
 	/**
