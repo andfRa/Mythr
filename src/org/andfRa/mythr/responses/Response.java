@@ -1,8 +1,8 @@
 package org.andfRa.mythr.responses;
 
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 
 import org.andfRa.mythr.MythrLogger;
@@ -10,6 +10,7 @@ import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 
 public class Response {
 
@@ -240,18 +241,32 @@ public class Response {
 	 }
 	
 	/**
-	 * Called on interact.
+	 * Called on effect.
 	 * 
 	 * @param mplayer Mythr player
 	 * @param dsstats derived stats
 	 * @return true if successful
 	 */
-	public boolean interactTrigger(MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean effectTrigger(MythrPlayer mplayer, DerivedStats dsstats)
 	 {
-		if(effect != null) return effect.interactTrigger(this, mplayer, dsstats);
+		if(effect != null) return effect.effectTrigger(this, mplayer, dsstats);
 		return false;
 	 }
 
+	/**
+	 * Called on item focus.
+	 * 
+	 * @param mplayer Mythr player
+	 * @param item item that gained focus
+	 * @param dsstats derived stats
+	 * @return true if successful
+	 */
+	public boolean focusTrigger(MythrPlayer mplayer, ItemStack item, DerivedStats dsstats)
+	 {
+		if(effect != null) return effect.focusTrigger(this, mplayer, item, dsstats);
+		return false;
+	 }
+	
 	/**
 	 * Called on attack.
 	 * 

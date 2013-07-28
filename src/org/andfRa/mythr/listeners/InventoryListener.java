@@ -1,13 +1,15 @@
 package org.andfRa.mythr.listeners;
 
+import java.util.List;
+
 import org.andfRa.mythr.Mythr;
+import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
-import org.andfRa.mythr.items.ItemType;
 import org.andfRa.mythr.items.MythrItem;
+import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
-import org.andfRa.mythr.responses.DisplayStatsEffect;
+import org.andfRa.mythr.responses.Response;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -68,11 +70,24 @@ public class InventoryListener  implements Listener {
 	 {
 		MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(event.getPlayer().getName());
 		
-		// Update journal:
+		// Focus:
 		ItemStack item = event.getPlayer().getInventory().getItem(event.getNewSlot());
-		if(item != null && item.getType() == Material.WRITTEN_BOOK){
+		if(item != null){
 			MythrItem mitem = MythrItem.fromBukkitItem(item);
-			if(mitem.getType() == ItemType.JOURNAL) DisplayStatsEffect.update(item, mplayer);
+			DerivedStats dstats = mplayer.getDerived();
+			
+			// Responses:
+			List<String> respnames = mitem.getResponses();
+			for (String respname : respnames) {
+				Response response = ResponseConfiguration.getResponse(respname);
+				if(response != null) response.focusTrigger(mplayer, item, dstats);
+			}
+			
+			// Effect:
+			String respname = mitem.getEffect();
+			Response response = ResponseConfiguration.getResponse(respname);
+			if(response != null) response.focusTrigger(mplayer, item, dstats);
+			
 		}
 	 }
 	

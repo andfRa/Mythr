@@ -28,7 +28,7 @@ public class ShootFireballEffect extends ResponseEffect {
 	 { return "SHOOT_FIREBALL_EFFECT"; }
 
 	@Override
-	public boolean interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean effectTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
 	 {
 		Location loc = mplayer.getPlayer().getLocation();
 		loc.getWorld().playSound(loc, Sound.GHAST_FIREBALL, 0.5f, 0.5f);

@@ -110,7 +110,7 @@ public class PlayerListener implements Listener {
 					if(respName == null) break;
 					Response response = ResponseConfiguration.getResponse(respName);
 					if(response == null) break;
-					response.interactTrigger(mplayer, mplayer.getDerived());
+					response.effectTrigger(mplayer, mplayer.getDerived());
 					
 					break;
 					
@@ -138,7 +138,7 @@ public class PlayerListener implements Listener {
 					if(respName == null) break;
 					Response response = ResponseConfiguration.getResponse(respName);
 					if(response == null) break;
-					boolean remove = response.interactTrigger(mplayer, mplayer.getDerived());
+					boolean remove = response.effectTrigger(mplayer, mplayer.getDerived());
 					if(remove) ScrollManager.handleUseScroll(mplayer);
 					
 					break;

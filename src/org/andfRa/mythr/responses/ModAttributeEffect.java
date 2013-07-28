@@ -21,7 +21,7 @@ public class ModAttributeEffect extends ResponseEffect {
 	 { return "PERMANENT_MODIFY_ATTRIBUTE_EFFECT"; }
 	
 	@Override
-	public boolean interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean effectTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
 	 {
 		String attribute = response.getString(ATTRIBUTE_KEY);
 		Integer amount = response.getInt(AMOUNT_KEY);

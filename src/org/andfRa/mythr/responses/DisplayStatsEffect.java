@@ -5,8 +5,6 @@ import java.text.DecimalFormat;
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.LocalisationConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
-import org.andfRa.mythr.items.ItemType;
-import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.player.Attribute;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
@@ -23,42 +21,44 @@ public class DisplayStatsEffect extends ResponseEffect {
 	public String key()
 	 { return "DISPLAY_STATS_EFFECT"; }
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public boolean interactTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
+	public boolean effectTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
 	 {
 		Player player = mplayer.getPlayer();
-		if(player.getItemInHand() == null) return false;
-		MythrItem mitem = MythrItem.fromBukkitItem(player.getItemInHand());
+		ItemStack item = player.getItemInHand();
+		if(item == null) return false;
 		
 		// Claim journal:
-		if(mitem.getMaterial() == Material.BOOK){
-			player.setItemInHand(claim(mplayer));
-			player.updateInventory();
+		if(item.getType() == Material.BOOK){
+			claim(mplayer, player.getItemInHand());
 		}
 		
 		return true;
 	 }
 	
+	@Override
+	public boolean focusTrigger(Response response, MythrPlayer mplayer, ItemStack item, DerivedStats dsstats)
+	 {
+		update(item, mplayer);
+		return true;
+	 }
 
 	/**
-	 * Creates a claimed empty journal.
+	 * Converts an item to a stats journal.
 	 * 
+	 * @param mplayer Mythr player
+	 * @param book book item
 	 * @return claimed empty journal
 	 */
-	public static ItemStack claim(MythrPlayer mplayer)
+	@SuppressWarnings("deprecation")
+	public static ItemStack claim(MythrPlayer mplayer, ItemStack book)
 	 {
-		MythrItem mbook = new MythrItem(Material.WRITTEN_BOOK);
-		mbook.setType(ItemType.JOURNAL);
-		mbook.setName(WordUtils.capitalize(LocalisationConfiguration.getString("journal")));
-		
-		ItemStack book = mbook.toBukkitItem();
+		book.setType(Material.WRITTEN_BOOK);
 		BookMeta bookMeta = (BookMeta) book.getItemMeta();
 		bookMeta.setAuthor(mplayer.getName());
 		book.setItemMeta(bookMeta);
-		
 		update(book, mplayer);
-		
+		mplayer.getPlayer().updateInventory();
 		return book;
 	 }
 	
@@ -153,7 +153,6 @@ public class DisplayStatsEffect extends ResponseEffect {
 		
 		// Update book:
 		book.setItemMeta(bookMeta);
-		
 	}
 	
 }
