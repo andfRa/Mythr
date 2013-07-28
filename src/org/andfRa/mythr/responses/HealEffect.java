@@ -29,7 +29,7 @@ public class HealEffect extends ResponseEffect {
 	public boolean attackTrigger(Response response, LivingEntity lcaster, LivingEntity ltarget, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
 		// Check for bonus:
-		boolean bonus = findAttribScoreSuccess(response, dsattacker, dsdefender);
+		boolean bonus = response.checkStats(dsattacker, dsdefender);
 		
 		// Type:
 		DamageType type = DamageType.match(response.getString(DAMAGE_TYPE_KEY));

@@ -14,8 +14,9 @@
 	# ARCANE SPELLS #
 	{
 	 "name":"shoot fireball",
+	 "stats":{"willpower":-4},
 	 "effectKey":"SHOOT_FIREBALL_EFFECT",
-	 "parameters":{"CAST_TICKS":25, "BURN_TICKS":100, "ATTRIBUTE":"willpower", "MODIFIER":-4}
+	 "parameters":{"CAST_TICKS":25, "BURN_TICKS":100}
 	},
 	
 	{
@@ -38,7 +39,8 @@
 	{
 	 "name":"minor heal target",
 	 "effectKey":"HEAL_EFFECT",
-	 "parameters":{"ATTRIBUTE":"willpower", "MODIFIER":-6, "DAMAGE_TYPE":"BLESSING", "BONUS_DAMAGE_MULTIPLIER":1.25}
+	 "stats":{"willpower":-6},
+	 "parameters":{"DAMAGE_TYPE":"BLESSING", "BONUS_DAMAGE_MULTIPLIER":1.25}
 	},
 	
 	

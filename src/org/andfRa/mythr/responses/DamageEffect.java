@@ -31,7 +31,7 @@ public class DamageEffect extends ResponseEffect {
 	public boolean attackTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
 		// Check for bonus:
-		boolean bonus = findAttribScoreSuccess(response, dsattacker, dsdefender);
+		boolean bonus = response.checkStats(dsattacker, dsdefender);
 		
 		// Type:
 		DamageType type = DamageType.match(response.getString(DAMAGE_TYPE_KEY));

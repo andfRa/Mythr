@@ -95,7 +95,7 @@ public class ShootFireballEffect extends ResponseEffect {
 	private boolean handleIgnite(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 {
 		// Check if successful:
-		boolean ignite = findAttribScoreSuccess(response, dsattacker, dsdefender);
+		boolean ignite = response.checkStats(dsattacker, dsdefender);
 		if(!ignite) return false;
 		
 		// Ignite:

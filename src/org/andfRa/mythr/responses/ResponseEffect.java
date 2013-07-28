@@ -1,7 +1,5 @@
 package org.andfRa.mythr.responses;
 
-import java.util.Random;
-
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.bukkit.entity.LivingEntity;
@@ -72,44 +70,4 @@ public abstract class ResponseEffect {
 	public boolean attackTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 { return false; }
 
-	
-	// UTIL:
-	/**
-	 * Finds if the attack succeeded, based on attacker and defender attribute scores.
-	 * 
-	 * @param response response
-	 * @param dsattacker attacker derived stats
-	 * @param dsdefender defender derived stats
-	 * @param mod attack score modifier
-	 * @return true if succeeded
-	 */
-	public static boolean findAttribScoreSuccess(Response response, DerivedStats dsattacker, DerivedStats dsdefender, int mod)
-	 {
-		String attribName = response.getString(ATTRIBUTE_KEY);
-		
-		int attckScore = dsattacker.getAttribScore(attribName) + mod;
-		int defndScore = dsdefender.getAttribScore(attribName);
-		
-		double check = 0.5;
-		if(attckScore + defndScore != 0) check = attckScore / (attckScore + defndScore);
-		else if(attckScore != 0) check = 1.0;
-		
-		return check >= new Random().nextDouble();
-	 }
-
-	/**
-	 * Finds if the attack succeeded, based on attacker and defender attribute scores.
-	 * Uses the default attack modifier.
-	 * 
-	 * @param response response
-	 * @param dsattacker attacker derived stats
-	 * @param dsdefender defender derived stats
-	 * @return true if succeeded
-	 */
-	public static boolean findAttribScoreSuccess(Response response, DerivedStats dsattacker, DerivedStats dsdefender)
-	 {
-		int mod = response.getInt(ATTACK_SCORE_MODIFIER_KEY);
-		return findAttribScoreSuccess(response, dsattacker, dsdefender, mod);
-	 }
-	
 }

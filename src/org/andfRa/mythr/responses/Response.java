@@ -1,6 +1,9 @@
 package org.andfRa.mythr.responses;
 
 import java.util.HashMap;
+import java.util.Random;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.player.DerivedStats;
@@ -13,6 +16,9 @@ public class Response {
 	/** Response name. */
 	private String name;
 
+	/** Stats and their modifiers the response is based on. */
+	private HashMap<String, Integer> stats;
+	
 	/** Parameters values. */
 	private HashMap<String, String> parameters;
 
@@ -36,6 +42,7 @@ public class Response {
 			name = "????";
 		}
 		
+		if(stats == null) stats = new HashMap<String, Integer>();
 		if(parameters == null) parameters = new HashMap<String, String>();
 		if(linVals == null) linVals = new HashMap<String, LinearFunction>();
 		
@@ -68,6 +75,37 @@ public class Response {
 	public String getName()
 	 { return name; }
 
+	/**
+	 * Checks if bonus should be applied, from based stats.
+	 * 
+	 * @param dsattacker attacker derived stats
+	 * @param dsdefender defender derived stats
+	 * @return true if bonus should be applied
+	 */
+	public boolean checkStats(DerivedStats dsattacker, DerivedStats dsdefender)
+	 {
+		if(stats.size() == 0) return true;
+		
+		Set<Entry<String, Integer>> baseds = this.stats.entrySet();
+		for (Entry<String, Integer> based : baseds) {
+			
+			String attrib = based.getKey();
+			Integer mod = based.getValue();
+			
+			int attckScore = dsattacker.getAttribScore(attrib) + mod;
+			int defndScore = dsdefender.getAttribScore(attrib);
+			
+			double check = 0.5;
+			if(attckScore + defndScore != 0) check = attckScore / (attckScore + defndScore);
+			else if(attckScore != 0) check = 1.0;
+			
+			if(check <= new Random().nextDouble()) return false;
+			
+		}
+		
+		return true;
+	 }
+	
 	/**
 	 * Response effect key.
 	 * 
