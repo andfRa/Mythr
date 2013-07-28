@@ -340,7 +340,7 @@
 	{
 	 "name":"Journal",
 	 "material":"BOOK",
-	 "type":"JOURNAL",
+	 "type":"TOME",
 	 "effect":"display journal"
 	}
 	

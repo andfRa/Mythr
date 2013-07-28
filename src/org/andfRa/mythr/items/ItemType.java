@@ -17,7 +17,7 @@ public enum ItemType {
 	
 	SKILL_TOME('\u24D9'),
 	PERK_TOME('\u24DA'),
-	JOURNAL('\u24DB'),
+	TOME('\u24DB'),
 	SCROLL('\u24DC'),
 	
 	OTHER('\u24DD');
