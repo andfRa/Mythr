@@ -110,8 +110,8 @@
 	
 	# JOURNAL #
 	{
-	 "name":"display stats",
-	 "effectKey":"DISPLAY_STATS_EFFECT",
+	 "name":"display journal",
+	 "effectKey":"DISPLAY_JOURNAL_EFFECT",
 	 "parameters":{}
 	}
 	

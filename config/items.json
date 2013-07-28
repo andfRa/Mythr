@@ -338,10 +338,10 @@
 	
 	# OTHER #
 	{
-	 "name":"Stats",
+	 "name":"Journal",
 	 "material":"BOOK",
 	 "type":"JOURNAL",
-	 "effect":"display stats"
+	 "effect":"display journal"
 	}
 	
  ]

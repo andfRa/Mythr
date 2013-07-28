@@ -14,7 +14,7 @@ import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.responses.ResponseEffect;
 import org.andfRa.mythr.responses.ShootFireballEffect;
-import org.andfRa.mythr.responses.DisplayStatsEffect;
+import org.andfRa.mythr.responses.DisplayJournalEffect;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
 
 public class ResponseConfiguration {
@@ -99,7 +99,7 @@ public class ResponseConfiguration {
 		effects.put(effect.key(), effect);
 
 		// Update journal effect:
-		effect = new DisplayStatsEffect();
+		effect = new DisplayJournalEffect();
 		effects.put(effect.key(), effect);
 		
 	 }

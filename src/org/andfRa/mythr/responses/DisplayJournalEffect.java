@@ -15,11 +15,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
-public class DisplayStatsEffect extends ResponseEffect {
+public class DisplayJournalEffect extends ResponseEffect {
 
 	@Override
 	public String key()
-	 { return "DISPLAY_STATS_EFFECT"; }
+	 { return "DISPLAY_JOURNAL_EFFECT"; }
 
 	@Override
 	public boolean effectTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
