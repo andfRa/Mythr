@@ -1,6 +1,7 @@
 package org.andfRa.mythr.player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -32,48 +33,18 @@ public class DerivedStats {
 	public static DerivedStats DEFAULT_CREATURE_STATS = new DerivedStats(); // TODO: This must be private.
 	
 	
-	/** Minimum base damage. */
-	private int minBaseDmg = 0;
+	/** Minimum base damages. */
+	private int[] minBaseDmg = new int[DamageType.count()];
 
-	/** Maximum base damage. */
-	private int maxBaseDmg = 0;
-
-
-	/** Melee damage modifier. */
-	private int meleeDmgMod = 0;
-
-	/** Ranged damage modifier. */
-	private int rangedDmgMod = 0;
-
-	/** Magic damage modifier. */
-	private int magicDmgMod = 0;
-
-	/** Curse damage modifier. */
-	private int curseDmgMod = 0;
-
-	/** Blessing damage modifier. */
-	private int blessingDmgMod = 0;
+	/** Maximum base damages. */
+	private int[] maxBaseDmg = new int[DamageType.count()];
+	
+	/** Attack ratings. */
+	private int[] attackRatings = new int[DamageType.count()];
 
 	
-	/** Melee attack rating. */
-	private int meleeAR = 0;
-
-	/** Ranged attack rating. */
-	private int rangedAR = 0;
-
-	/** Magic attack rating. */
-	private int magicAR = 0;
-
-	/** Curse attack rating. */
-	private int curseAR = 0;
-
-	/** Blessing attack rating. */
-	private int blessingAR = 0;
-
-
 	/** Armour induced damage multiplier. */
 	private double armour = 1.0;
-
 	
 	/** Armour defence rating. */
 	private int armourDR = 0;
@@ -89,15 +60,18 @@ public class DerivedStats {
 	private int[] skills = new int[SkillConfiguration.getSkillCount()];
 
 	
+	/** Responses. */
+	private String[] responses = new String[0];
+	
+	
 	// CONSTRUCTION:
 	/**
 	 * Calculates the derived stats.
 	 * 
 	 * @param living living entity
 	 */
-	public DerivedStats() {
-		
-	}
+	public DerivedStats()
+	 { }
 
 
 	/**
@@ -166,22 +140,13 @@ public class DerivedStats {
 		// Stats:
 		attributes = new int[AttributeConfiguration.getAttribCount()];
 		skills = new int[SkillConfiguration.getSkillCount()];
+		responses = new String[0];
 		
 		// Weapon:
-		minBaseDmg = 0;
-		maxBaseDmg = 0;
+		minBaseDmg = new int[DamageType.count()];
+		maxBaseDmg = new int[DamageType.count()];
 		
-		meleeDmgMod = 0;
-		rangedDmgMod = 0;
-		magicDmgMod = 0;
-		curseDmgMod = 0;
-		blessingDmgMod = 0;
-		
-		meleeAR = 1;
-		rangedAR = 1;
-		magicAR = 1;
-		curseAR = 1;
-		blessingAR = 1;
+		attackRatings = new int[DamageType.count()];
 		
 		// Armour:
 		armour = 1.0;
@@ -205,7 +170,6 @@ public class DerivedStats {
 	 */
 	private void updateStats(Map<String, Integer> attribScores, Map<String, Integer> skillScores, MythrItem mweapon, MythrItem mhelmet, MythrItem mchestplate, MythrItem mleggings, MythrItem mboots)
 	 {
-		
 		// Attributes:
 		String[] attribNames = AttributeConfiguration.getAttrNames();
 		for (int i = 0; i < attribNames.length; i++) {
@@ -255,6 +219,7 @@ public class DerivedStats {
 			response.passiveTrigger(this);
 		}
 		
+		this.responses = responses.toArray(new String[responses.size()]);
 	 }
 
 	/**
@@ -269,48 +234,71 @@ public class DerivedStats {
 			
 			switch (mweapon.getType()) {
 			case MELEE_WEAPON:
-				meleeAR+= mweapon.getAttackRating();
+				minBaseDmg[DamageType.MELEE.ordinal()] = mweapon.getDamageMin();
+				maxBaseDmg[DamageType.MELEE.ordinal()] = mweapon.getDamageMax();
+				attackRatings[DamageType.MELEE.ordinal()] = mweapon.getAttackRating();
 				break;
 			
 			case RANGED_WEAPON:
-				rangedAR+= mweapon.getAttackRating();
+				minBaseDmg[DamageType.RANGED.ordinal()] = mweapon.getDamageMin();
+				maxBaseDmg[DamageType.RANGED.ordinal()] = mweapon.getDamageMax();
+				attackRatings[DamageType.RANGED.ordinal()] = mweapon.getAttackRating();
 				break;
 			
 			case ARCANE_SPELL:
-				magicAR+= mweapon.getAttackRating();
+				minBaseDmg[DamageType.ARCANE.ordinal()] = mweapon.getDamageMin();
+				maxBaseDmg[DamageType.ARCANE.ordinal()] = mweapon.getDamageMax();
+				attackRatings[DamageType.ARCANE.ordinal()] = mweapon.getAttackRating();
 				break;
 			
 			case CURSE_SPELL:
-				curseAR+= mweapon.getAttackRating();
+				minBaseDmg[DamageType.CURSE.ordinal()] = mweapon.getDamageMin();
+				maxBaseDmg[DamageType.CURSE.ordinal()] = mweapon.getDamageMax();
+				attackRatings[DamageType.CURSE.ordinal()] = mweapon.getAttackRating();
 				break;
 				
 			case BLESSING_SPELL:
-				blessingAR+= mweapon.getAttackRating();
+				minBaseDmg[DamageType.BLESSING.ordinal()] = mweapon.getDamageMin();
+				maxBaseDmg[DamageType.BLESSING.ordinal()] = mweapon.getDamageMax();
+				attackRatings[DamageType.BLESSING.ordinal()] = mweapon.getAttackRating();
 				break;
 
 			default:
 				break;
 			}
 			
-			minBaseDmg = mweapon.getDamageMin();
-			maxBaseDmg = mweapon.getDamageMax();
 		}
 		// No weapon item:
 		else{
-			minBaseDmg = VanillaConfiguration.DEFAULT_DAMAGE;
-			maxBaseDmg = VanillaConfiguration.DEFAULT_DAMAGE;
+			for (int i = 0; i < DamageType.count(); i++) minBaseDmg[i] = VanillaConfiguration.DEFAULT_DAMAGE;
+			for (int i = 0; i < DamageType.count(); i++) maxBaseDmg[i] = VanillaConfiguration.DEFAULT_DAMAGE;
 		}
 
 		// Attributes bonus:
 		Attribute[] attributes = AttributeConfiguration.getAttributes();
 		for (int i = 0; i < attributes.length; i++) {
 			int score = getAttribScore(i);
+			int dmg = 0;
+
+			dmg = attributes[i].getSpecifier(Specifier.MELEE_ATTACK_DAMAGE_MODIFIER, score);
+			minBaseDmg[DamageType.MELEE.ordinal()]+= dmg;
+			maxBaseDmg[DamageType.MELEE.ordinal()]+= dmg;
+
+			dmg = attributes[i].getSpecifier(Specifier.RANGED_ATTACK_DAMAGE_MODIFIER, score);
+			minBaseDmg[DamageType.RANGED.ordinal()]+= dmg;
+			maxBaseDmg[DamageType.RANGED.ordinal()]+= dmg;
 			
-			meleeDmgMod+= attributes[i].getSpecifier(Specifier.MELEE_ATTACK_DAMAGE_MODIFIER, score);
-			rangedDmgMod+= attributes[i].getSpecifier(Specifier.RANGED_ATTACK_DAMAGE_MODIFIER, score);
-			magicDmgMod+= attributes[i].getSpecifier(Specifier.MAGIC_ATTACK_DAMAGE_MODIFIER, score);
-			curseDmgMod+= attributes[i].getSpecifier(Specifier.CURSE_ATTACK_DAMAGE_MODIFIER, score);
-			blessingDmgMod+= attributes[i].getSpecifier(Specifier.BLESSING_ATTACK_DAMAGE_MODIFIER, score);
+			dmg = attributes[i].getSpecifier(Specifier.ARCANE_ATTACK_DAMAGE_MODIFIER, score);
+			minBaseDmg[DamageType.ARCANE.ordinal()]+= dmg;
+			maxBaseDmg[DamageType.ARCANE.ordinal()]+= dmg;
+
+			dmg = attributes[i].getSpecifier(Specifier.CURSE_ATTACK_DAMAGE_MODIFIER, score);
+			minBaseDmg[DamageType.CURSE.ordinal()]+= dmg;
+			maxBaseDmg[DamageType.CURSE.ordinal()]+= dmg;
+
+			dmg = attributes[i].getSpecifier(Specifier.BLESSING_ATTACK_DAMAGE_MODIFIER, score);
+			minBaseDmg[DamageType.BLESSING.ordinal()]+= dmg;
+			maxBaseDmg[DamageType.BLESSING.ordinal()]+= dmg;
 		}
 		
 		// Skill bonus:
@@ -318,11 +306,11 @@ public class DerivedStats {
 		for (int i = 0; i < skills.length; i++) {
 			int score = getSkillScore(i);
 			
-			meleeAR+= skills[i].getSpecifier(Specifier.MELEE_ATTACK_RATING_MODIFIER, score);
-			rangedAR+= skills[i].getSpecifier(Specifier.RANGED_ATTACK_RATING_MODIFIER, score);
-			magicAR+= skills[i].getSpecifier(Specifier.MAGIC_ATTACK_RATING_MODIFIER, score);
-			curseAR+= skills[i].getSpecifier(Specifier.CURSE_ATTACK_RATING_MODIFIER, score);
-			blessingAR+= skills[i].getSpecifier(Specifier.BLESSING_ATTACK_RATING_MODIFIER, score);
+			attackRatings[DamageType.MELEE.ordinal()]+= skills[i].getSpecifier(Specifier.MELEE_ATTACK_RATING_MODIFIER, score);
+			attackRatings[DamageType.RANGED.ordinal()]+= skills[i].getSpecifier(Specifier.RANGED_ATTACK_RATING_MODIFIER, score);
+			attackRatings[DamageType.ARCANE.ordinal()]+= skills[i].getSpecifier(Specifier.ARCANE_ATTACK_RATING_MODIFIER, score);
+			attackRatings[DamageType.CURSE.ordinal()]+= skills[i].getSpecifier(Specifier.CURSE_ATTACK_RATING_MODIFIER, score);
+			attackRatings[DamageType.BLESSING.ordinal()]+= skills[i].getSpecifier(Specifier.BLESSING_ATTACK_RATING_MODIFIER, score);
 		}
 	 }
 
@@ -666,7 +654,26 @@ public class DerivedStats {
 	 }
 	
 	
-	// Assignment:
+	// RESPONSES:
+	/**
+	 * Gets all responses.
+	 * 
+	 * @return responses
+	 */
+	public Collection<Response> getResponses()
+	 {
+		ArrayList<Response> responses = new ArrayList<Response>();
+		
+		for (int i = 0; i < this.responses.length; i++) {
+			Response response = ResponseConfiguration.getResponse(this.responses[i]);
+			if(response == null) continue;
+			responses.add(response);
+		}
+		return responses;
+	 }
+	
+	
+	// ASSIGNMENT:
 	/**
 	 * Assigns stats to the living entity.
 	 * 
@@ -698,38 +705,38 @@ public class DerivedStats {
 	 */
 	public int defend(DamageType type, DerivedStats dsattacker)
 	 {
-		// Damage and defence:
-		int damage = random(dsattacker.minBaseDmg, dsattacker.maxBaseDmg);
+		// Defence:
 		double armourDR = this.armourDR;
 		double armour = this.armour;
 		
 		// Attack:
+		int damage = VanillaConfiguration.DEFAULT_DAMAGE;
 		double attackRating = 0;
 		
 		switch (type) {
 		case MELEE:
-			attackRating+= dsattacker.meleeAR;
-			damage+= dsattacker.meleeDmgMod;
+			attackRating+= attackRatings[DamageType.MELEE.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.MELEE.ordinal()], dsattacker.maxBaseDmg[DamageType.MELEE.ordinal()]);
 			break;
 			
 		case RANGED:
-			attackRating+= dsattacker.rangedAR;
-			damage+= dsattacker.rangedDmgMod;
+			attackRating+= attackRatings[DamageType.RANGED.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.RANGED.ordinal()], dsattacker.maxBaseDmg[DamageType.RANGED.ordinal()]);
 			break;
 			
 		case ARCANE:
-			attackRating+= dsattacker.magicAR;
-			damage+= dsattacker.magicDmgMod;
+			attackRating+= attackRatings[DamageType.ARCANE.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.ARCANE.ordinal()], dsattacker.maxBaseDmg[DamageType.ARCANE.ordinal()]);
 			break;
 
 		case CURSE:
-			attackRating+= dsattacker.curseAR;
-			damage+= dsattacker.curseDmgMod;
+			attackRating+= attackRatings[DamageType.CURSE.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.CURSE.ordinal()], dsattacker.maxBaseDmg[DamageType.CURSE.ordinal()]);
 			break;
 
 		case BLESSING:
-			attackRating+= dsattacker.blessingAR;
-			damage+= dsattacker.blessingDmgMod;
+			attackRating+= attackRatings[DamageType.BLESSING.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.BLESSING.ordinal()], dsattacker.maxBaseDmg[DamageType.BLESSING.ordinal()]);
 			break;
 			
 		default:
@@ -750,6 +757,60 @@ public class DerivedStats {
 		// Calculate damage:
 		return LinearFunction.roundRand(damage*armour);
 	 }
+	
+	
+	// VALUES:
+	/**
+	 * Gets the minimum base damage for damage type.
+	 * 
+	 * @param type damage type
+	 * @return minimum damage
+	 */
+	public int getMinBaseDamage(DamageType type)
+	 { return minBaseDmg[type.ordinal()]; }
+	
+	/**
+	 * Gets the minimum base damage for damage type.
+	 * 
+	 * @param type damage type
+	 * @return maximum damage
+	 */
+	public int getMaxBaseDamage(DamageType type)
+	 { return maxBaseDmg[type.ordinal()]; }
+	
+	/**
+	 * Gets the attack rating.
+	 * 
+	 * @param type damage type
+	 * @return attack rating
+	 */
+	public int getAttackRatings(DamageType type)
+	 { return attackRatings[type.ordinal()]; }
+	
+	
+	/**
+	 * Gets armour.
+	 * 
+	 * @return armour
+	 */
+	public double getArmour()
+	 { return armour; }
+	
+	/**
+	 * Gets armour defence rating.
+	 * 
+	 * @return defence rating
+	 */
+	public int getArmourDR()
+	 { return armourDR; }
+	
+	/**
+	 * Gets health.
+	 * 
+	 * @return health
+	 */
+	public double getHealth()
+	 { return health; }
 	
 	
 	// UTIL:
@@ -776,20 +837,14 @@ public class DerivedStats {
 	 {
 		DerivedStats dstats = new DerivedStats();
 		
-		dstats.minBaseDmg = minBaseDmg;
-		dstats.maxBaseDmg = maxBaseDmg;
-		
-		dstats.meleeDmgMod = meleeDmgMod;
-		dstats.rangedDmgMod = rangedDmgMod;
-		dstats.magicDmgMod = magicDmgMod;
-		dstats.curseDmgMod = curseDmgMod;
-		dstats.blessingDmgMod = blessingDmgMod;
-
-		dstats.meleeAR = meleeAR;
-		dstats.rangedAR = rangedAR;
-		dstats.magicAR = magicAR;
-		dstats.curseAR = curseAR;
-		dstats.blessingAR = blessingAR;
+		dstats.minBaseDmg = new int[DamageType.count()];
+		dstats.maxBaseDmg = new int[DamageType.count()];
+		dstats.attackRatings = new int[DamageType.count()];
+		for (int i = 0; i < DamageType.count(); i++) {
+			dstats.minBaseDmg[i] = minBaseDmg[i];
+			dstats.maxBaseDmg[i] = maxBaseDmg[i];
+			dstats.attackRatings[i] = attackRatings[i];
+		}
 
 		dstats.armour = armour;
 		dstats.armourDR = armourDR;

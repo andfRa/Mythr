@@ -342,6 +342,13 @@
 	 "material":"BOOK",
 	 "type":"TOME",
 	 "effect":"display journal"
+	},
+	
+	{
+	 "name":"Stats",
+	 "material":"BOOK",
+	 "type":"TOME",
+	 "responses":["update stats"]
 	}
 	
  ]

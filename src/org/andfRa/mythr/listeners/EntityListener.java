@@ -1,6 +1,7 @@
 package org.andfRa.mythr.listeners;
 
 
+import java.util.Collection;
 import java.util.List;
 
 import org.andfRa.mythr.Mythr;
@@ -79,7 +80,7 @@ public class EntityListener implements Listener {
 		}
 		// Other:
 		else{
-			return;
+			type = ItemType.OTHER;
 		}
 		
 		double damage = event.getDamage();
@@ -98,6 +99,12 @@ public class EntityListener implements Listener {
 		// Reaction:
 		if(reaction != null) reaction.attackTrigger(lattacker, ldefender, dsattacker, dsdefender);
 
+		// Responses:
+		Collection<Response> attackerResponses = dsattacker.getResponses();
+		Collection<Response> defenderResponses = dsdefender.getResponses();
+		for (Response response : attackerResponses) response.attackTrigger(lattacker, ldefender, dsattacker, dsdefender);
+		for (Response response : defenderResponses) response.defendTrigger(lattacker, ldefender, dsattacker, dsdefender);
+		
 		// Prepare:
 		damage = dsdefender.defend(DamageType.match(type), dsattacker);
 		final double harm = damage;

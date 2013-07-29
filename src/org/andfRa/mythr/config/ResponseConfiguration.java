@@ -8,13 +8,14 @@ import org.andfRa.mythr.inout.Directory;
 import org.andfRa.mythr.inout.FileIO;
 import org.andfRa.mythr.responses.BeamShapeEffect;
 import org.andfRa.mythr.responses.DamageEffect;
+import org.andfRa.mythr.responses.DisplayJournalEffect;
 import org.andfRa.mythr.responses.HealEffect;
 import org.andfRa.mythr.responses.ModAttributeEffect;
 import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.responses.ResponseEffect;
 import org.andfRa.mythr.responses.ShootFireballEffect;
-import org.andfRa.mythr.responses.DisplayJournalEffect;
+import org.andfRa.mythr.responses.UpdateDerivedEffect;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
 
 public class ResponseConfiguration {
@@ -70,7 +71,6 @@ public class ResponseConfiguration {
 	/** Initiates effects. */
 	private void initEffects()
 	 {
-
 		effects = new HashMap<String, ResponseEffect>();
 		ResponseEffect effect;
 
@@ -98,10 +98,13 @@ public class ResponseConfiguration {
 		effect = new HealEffect();
 		effects.put(effect.key(), effect);
 
-		// Update journal effect:
+		// Display journal effect:
 		effect = new DisplayJournalEffect();
 		effects.put(effect.key(), effect);
-		
+
+		// Update derived stats effect:
+		effect = new UpdateDerivedEffect();
+		effects.put(effect.key(), effect);
 	 }
 	
 	

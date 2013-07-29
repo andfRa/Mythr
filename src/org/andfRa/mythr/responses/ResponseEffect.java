@@ -83,4 +83,17 @@ public abstract class ResponseEffect {
 	public boolean attackTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 { return false; }
 
+	/**
+	 * Called on defend.
+	 * 
+	 * @param response response
+	 * @param mattacker living attacker
+	 * @param mdefender living defender
+	 * @param dsattacker attackers derived stats
+	 * @param dsdefender defenders derived stats
+	 * @return true if successful
+	 */
+	public boolean defendTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	 { return false; }
+	
 }

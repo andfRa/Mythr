@@ -282,4 +282,19 @@ public class Response {
 		return false;
 	 }
 
+	/**
+	 * Called on defend.
+	 * 
+	 * @param mattacker living attacker
+	 * @param mdefender living defender
+	 * @param dsattacker attackers derived stats
+	 * @param dsdefender defenders derived stats
+	 * @return true if successful
+	 */
+	public boolean defendTrigger(LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
+	 {
+		if(effect != null) return effect.defendTrigger(this, lattacker, ldefender, dsattacker, dsdefender);
+		return false;
+	 }
+	
 }

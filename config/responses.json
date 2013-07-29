@@ -108,10 +108,16 @@
 	},
 	
 	
-	# JOURNAL #
+	# STATS #
 	{
 	 "name":"display journal",
 	 "effectKey":"DISPLAY_JOURNAL_EFFECT",
+	 "parameters":{}
+	},
+	
+	{
+	 "name":"update stats",
+	 "effectKey":"UPDATE_DERIVED_STATS_EFFECT",
 	 "parameters":{}
 	}
 	

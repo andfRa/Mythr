@@ -37,7 +37,7 @@
 
 	{
 	 "name":"arcane knowledge",
-	 "specifiers":{ MAGIC_ATTACK_RATING_MODIFIER:{"m":1,"b":1} }
+	 "specifiers":{ ARCANE_ATTACK_RATING_MODIFIER:{"m":1,"b":1} }
 	},
 
 	{

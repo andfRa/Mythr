@@ -60,4 +60,20 @@ public enum DamageType {
 		}
 	 }
 	
+	/**
+	 * Gets the damage type count. 
+	 * 
+	 * @return damage type count
+	 */
+	public static int count()
+	 {
+		return values().length;
+	 }
+	
+	@Override
+	public String toString()
+	 {
+		return super.toString().replace('_', ' ').toLowerCase();
+	 }
+	
 }

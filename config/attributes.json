@@ -39,7 +39,7 @@
 	{
 	 "name":"willpower",
 	 "abbrev":"WIL",
-	 "specifiers":{ CURSE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-6} }
+	 "specifiers":{ ARCANE_ATTACK_DAMAGE_MODIFIER:{"m":1,"b":-6} }
 	},
 	
 	# DIVINITY ATTRIBUTE #

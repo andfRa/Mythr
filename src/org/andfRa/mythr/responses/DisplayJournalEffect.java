@@ -77,9 +77,6 @@ public class DisplayJournalEffect extends ResponseEffect {
 		// Author check:
 		if(!bookMeta.hasAuthor() || !bookMeta.getAuthor().equals(mplayer.getName())) return;
 		
-		// Set name:
-		bookMeta.setDisplayName(WordUtils.capitalize(LocalisationConfiguration.getString("journal")));
-		
 		// Contents:
 		bookMeta.setPages();
 		DecimalFormat format = new DecimalFormat("00");
