@@ -11,6 +11,7 @@ import org.andfRa.mythr.responses.DamageEffect;
 import org.andfRa.mythr.responses.DisplayJournalEffect;
 import org.andfRa.mythr.responses.HealEffect;
 import org.andfRa.mythr.responses.ModAttributeEffect;
+import org.andfRa.mythr.responses.ModLevelEffect;
 import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.responses.ResponseEffect;
@@ -105,6 +106,11 @@ public class ResponseConfiguration {
 		// Update derived stats effect:
 		effect = new UpdateDerivedEffect();
 		effects.put(effect.key(), effect);
+		
+		// Mofify level effect:
+		effect = new ModLevelEffect();
+		effects.put(effect.key(), effect);
+		
 	 }
 	
 	

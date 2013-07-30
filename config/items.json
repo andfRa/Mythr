@@ -300,6 +300,14 @@
 	 "attrReq":{"WIL":12}
 	},
 	
+	# LEVELING SCROLLS #
+	{
+	 "name":"Level Up Scroll",
+	 "material":"PAPER",
+	 "type":"SCROLL",
+	 "effect":"level up"
+	},
+	
 	# ATTRIBUTE SCROLLS #
 	{
 	 "name":"Strength Scroll",

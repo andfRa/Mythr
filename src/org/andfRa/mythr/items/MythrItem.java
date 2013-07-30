@@ -406,6 +406,7 @@ public class MythrItem {
 			break;
 				
 		case TOME:
+		case SCROLL:
 
 			// Type:
 			lore.add("" + ChatColor.COLOR_CHAR + ITEM_TYPE_INDICATOR + ChatColor.COLOR_CHAR + type.indicator() + statsCol + LocalisationConfiguration.getCapitString("type") + ": " + LocalisationConfiguration.getString(type.text()));
