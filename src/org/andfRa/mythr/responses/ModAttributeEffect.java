@@ -6,6 +6,7 @@ import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 public class ModAttributeEffect extends ResponseEffect {
 
@@ -14,6 +15,9 @@ public class ModAttributeEffect extends ResponseEffect {
 
 	/** Amount key. */
 	final public static String AMOUNT_KEY = "AMOUNT";
+
+	/** Experience cost key. (Optional) */
+	final public static String EXP_COST_KEY = "EXP_COST";
 	
 	
 	@Override
@@ -23,12 +27,14 @@ public class ModAttributeEffect extends ResponseEffect {
 	@Override
 	public boolean effectTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)
 	 {
+		Player player = mplayer.getPlayer();
+		
 		String attribute = response.getString(ATTRIBUTE_KEY);
 		Integer amount = response.getInt(AMOUNT_KEY);
 		
 		// Invalid attribute:
 		if(AttributeConfiguration.getAttribute(attribute) == null){
-			EffectDependancy.playFail(mplayer.getPlayer());
+			EffectDependancy.playFail(player);
 			return false;
 		}
 		
@@ -37,25 +43,39 @@ public class ModAttributeEffect extends ResponseEffect {
 		if(amount > 0){
 			int cost = AttributeConfiguration.calcCost(score + amount) - AttributeConfiguration.calcCost(score);
 			if(mplayer.getRemainingAttribs() < cost){
-				EffectDependancy.playFail(mplayer.getPlayer());
+				EffectDependancy.playFail(player);
 				return false;
 			}
 		}
 		else if(amount < 0){
 			if(score - amount < 0){
-				EffectDependancy.playFail(mplayer.getPlayer());
+				EffectDependancy.playFail(player);
 				return false;
 			}
 		}else{
-			EffectDependancy.playFail(mplayer.getPlayer());
+			EffectDependancy.playFail(player);
 			return false;
 		}
+		
+		// Exp cost:
+		Integer expCost = 0;
+		if(response.hasParameter(EXP_COST_KEY)){
+			expCost = response.getInt(EXP_COST_KEY);
+			
+			if(expCost > player.getLevel()){
+				EffectDependancy.playFail(player);
+				return false;
+			}
+		}
+		
+		// Take exp:
+		if(expCost != 0) player.setLevel(player.getLevel() - expCost);
 		
 		// Increase:
 		mplayer.setAttribute(attribute, score + amount);
 
 		// Effect:
-		Location loc = mplayer.getPlayer().getLocation();
+		Location loc = player.getLocation();
 		loc.getWorld().playSound(loc, Sound.ORB_PICKUP, 1.0f, 1.0f);
 		
 		return true;
