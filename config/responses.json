@@ -22,7 +22,7 @@
 	{
 	 "name":"shoot ender beam",
 	 "effectKey":"BEAM_SHAPE_EFFECT",
-	 "parameters":{"CAST_TICKS":25, "BEAM_RADIUS":1, "BEAM_LENGTH":10, "APPLIED_RESPONSE":"ender beam damage", "PENETRATES":"true", "SOUND":"ENDERMAN_TELEPORT", "PARTICLES":"WITCH_MAGIC"}
+	 "parameters":{"CAST_TICKS":25, "BEAM_RADIUS":1, "BEAM_LENGTH":10, "APPLIED_RESPONSE":"ender beam damage", "PENETRATES":"true", "SOUND":"ENDERMAN_TELEPORT", "PARTICLES":"WITCH_MAGIC", "PARTICLES_OFFSET":0, "PARTICLES_SPEED":1, "PARTICLES_COUNT":5}
 	},
 	{
 	 "name":"ender beam damage",

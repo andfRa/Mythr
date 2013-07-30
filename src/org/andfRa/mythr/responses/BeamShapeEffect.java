@@ -36,6 +36,15 @@ public class BeamShapeEffect extends ResponseEffect {
 
 	/** Key for particles name. (Optional) */
 	public static String PARTICLES_KEY = "PARTICLES";
+
+	/** Key for particles spread offset. (Optional) */
+	public static String PARTICLES_OFFSET_KEY = "PARTICLES_OFFSET";
+
+	/** Key for particles speed. (Optional) */
+	public static String PARTICLES_SPEED_KEY = "PARTICLES_SPEED";
+
+	/** Key for particles count. (Optional) */
+	public static String PARTICLES_COUNT_KEY = "PARTICLES_COUNT";
 	
 	
 	
@@ -122,7 +131,10 @@ public class BeamShapeEffect extends ResponseEffect {
 		// Particle effect:
 		if(response.hasParameter(PARTICLES_KEY)){
 			ParticleEffect particles = matchParticles(response.getString(PARTICLES_KEY));
-			if(particles != null) EffectDependancy.playSpiralBeam(player.getEyeLocation(), R, l, particles);
+			float offset = response.getInt(PARTICLES_OFFSET_KEY).floatValue();
+			float speed = response.getInt(PARTICLES_SPEED_KEY).floatValue();
+			int count = response.getInt(PARTICLES_COUNT_KEY);
+			if(particles != null) EffectDependancy.playSpiralBeam(player.getEyeLocation(), R, l, particles, offset, speed, count);
 		}
 		
 		return true;

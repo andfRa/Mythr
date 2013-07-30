@@ -16,8 +16,11 @@ public class EffectDependancy {
 	/**
 	 * Plays particle effect.
 	 * 
-	 * @param mat particle material
-	 * @param loc effect location
+	 * @param effect particle effect
+	 * @param loc location
+	 * @param offset spread offset
+	 * @param speed spread speed
+	 * @param count particle count
 	 */
 	public static void playParticle(ParticleEffect effect, Location loc, float offset, float speed, int count)
 	 {
@@ -90,7 +93,7 @@ public class EffectDependancy {
 	 * @param length beam length
 	 * @param particles beam particles
 	 */
-	public static void playSpiralBeam(Location lshooter, double radius, double length, ParticleEffect particles)
+	public static void playSpiralBeam(Location lshooter, double radius, double length, ParticleEffect particles, float offset, float speed, int count)
 	 {
 		Vector direction = lshooter.getDirection().clone();
 		
@@ -115,7 +118,7 @@ public class EffectDependancy {
 			dz = dx2*Math.sin(beta) + dz2*Math.cos(beta);
 			
 			Location p = lshooter.clone().add(dx, dy, dz);
-			playParticle(particles, p, 0.0f, 1.0f, 5);
+			playParticle(particles, p, offset, speed, count);
 			
 		}
 	 }
