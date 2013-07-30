@@ -7,7 +7,7 @@
 
  # The number of spent points after which the cost of upgrading the attribute
  # increases by 1 additional point.
-"costCostRange":6,
+"constCostRange":6,
 
  # Definition of attributes and their effects.
  # name            - Attribute name. Must be lower case and remain consistent

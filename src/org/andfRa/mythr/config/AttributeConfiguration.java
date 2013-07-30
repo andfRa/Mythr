@@ -19,7 +19,7 @@ public class AttributeConfiguration {
 	private LinearFunction attribPoints;
 	
 	/** Range for which the cost remains constant. */
-	private Integer costCostRange;
+	private Integer constCostRange;
 	
 	/** Attributes. */
 	private Attribute[] attributes;
@@ -35,9 +35,9 @@ public class AttributeConfiguration {
 		}
 		attribPoints.complete();
 		
-		if(costCostRange == null){
-			MythrLogger.nullField(getClass(), "costCostRange");
-			costCostRange = 6;
+		if(constCostRange == null){
+			MythrLogger.nullField(getClass(), "constCostRange");
+			constCostRange = 6;
 		}
 		
 		if(attributes == null){
@@ -65,7 +65,7 @@ public class AttributeConfiguration {
 	 * @return constant cost range
 	 */
 	public static Integer getCostCostRange() {
-		return config.costCostRange;
+		return config.constCostRange;
 	}
 
 	/**
