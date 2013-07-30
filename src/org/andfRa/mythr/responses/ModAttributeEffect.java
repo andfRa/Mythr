@@ -1,6 +1,7 @@
 package org.andfRa.mythr.responses;
 
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.LevelingConfiguration;
 import org.andfRa.mythr.dependencies.EffectDependancy;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
@@ -16,7 +17,7 @@ public class ModAttributeEffect extends ResponseEffect {
 	/** Amount key. */
 	final public static String AMOUNT_KEY = "AMOUNT";
 
-	/** Experience cost key. (Optional) */
+	/** Experience cost key. (Optional) (Function: cost vs point cost) */
 	final public static String EXP_COST_KEY = "EXP_COST";
 	
 	
@@ -57,15 +58,12 @@ public class ModAttributeEffect extends ResponseEffect {
 			return false;
 		}
 		
-		// Exp cost:
-		Integer expCost = 0;
-		if(response.hasParameter(EXP_COST_KEY)){
-			expCost = response.getInt(EXP_COST_KEY);
-			
-			if(expCost > player.getLevel()){
-				EffectDependancy.playFail(player);
-				return false;
-			}
+		// Check exp cost:
+		int ptcst = AttributeConfiguration.calcCost(score + amount) - AttributeConfiguration.calcCost(score);
+		int expCost = ptcst * LevelingConfiguration.getAttribPointSpendExp();
+		if(expCost > player.getLevel()){
+			EffectDependancy.playFail(player);
+			return false;
 		}
 		
 		// Take exp:

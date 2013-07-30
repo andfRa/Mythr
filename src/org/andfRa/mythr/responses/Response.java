@@ -196,6 +196,17 @@ public class Response {
 	 }
 	
 	/**
+	 * Checks if the response has a function with the given key.
+	 * 
+	 * @param key function key
+	 * @return true if has function
+	 */
+	public boolean hasFunction(String key)
+	 {
+		return linVals.containsKey(key);
+	 }
+	
+	/**
 	 * Returns the linear function value for the requested key.
 	 * 
 	 * @param key key

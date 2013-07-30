@@ -1,0 +1,17 @@
+{
+
+ # The number exp needed to for the next level.
+ #  m - additional exp required each level
+ #  b - exp needed at level 0
+"levelSpendExp":{"m":5,"b":10},
+
+ # Maximum level.
+"maxLevel":15,
+
+ # Experience required to increase an attribute by 1 attribute point.
+"attribPointSpendExp":0,
+
+ # Experience required to increase a skill by 1.
+"skillPointSpendExp":0
+
+}

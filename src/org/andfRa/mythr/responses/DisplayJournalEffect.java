@@ -3,6 +3,7 @@ package org.andfRa.mythr.responses;
 import java.text.DecimalFormat;
 
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.LevelingConfiguration;
 import org.andfRa.mythr.config.LocalisationConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.player.Attribute;
@@ -82,9 +83,29 @@ public class DisplayJournalEffect extends ResponseEffect {
 		DecimalFormat format = new DecimalFormat("00");
 		StringBuffer page;
 		
+		// Page:
+		page = new StringBuffer();
+		
+		// Write level:
+		page.append(LocalisationConfiguration.getString("progression").toUpperCase());
+		page.append("\n");
+		page.append("\n");
+		
+		Integer level = mplayer.getLevel();
+		page.append(LocalisationConfiguration.getCapitString("level") + ": " + level + "/" + LevelingConfiguration.getMaxLevel());
+		page.append("\n");
+		page.append(LocalisationConfiguration.getCapitString("next") + ": " + LevelingConfiguration.getLevelupSpendExp(level) + " " + LocalisationConfiguration.getString("exp"));
+		page.append("\n");
+		Integer maxLevel = LevelingConfiguration.getMaxLevel();
+		page.append(LocalisationConfiguration.getCapitString("attributes") + ": " + mplayer.getAvailableAttribs() + "/" + AttributeConfiguration.getAttribPoints(maxLevel));
+		page.append("\n");
+		page.append(LocalisationConfiguration.getCapitString("skills") + ": " + mplayer.getAvailableSkills() + "/" + SkillConfiguration.getSkillPoints(maxLevel));
+		
+		bookMeta.addPage(page.toString());
+		page = new StringBuffer();
+		
 		// Write attributes:
 		Attribute[] attributes = AttributeConfiguration.getAttributes();
-		page = new StringBuffer();
 		
 		page.append(LocalisationConfiguration.getString("attributes").toUpperCase());
 		page.append("\n");
@@ -105,15 +126,17 @@ public class DisplayJournalEffect extends ResponseEffect {
 		page.append(mplayer.getRemainingAttribs());
 		
 		page.append('\n');
+		page.append('\n');
 		
 		page.append(WordUtils.capitalize(LocalisationConfiguration.getString("cost")) +  ": ");
+		page.append('\n');
 		int cons = AttributeConfiguration.getCostCostRange();
 		int min = 1;
 		int max = cons;
 		int pts = 1;
 		for (int i = 0; i < 3; i++) {
-			if(i != 0) page.append(", ");
-			page.append(min + "-" + max + " " + pts);
+			if(i != 0) page.append("\n");
+			page.append(" " + pts + " -- " + LocalisationConfiguration.getString("levels") + " " + min + " - " + max);
 			min+= cons;
 			max+= cons;
 			pts++;

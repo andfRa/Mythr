@@ -127,6 +127,24 @@ public class MythrPlayer {
 	 { return name; }
 	
 	
+	// LEVEL:
+	/**
+	 * Gets Mythr player level.
+	 * 
+	 * @return player level
+	 */
+	public Integer getLevel()
+	 { return level; }
+	
+	/**
+	 * Sets Mythr player level.
+	 * 
+	 * @param level level to set
+	 */
+	public void setLevel(Integer level)
+	 { this.level = level; }
+	
+	
 	// ATTRIBUTES:
 	/**
 	 * Gets the attribute score.

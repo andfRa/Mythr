@@ -10,6 +10,7 @@ import org.andfRa.mythr.commands.StatsCommands;
 import org.andfRa.mythr.config.AttributeConfiguration;
 import org.andfRa.mythr.config.CreatureConfiguration;
 import org.andfRa.mythr.config.ItemConfiguration;
+import org.andfRa.mythr.config.LevelingConfiguration;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.dependencies.PermissionsDependency;
@@ -78,6 +79,7 @@ public class Mythr extends JavaPlugin{
 		CreatureConfiguration.unload();
 		SkillConfiguration.unload();
 		AttributeConfiguration.load();
+		LevelingConfiguration.unload();
 		
 		// Instances:
 		Mythr.plugin = null;
@@ -107,6 +109,7 @@ public class Mythr extends JavaPlugin{
 		MythrLogger.info("Enabling Mythr.");
 
 		// Configuration:
+		LevelingConfiguration.load();
 		AttributeConfiguration.load();
 		SkillConfiguration.load();
 		CreatureConfiguration.load();
