@@ -3,6 +3,7 @@ package org.andfRa.mythr.responses;
 import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class ResponseEffect {
@@ -95,5 +96,18 @@ public abstract class ResponseEffect {
 	 */
 	public boolean defendTrigger(Response response, LivingEntity lattacker, LivingEntity ldefender, DerivedStats dsattacker, DerivedStats dsdefender)
 	 { return false; }
+	
+	/**
+	 * Called on sprint state change.
+	 * 
+	 * @param response response
+	 * @param player player
+	 * @param dstats living entity derived stats
+	 * @param sprinting true if sprinting
+	 * @return true if successful
+	 */
+	public boolean sprintTrigger(Response response, Player player, DerivedStats dstats, boolean sprinting)
+	 { return false; }
+	
 	
 }

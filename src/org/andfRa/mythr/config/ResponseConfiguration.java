@@ -16,6 +16,7 @@ import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.responses.ResponseEffect;
 import org.andfRa.mythr.responses.ShootFireballEffect;
+import org.andfRa.mythr.responses.SprintBonusEffect;
 import org.andfRa.mythr.responses.UpdateDerivedEffect;
 import org.bukkit.craftbukkit.libs.com.google.gson.JsonParseException;
 
@@ -106,9 +107,13 @@ public class ResponseConfiguration {
 		// Update derived stats effect:
 		effect = new UpdateDerivedEffect();
 		effects.put(effect.key(), effect);
-		
+
 		// Mofify level effect:
 		effect = new ModLevelEffect();
+		effects.put(effect.key(), effect);
+
+		// Sprint bonus effect:
+		effect = new SprintBonusEffect();
 		effects.put(effect.key(), effect);
 		
 	 }

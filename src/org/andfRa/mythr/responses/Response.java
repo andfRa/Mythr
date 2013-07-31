@@ -10,6 +10,7 @@ import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.andfRa.mythr.util.LinearFunction;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class Response {
@@ -161,6 +162,25 @@ public class Response {
 	 }
 
 	/**
+	 * Returns the float value for the requested key.
+	 * 
+	 * @param key key
+	 * @return float value
+	 * @throws NumberFormatException if the parameter value can't be parsed (configuration should be assumed correct)
+	 */
+	public Float getFloat(String key)
+	 {
+		String val = parameters.get(key);
+		if(val == null){
+			MythrLogger.warning(getClass(), "Response " + name + " received request for an undefined key " + key + ".");
+			val = "0";
+		}
+		
+		return Float.parseFloat(val);
+	 }
+
+	
+	/**
 	 * Returns the double value for the requested key.
 	 * 
 	 * @param key key
@@ -307,5 +327,20 @@ public class Response {
 		if(effect != null) return effect.defendTrigger(this, lattacker, ldefender, dsattacker, dsdefender);
 		return false;
 	 }
+	
+	/**
+	 * Called on sprint state change.
+	 * 
+	 * @param player player
+	 * @param dstats players derived stats
+	 * @param sprinting true if sprinting
+	 * @return true if successful
+	 */
+	public boolean sprintTrigger(Player player, DerivedStats dstats, boolean sprinting)
+	 {
+		if(effect != null) return effect.sprintTrigger(this, player, dstats, sprinting);
+		return false;
+	 }
+	
 	
 }

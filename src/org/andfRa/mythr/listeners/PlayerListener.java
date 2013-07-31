@@ -1,10 +1,13 @@
 package org.andfRa.mythr.listeners;
 
 
+import java.util.Collection;
+
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.ResponseConfiguration;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.items.ScrollManager;
+import org.andfRa.mythr.player.DerivedStats;
 import org.andfRa.mythr.player.MythrPlayer;
 import org.andfRa.mythr.player.SpellManager;
 import org.andfRa.mythr.responses.Response;
@@ -19,13 +22,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
 
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerJoin(PlayerJoinEvent event)
+	public void onJoin(PlayerJoinEvent event)
 	 {
 		Player player = event.getPlayer();
 
@@ -36,7 +40,7 @@ public class PlayerListener implements Listener {
 	 }
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerQuit(PlayerQuitEvent event)
+	public void onQuit(PlayerQuitEvent event)
 	 {		
 		Player player = event.getPlayer();
 		MythrPlayer mythrPlayer = Mythr.plugin().getLoadedPlayer(player.getName());
@@ -51,40 +55,27 @@ public class PlayerListener implements Listener {
 	
 	
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event)
-	{
-		
+	public void onCommandPreprocess(PlayerCommandPreprocessEvent event)
+	 {
 		String[] split = event.getMessage().split(" ");
-		
 		if (Mythr.handleCommand(event.getPlayer(), split, event.getMessage())) event.setCancelled(true);
-		
-	}
+	 }
 	
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerCraft(PrepareItemCraftEvent event)
-	{
+	public void onCraft(PrepareItemCraftEvent event)
+	 {
 		
-	}
+	 }
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerMove(PlayerMoveEvent event)
-	{
+	public void onMove(PlayerMoveEvent event)
+	 {
 		// Update casting:
 		SpellManager.handleMoving(event.getPlayer(), event.getTo());
-		
-		if(event.getPlayer().isSprinting()){
-			
-			event.getPlayer().setWalkSpeed(0.6f);
-			
-		}else{
-			
-			event.getPlayer().setWalkSpeed(0.2f);
-			
-		}
-	}
+	 }
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	public void onPlayerInteract(PlayerInteractEvent event)
+	public void onInteract(PlayerInteractEvent event)
 	 {
 		Player player = event.getPlayer();
 		MythrPlayer mplayer = Mythr.plugin().getLoadedPlayer(player.getName());
@@ -152,10 +143,17 @@ public class PlayerListener implements Listener {
 			}
 			
 		}
+	 }
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onSprint(PlayerToggleSprintEvent event)
+	 {
+		if(event.isCancelled()) return;
 		
-		
-		
-		
+		// Responses:
+		DerivedStats dstats = DerivedStats.findDerived(event.getPlayer());
+		Collection<Response> responses = dstats.getResponses();
+		for (Response response : responses) response.sprintTrigger(event.getPlayer(), dstats, event.isSprinting());
 	 }
 	
 	

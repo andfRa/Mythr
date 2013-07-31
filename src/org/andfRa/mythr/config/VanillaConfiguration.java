@@ -198,4 +198,9 @@ public class VanillaConfiguration {
 	/** Base health. */
 	public static final double BASE_HEALTH = 20.0;
 	
+	
+	// SPEED:
+	/** Default walk speed. */
+	public static final float DEFAULT_WALK_SPEED = 0.2f;
+	
 }

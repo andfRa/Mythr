@@ -64,6 +64,10 @@ public class DerivedStats {
 	private String[] responses = new String[0];
 	
 	
+	/** True if burdened. */
+	private boolean burdened = false;
+	
+	
 	// CONSTRUCTION:
 	/**
 	 * Calculates the derived stats.
@@ -154,6 +158,9 @@ public class DerivedStats {
 		
 		// Health:
 		health = VanillaConfiguration.BASE_HEALTH;
+		
+		// Other:
+		burdened = false;
 	 }
 	
 
@@ -555,6 +562,8 @@ public class DerivedStats {
 		// Armour defence rating:
 		armourDR = lightDR + heavyDR + exoticDR;
 		
+		// Burdening:
+		if(heavy > 0.0 || light > 0.0) burdened = true;
 	 }
 
 	/**
@@ -811,6 +820,14 @@ public class DerivedStats {
 	 */
 	public double getHealth()
 	 { return health; }
+	
+	/**
+	 * Checks if burdened.
+	 * 
+	 * @return true if burdened
+	 */
+	public boolean isBurdened()
+	 { return burdened; }
 	
 	
 	// UTIL:
