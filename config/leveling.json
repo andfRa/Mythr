@@ -12,6 +12,38 @@
 "attribPointSpendExp":0,
 
  # Experience required to increase a skill by 1.
-"skillPointSpendExp":0
+"skillPointSpendExp":0,
+
+ # All available perks for the given perk category.
+ # Format is in the form category:list_of_perks.
+"perks":
+ {
+	1:["nimble?","jumpy"],
+	2:["something?","more?","eh?"],
+	3:["super?","uber?"],
+	4:["warrior","mage","archer"]
+ },
+
+ # Number of available perks in the given category for the given player level.
+ # Element format is in the form player_level:map_of_catrgories,
+ # where map_of_catrgories consists of perk_category:available_amount elements.
+"availPerks":
+ {
+	1:{4:1, 1:1},
+	3:{4:1, 1:1, 2:1},
+	6:{4:1, 1:1, 2:1},
+	9:{4:2, 1:1, 2:1, 3:1},
+	12:{4:2, 1:2, 2:1, 3:1},
+	15:{4:2, 1:2, 2:2, 3:1}
+ },
+
+ # Perk category names. Element format is in the form perk_category:category_name.
+"perkCategNames":
+ {
+	1:"basic",
+	2:"advanced",
+	3:"expert",
+	4:"special"
+ }
 
 }

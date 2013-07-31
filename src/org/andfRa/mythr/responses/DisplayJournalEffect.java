@@ -101,6 +101,19 @@ public class DisplayJournalEffect extends ResponseEffect {
 		page.append("\n");
 		page.append(LocalisationConfiguration.getCapitString("skills") + ": " + mplayer.getAvailableSkills() + "/" + SkillConfiguration.getSkillPoints(maxLevel));
 		
+		page.append("\n");
+		
+		page.append(LocalisationConfiguration.getCapitString("perks") + ":");
+		Integer maxPerkCateg = LevelingConfiguration.getMaxPerkCateg();
+		for (int i = 1; i <= maxPerkCateg; i++) {
+			String name = LevelingConfiguration.getPerkCategName(i);
+			Integer current = LevelingConfiguration.getAvailPerks(level, i);
+			Integer max = LevelingConfiguration.getAvailPerks(maxLevel, i);
+			
+			page.append("\n");
+			page.append(" " + name + " " + current + "/" + max);
+		}
+		
 		bookMeta.addPage(page.toString());
 		page = new StringBuffer();
 		
