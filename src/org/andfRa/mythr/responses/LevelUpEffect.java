@@ -8,18 +8,12 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-public class ModLevelEffect extends ResponseEffect {
+public class LevelUpEffect extends ResponseEffect {
 
-	/** Attribute key. */
-	final public static String ATTRIBUTE_KEY = "ATTRIBUTE";
-
-	/** Experience cost key. (Optional) (Function: cost vs point cost) */
-	final public static String EXP_COST_KEY = "EXP_COST";
-	
 	
 	@Override
 	public String key()
-	 { return "PERMANENT_MODIFY_LEVEL_EFFECT"; }
+	 { return "LEVEL_UP_EFFECT"; }
 	
 	@Override
 	public boolean effectTrigger(Response response, MythrPlayer mplayer, DerivedStats dsstats)

@@ -46,7 +46,7 @@
 	# LEVELING SCROLLS #
 	{
 	 "name":"level up",
-	 "effectKey":"PERMANENT_MODIFY_LEVEL_EFFECT"
+	 "effectKey":"LEVEL_UP_EFFECT"
 	},
 	
 	# ATTRIBUTE SCROLLS #

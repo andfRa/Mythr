@@ -11,7 +11,7 @@ import org.andfRa.mythr.responses.DamageEffect;
 import org.andfRa.mythr.responses.DisplayJournalEffect;
 import org.andfRa.mythr.responses.HealEffect;
 import org.andfRa.mythr.responses.ModAttributeEffect;
-import org.andfRa.mythr.responses.ModLevelEffect;
+import org.andfRa.mythr.responses.LevelUpEffect;
 import org.andfRa.mythr.responses.PassiveModAttributeEffect;
 import org.andfRa.mythr.responses.Response;
 import org.andfRa.mythr.responses.ResponseEffect;
@@ -109,7 +109,7 @@ public class ResponseConfiguration {
 		effects.put(effect.key(), effect);
 
 		// Mofify level effect:
-		effect = new ModLevelEffect();
+		effect = new LevelUpEffect();
 		effects.put(effect.key(), effect);
 
 		// Sprint bonus effect:
