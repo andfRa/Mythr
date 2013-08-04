@@ -32,6 +32,13 @@ public class DerivedStats {
 	/** Derived stats for default creatures. */
 	public static DerivedStats DEFAULT_CREATURE_STATS = new DerivedStats(); // TODO: This must be private.
 	
+
+	/** The amount the armour is multiplied by if attack succeeds. */
+	public static double ATTACK_SUCCESS_ARMOUR_MULTIPLIER = 0.7;
+
+	/** The amount the speed is multiplied by when burdened. */
+	public static float BURDENED_SPEED_MULTIPLIER = 0.1f;
+	
 	
 	/** Minimum base damages. */
 	private int[] minBaseDmg = new int[DamageType.count()];
@@ -66,6 +73,9 @@ public class DerivedStats {
 	
 	/** True if burdened. */
 	private boolean burdened = false;
+	
+	/** Run speed multiplier modifier. */
+	private float runMultMod = 0.0f;
 	
 	
 	// CONSTRUCTION:
@@ -161,6 +171,7 @@ public class DerivedStats {
 		
 		// Other:
 		burdened = false;
+		runMultMod = 0.0f;
 	 }
 	
 
@@ -580,8 +591,94 @@ public class DerivedStats {
 		}
 	 }
 
+
+	// HANDLE:
+	/**
+	 * Calculates damage.
+	 * 
+	 * @param type damage type
+	 * @param dsattacker attacker derived stats
+	 * @return damage damage
+	 */
+	public int defend(DamageType type, DerivedStats dsattacker)
+	 {
+		// Defence:
+		double armourDR = this.armourDR;
+		double armour = this.armour;
+		
+		// Attack:
+		int damage = VanillaConfiguration.DEFAULT_DAMAGE;
+		double attackRating = 0;
+		
+		switch (type) {
+		case MELEE:
+			attackRating+= attackRatings[DamageType.MELEE.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.MELEE.ordinal()], dsattacker.maxBaseDmg[DamageType.MELEE.ordinal()]);
+			break;
+			
+		case RANGED:
+			attackRating+= attackRatings[DamageType.RANGED.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.RANGED.ordinal()], dsattacker.maxBaseDmg[DamageType.RANGED.ordinal()]);
+			break;
+			
+		case ARCANE:
+			attackRating+= attackRatings[DamageType.ARCANE.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.ARCANE.ordinal()], dsattacker.maxBaseDmg[DamageType.ARCANE.ordinal()]);
+			break;
+
+		case CURSE:
+			attackRating+= attackRatings[DamageType.CURSE.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.CURSE.ordinal()], dsattacker.maxBaseDmg[DamageType.CURSE.ordinal()]);
+			break;
+
+		case BLESSING:
+			attackRating+= attackRatings[DamageType.BLESSING.ordinal()];
+			damage = random(dsattacker.minBaseDmg[DamageType.BLESSING.ordinal()], dsattacker.maxBaseDmg[DamageType.BLESSING.ordinal()]);
+			break;
+			
+		default:
+			break;
+		}
+		
+		// Hit chance:
+		double tohit = attackRating / (attackRating + armourDR);
+		boolean hit = tohit >= RANDOM.nextDouble();
+		
+		// Half armour on hit:
+		if(hit){
+			armour = armour + ATTACK_SUCCESS_ARMOUR_MULTIPLIER * (1 - armour);
+		}else{
+			// Apply perks:
+		}
+		
+		// Calculate damage:
+		return LinearFunction.roundRand(damage*armour);
+	 }
 	
-	// SCORES:
+
+	// ASSIGNMENT:
+	/**
+	 * Assigns stats to the living entity.
+	 * 
+	 * @param lentity living entity
+	 */
+	public void assign(LivingEntity lentity)
+	 {
+		assignHealth(lentity);
+	 }
+	
+	/**
+	 * Assigns health to the living entity.
+	 * 
+	 * @param lentity living entity
+	 */
+	public void assignHealth(LivingEntity lentity)
+	 {
+		lentity.setMaxHealth(health);
+	 }
+	
+	
+	// SCORE VALUES:
 	/**
 	 * Gets the attribute score.
 	 * 
@@ -661,114 +758,9 @@ public class DerivedStats {
 		
 		skills[i]+= amount;
 	 }
-	
-	
-	// RESPONSES:
-	/**
-	 * Gets all responses.
-	 * 
-	 * @return responses
-	 */
-	public Collection<Response> getResponses()
-	 {
-		ArrayList<Response> responses = new ArrayList<Response>();
-		
-		for (int i = 0; i < this.responses.length; i++) {
-			Response response = ResponseConfiguration.getResponse(this.responses[i]);
-			if(response == null) continue;
-			responses.add(response);
-		}
-		return responses;
-	 }
-	
-	
-	// ASSIGNMENT:
-	/**
-	 * Assigns stats to the living entity.
-	 * 
-	 * @param lentity living entity
-	 */
-	public void assign(LivingEntity lentity)
-	 {
-		assignHealth(lentity);
-	 }
-	
-	/**
-	 * Assigns health to the living entity.
-	 * 
-	 * @param lentity living entity
-	 */
-	public void assignHealth(LivingEntity lentity)
-	 {
-		lentity.setMaxHealth(health);
-	 }
-	
-	
-	// DAMAGE:
-	/**
-	 * Calculates damage.
-	 * 
-	 * @param type damage type
-	 * @param dsattacker attacker derived stats
-	 * @return damage damage
-	 */
-	public int defend(DamageType type, DerivedStats dsattacker)
-	 {
-		// Defence:
-		double armourDR = this.armourDR;
-		double armour = this.armour;
-		
-		// Attack:
-		int damage = VanillaConfiguration.DEFAULT_DAMAGE;
-		double attackRating = 0;
-		
-		switch (type) {
-		case MELEE:
-			attackRating+= attackRatings[DamageType.MELEE.ordinal()];
-			damage = random(dsattacker.minBaseDmg[DamageType.MELEE.ordinal()], dsattacker.maxBaseDmg[DamageType.MELEE.ordinal()]);
-			break;
-			
-		case RANGED:
-			attackRating+= attackRatings[DamageType.RANGED.ordinal()];
-			damage = random(dsattacker.minBaseDmg[DamageType.RANGED.ordinal()], dsattacker.maxBaseDmg[DamageType.RANGED.ordinal()]);
-			break;
-			
-		case ARCANE:
-			attackRating+= attackRatings[DamageType.ARCANE.ordinal()];
-			damage = random(dsattacker.minBaseDmg[DamageType.ARCANE.ordinal()], dsattacker.maxBaseDmg[DamageType.ARCANE.ordinal()]);
-			break;
 
-		case CURSE:
-			attackRating+= attackRatings[DamageType.CURSE.ordinal()];
-			damage = random(dsattacker.minBaseDmg[DamageType.CURSE.ordinal()], dsattacker.maxBaseDmg[DamageType.CURSE.ordinal()]);
-			break;
-
-		case BLESSING:
-			attackRating+= attackRatings[DamageType.BLESSING.ordinal()];
-			damage = random(dsattacker.minBaseDmg[DamageType.BLESSING.ordinal()], dsattacker.maxBaseDmg[DamageType.BLESSING.ordinal()]);
-			break;
-			
-		default:
-			break;
-		}
-		
-		// Hit chance:
-		double tohit = attackRating / (attackRating + armourDR);
-		boolean hit = tohit >= RANDOM.nextDouble();
-		
-		// Half armour on hit:
-		if(hit){
-			armour = armour + 0.70 * (1 - armour);
-		}else{
-			// Apply perks:
-		}
-		
-		// Calculate damage:
-		return LinearFunction.roundRand(damage*armour);
-	 }
 	
-	
-	// VALUES:
+	// ATTACK VALUES:
 	/**
 	 * Gets the minimum base damage for damage type.
 	 * 
@@ -797,6 +789,7 @@ public class DerivedStats {
 	 { return attackRatings[type.ordinal()]; }
 	
 	
+	// DEFEND VALUES:
 	/**
 	 * Gets armour.
 	 * 
@@ -820,7 +813,28 @@ public class DerivedStats {
 	 */
 	public double getHealth()
 	 { return health; }
+
 	
+	// RESPONSE VALUES:
+	/**
+	 * Gets all responses.
+	 * 
+	 * @return responses
+	 */
+	public Collection<Response> getResponses()
+	 {
+		ArrayList<Response> responses = new ArrayList<Response>();
+		
+		for (int i = 0; i < this.responses.length; i++) {
+			Response response = ResponseConfiguration.getResponse(this.responses[i]);
+			if(response == null) continue;
+			responses.add(response);
+		}
+		return responses;
+	 }
+
+	
+	// OTHER STATS:
 	/**
 	 * Checks if burdened.
 	 * 
@@ -828,6 +842,34 @@ public class DerivedStats {
 	 */
 	public boolean isBurdened()
 	 { return burdened; }
+	
+	/**
+	 * Gets the raw run multiplier.
+	 * 
+	 * @return raw run multiplier
+	 */
+	public float getRawRunMult()
+	 { return 1.0f + runMultMod; }
+
+	/**
+	 * Gets the run multiplier.
+	 * Modified value when burdened.
+	 * 
+	 * @return run multiplier
+	 */
+	public float getRunMult()
+	 {
+		if(isBurdened()) return 1.0f +runMultMod*BURDENED_SPEED_MULTIPLIER;
+		return 1.0f + runMultMod;
+	 }
+	
+	/**
+	 * Modifies run multiplier.
+	 * 
+	 * @param amount amount to multiply by
+	 */
+	public void modRunMult(float amount)
+	 { runMultMod+= amount; }
 	
 	
 	// UTIL:

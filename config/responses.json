@@ -130,8 +130,8 @@
 	# PERKS #
 	{
 	 "name":"runner",
-	 "effectKey":"SPRINT_BONUS_EFFECT",
-	 "parameters":{"MOD_AMOUNT":0.04, "MOD_AMOUNT_BURDENED":0.02}
+	 "effectKey":"PASSIVE_MODIFY_RUN_SPEED_EFFECT",
+	 "parameters":{"MOD_AMOUNT":0.25}
 	},
 	{
 	 "name":"learn runner",

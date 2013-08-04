@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.andfRa.mythr.Mythr;
 import org.andfRa.mythr.config.ResponseConfiguration;
+import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.items.MythrItem;
 import org.andfRa.mythr.items.ScrollManager;
 import org.andfRa.mythr.player.DerivedStats;
@@ -154,6 +155,13 @@ public class PlayerListener implements Listener {
 		DerivedStats dstats = DerivedStats.findDerived(event.getPlayer());
 		Collection<Response> responses = dstats.getResponses();
 		for (Response response : responses) response.sprintTrigger(event.getPlayer(), dstats, event.isSprinting());
+		
+		// Running speed:
+		if (event.isSprinting()){
+			event.getPlayer().setWalkSpeed(VanillaConfiguration.DEFAULT_WALK_SPEED * dstats.getRunMult());
+		} else {
+			event.getPlayer().setWalkSpeed(VanillaConfiguration.DEFAULT_WALK_SPEED);
+		}
 	 }
 	
 	
