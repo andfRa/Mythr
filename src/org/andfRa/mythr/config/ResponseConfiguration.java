@@ -10,6 +10,7 @@ import org.andfRa.mythr.responses.BeamShapeEffect;
 import org.andfRa.mythr.responses.DamageEffect;
 import org.andfRa.mythr.responses.DisplayJournalEffect;
 import org.andfRa.mythr.responses.HealEffect;
+import org.andfRa.mythr.responses.LearnPerkEffect;
 import org.andfRa.mythr.responses.ModAttributeEffect;
 import org.andfRa.mythr.responses.LevelUpEffect;
 import org.andfRa.mythr.responses.PassiveModAttributeEffect;
@@ -114,6 +115,10 @@ public class ResponseConfiguration {
 
 		// Sprint bonus effect:
 		effect = new SprintBonusEffect();
+		effects.put(effect.key(), effect);
+
+		// Learn perk effect:
+		effect = new LearnPerkEffect();
 		effects.put(effect.key(), effect);
 		
 	 }

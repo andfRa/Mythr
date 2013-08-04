@@ -344,6 +344,17 @@
 	 "effect":"+1 CON"
 	},
 	
+	
+	# PERK SCROLLS #
+	{
+	 "name":"Learn Runner Perk",
+	 "material":"PAPER",
+	 "type":"SCROLL",
+	 "effect":"learn runner",
+	 "attrReq":{"CON":4}
+	},
+	
+	
 	# OTHER #
 	{
 	 "name":"Journal",

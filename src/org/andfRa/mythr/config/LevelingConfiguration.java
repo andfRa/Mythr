@@ -29,6 +29,9 @@ public class LevelingConfiguration {
 
 	/** Cost of spending an attribute point. */
 	private Integer skillPointSpendExp;
+
+	/** Cost of learning a perk. */
+	private Integer perkSpendExp;
 	
 	
 	/** All perks. */
@@ -39,7 +42,7 @@ public class LevelingConfiguration {
 	
 	/** Perk level names. */
 	private HashMap<Integer, String> perkCategNames;
-	
+
 	
 	// CONSTRUCTION:
 	/** Fixes all missing fields. */
@@ -65,6 +68,11 @@ public class LevelingConfiguration {
 			skillPointSpendExp = 0;
 		}
 		
+		if(perkSpendExp == null){
+			MythrLogger.nullField(getClass(), "perkSpendExp");
+			perkSpendExp = 0;
+		}
+		
 		if(perks == null){
 			MythrLogger.nullField(getClass(), "perks");
 			perks = new HashMap<Integer, ArrayList<String>>();
@@ -80,7 +88,6 @@ public class LevelingConfiguration {
 			MythrLogger.nullField(getClass(), "perkCategNames");
 			perkCategNames = new HashMap<Integer, String>();
 		}
-		
 		
 	 }
 	
@@ -103,6 +110,7 @@ public class LevelingConfiguration {
 	public static Integer getMaxLevel()
 	 { return config.maxLevel; }
 	
+	
 	/**
 	 * Gets the exp cost of spending attribute point.
 	 * 
@@ -118,6 +126,15 @@ public class LevelingConfiguration {
 	 */
 	public static Integer getSkillPointSpendExp()
 	 { return config.skillPointSpendExp; }
+
+	/**
+	 * Gets the exp cost of learning a perk.
+	 * 
+	 * @return skill point exp cost
+	 */
+	public static Integer getPerkSpendExp()
+	 { return config.perkSpendExp; }
+
 	
 	/**
 	 * Gets all perks.
@@ -183,6 +200,21 @@ public class LevelingConfiguration {
 		}
 		
 		return 0;
+	 }
+	
+	/**
+	 * Gets perk category.
+	 * 
+	 * @param perk perk
+	 * @return perk category, null if none
+	 */
+	public static Integer getPerkCategory(String perk)
+	 {
+		Set<Entry<Integer, ArrayList<String>>> entries = config.perks.entrySet();
+		for (Entry<Integer, ArrayList<String>> entry : entries) {
+			if(entry.getValue().contains(perk)) return entry.getKey();
+		}
+		return null;
 	 }
 	
 	/**

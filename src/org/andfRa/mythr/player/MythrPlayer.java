@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import org.andfRa.mythr.MythrLogger;
 import org.andfRa.mythr.config.AttributeConfiguration;
+import org.andfRa.mythr.config.LevelingConfiguration;
 import org.andfRa.mythr.config.SkillConfiguration;
 import org.andfRa.mythr.config.VanillaConfiguration;
 import org.andfRa.mythr.inout.Directory;
@@ -305,6 +306,57 @@ public class MythrPlayer {
 		return allPerks;
 	 }
 	
+	/**
+	 * Adds a perk.
+	 * 
+	 * @param perk perk
+	 * @param category perk category
+	 */
+	public void addPerk(String perk, Integer category)
+	 {
+		ArrayList<String> categPerks = perks.get(category);
+		if(categPerks == null){
+			categPerks = new ArrayList<String>();
+			perks.put(category, categPerks);
+		}
+		categPerks.add(perk);
+	 }
+
+	/**
+	 * Gets the number of available perk slots.
+	 * 
+	 * @param category category
+	 * @return available perk slots
+	 */
+	public int getAvailablePerkSlots(Integer category)
+	 {
+		return LevelingConfiguration.getAvailPerks(level, category);
+	 }
+	
+	/**
+	 * Gets the number of used perk slots.
+	 * 
+	 * @param category category
+	 * @return used perk slots
+	 */
+	public int getUsedPerkSlots(Integer category)
+	 {
+		ArrayList<String> categPerks = perks.get(category);
+		if(categPerks == null) return 0;
+		return categPerks.size();
+	 }
+
+	/**
+	 * Gets the number of remaining perk slots.
+	 * 
+	 * @param category category
+	 * @return remaining perk slots
+	 */
+	public int getRemainingPerkSlots(Integer category)
+	 {
+		return getAvailablePerkSlots(category) - getUsedPerkSlots(category);
+	 }
+
 	
 	// DERIVED STATS:
 	/**

@@ -14,11 +14,14 @@
  # Experience required to increase a skill by 1.
 "skillPointSpendExp":0,
 
+ # Experience required to learn a perk.
+"perkSpendExp":0,
+
  # All available perks for the given perk category.
  # Format is in the form category:list_of_perks.
 "perks":
  {
-	1:["nimble?","jumpy"],
+	1:["runner","jumpy"],
 	2:["something?","more?","eh?"],
 	3:["super?","uber?"],
 	4:["warrior","mage","archer"]
